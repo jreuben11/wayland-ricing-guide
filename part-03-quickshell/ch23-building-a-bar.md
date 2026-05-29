@@ -430,7 +430,7 @@ Item {
 
 The PipeWire binding is reactive: as soon as another application changes the system volume, `volume` updates and the percentage re-renders. The clamp in the scroll handler prevents the volume from going above 100% or below 0%, which avoids distortion or silent mute states.
 
-For per-app volume control, iterate `PipeWire.nodes` and filter by `node.nodeClass === "Stream/Output"`. See Chapter 21 (PipeWire Integration) for the full node model.
+For per-app volume control, iterate `PipeWire.nodes` and filter by `node.isStream && node.isSink`. See Chapter 21 (PipeWire Integration) for the full node model.
 
 ---
 

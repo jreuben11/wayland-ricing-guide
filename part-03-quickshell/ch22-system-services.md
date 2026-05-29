@@ -56,7 +56,7 @@ ID, and it becomes invalid when dismissed.
 | `summary` | `string` | Title line |
 | `body` | `string` | Body markup (may contain `<b>`, `<i>`, `<a href>`) |
 | `urgency` | `NotificationUrgency` | Low, Normal, Critical |
-| `expireTimeout` | `int` | Auto-dismiss after N ms; `-1` means server default |
+| `expireTimeout` | `real` | Auto-dismiss after N seconds; `-1` means server default |
 | `actions` | `list<NotificationAction>` | List of action buttons |
 | `hints` | `object` | Raw hint map from the sender |
 | `image` | `string` | Inline image URI (e.g. album art via notify-send) |
@@ -74,6 +74,10 @@ ShellRoot {
     // The server must be instantiated at the top level so it is always active.
     NotificationServer {
         id: notifServer
+        // Advertise capabilities so senders include actions, markup, and images.
+        actionsSupported: true
+        bodyMarkupSupported: true
+        imageSupported: true
         onNotification: notif => {
             notifModel.insert(0, { notification: notif })
         }
@@ -140,7 +144,7 @@ Rectangle {
     // Auto-dismiss timer
     Timer {
         id: dismissTimer
-        interval: notification.expireTimeout > 0 ? notification.expireTimeout : 5000
+        interval: notification.expireTimeout > 0 ? notification.expireTimeout * 1000 : 5000
         running: notification.expireTimeout !== 0
         onTriggered: notification.dismiss()
     }
@@ -257,11 +261,11 @@ by `~/.local/share/quickshell/notifications.json` (see Ch 18 for the storage pat
 ## 22.2 MPRIS — Media Player Control
 
 The MPRIS2 specification (`org.mpris.MediaPlayer2` on D-Bus) is the standard interface for
-controlling media players on Linux. Quickshell's `MprisController` singleton auto-discovers
+controlling media players on Linux. Quickshell's `Mpris` singleton auto-discovers
 every running player that registers an MPRIS2 service name and exposes them as a reactive
 QML list. You never write bus code; you write data bindings.
 
-`MprisController.players` is a live `QAbstractListModel`. When Spotify launches it appears in
+`Mpris.players` is a live `ObjectModel<MprisPlayer>`. When Spotify launches it appears in
 the list. When you close it, it disappears. Each entry is an `MprisPlayer` with bound
 properties that update as playback progresses — including `position`, which Quickshell
 refreshes on a polling interval so you can drive a smooth progress bar.
@@ -279,13 +283,13 @@ refreshes on a polling interval so you can drive a smooth progress bar.
 | `playbackState` | `MprisPlaybackState` | Playing, Paused, Stopped |
 | `loopState` | `MprisLoopState` | None, Track, Playlist |
 | `shuffleState` | `bool` | Shuffle active flag |
-| `position` | `real` | Current position in microseconds |
-| `length` | `real` | Track length in microseconds |
+| `position` | `real` | Current position in seconds |
+| `length` | `real` | Track length in seconds |
 | `volume` | `real` | Player volume 0.0–1.0 |
 | `canPlay` | `bool` | Player can accept Play |
 | `canPause` | `bool` | Player can accept Pause |
-| `canNext` | `bool` | Player can skip forward |
-| `canPrevious` | `bool` | Player can skip back |
+| `canGoNext` | `bool` | Player can skip forward |
+| `canGoPrevious` | `bool` | Player can skip back |
 | `canSeek` | `bool` | Player accepts Seek calls |
 
 ### Minimal Now-Playing Widget
@@ -296,12 +300,12 @@ import QtQuick.Layouts
 import Quickshell.Services.Mpris
 
 RowLayout {
-    visible: MprisController.players.length > 0
+    visible: Mpris.players.length > 0
     spacing: 8
 
     readonly property MprisPlayer player:
-        MprisController.players.length > 0
-            ? MprisController.players[0]
+        Mpris.players.length > 0
+            ? Mpris.players[0]
             : null
 
     Image {
@@ -336,7 +340,7 @@ RowLayout {
 
         IconButton {
             icon: "media-skip-backward"
-            enabled: parent.p?.canPrevious ?? false
+            enabled: parent.p?.canGoPrevious ?? false
             onClicked: parent.p?.previous()
         }
         IconButton {
@@ -348,7 +352,7 @@ RowLayout {
         }
         IconButton {
             icon: "media-skip-forward"
-            enabled: parent.p?.canNext ?? false
+            enabled: parent.p?.canGoNext ?? false
             onClicked: parent.p?.next()
         }
     }
@@ -362,7 +366,7 @@ Because `position` is polled rather than streamed, animating it requires a small
 ```qml
 Item {
     width: 220; height: 4
-    readonly property MprisPlayer player: MprisController.players[0] ?? null
+    readonly property MprisPlayer player: Mpris.players[0] ?? null
     readonly property real progress:
         player && player.length > 0 ? player.position / player.length : 0
 
@@ -401,7 +405,7 @@ When multiple players are active (e.g. Firefox + Spotify), you may want a choose
 ListView {
     id: playerPicker
     orientation: ListView.Horizontal
-    model: MprisController.players
+    model: Mpris.players
     spacing: 4
     delegate: Rectangle {
         required property MprisPlayer modelData
@@ -420,21 +424,21 @@ ListView {
     }
 }
 // Bind your now-playing widget to:
-// MprisController.players[playerPicker.currentIndex]
+// Mpris.players[playerPicker.currentIndex]
 ```
 
 ### Seeking
 
-The `seek(delta)` method takes a delta in microseconds. For absolute positioning use
-`setPosition(trackId, position)`. The `trackId` is available as `player.trackId`:
+The `seek(delta)` method takes a delta in seconds. For absolute positioning, assign directly
+to `player.position` (guarded by `player.canSeek && player.positionSupported`):
 
 ```qml
 Slider {
     from: 0; to: player?.length ?? 1
     value: player?.position ?? 0
     onMoved: {
-        var delta = value - (player?.position ?? 0)
-        player?.seek(delta)
+        if (player?.canSeek && player?.positionSupported)
+            player.position = value
     }
 }
 ```
@@ -462,10 +466,10 @@ system battery — the most reliable way to get "the battery level" on multi-bat
 | `timeToEmpty` | `real` | Estimated seconds until empty |
 | `timeToFull` | `real` | Estimated seconds until full |
 | `energy` | `real` | Current energy in Wh |
-| `energyFull` | `real` | Full design capacity in Wh |
+| `energyCapacity` | `real` | Full design capacity in Wh |
 | `voltage` | `real` | Current voltage in V |
 | `isPresent` | `bool` | Physical battery present |
-| `isRechargeable` | `bool` | Battery is rechargeable |
+| `isLaptopBattery` | `bool` | Device is a laptop battery |
 
 ### Battery Icon Component
 
@@ -800,6 +804,9 @@ import Quickshell.Services.Notifications
 ShellRoot {
     NotificationServer {
         id: notifServer
+        actionsSupported: true
+        bodyMarkupSupported: true
+        imageSupported: true
         onNotification: notif => notifModel.insert(0, { notification: notif })
     }
     ListModel { id: notifModel }
@@ -825,7 +832,7 @@ ShellRoot {
                 Item { Layout.fillWidth: true }
 
                 // Center: Media
-                MediaWidget { visible: MprisController.players.length > 0 }
+                MediaWidget { visible: Mpris.players.length > 0 }
 
                 Item { Layout.fillWidth: true }
 
@@ -870,7 +877,7 @@ PanelWindow {
     height: compact ? 28 : 34
 
     MediaWidget {
-        visible: MprisController.players.length > 0 && !compact
+        visible: Mpris.players.length > 0 && !compact
     }
     BatteryIndicator {
         showTime: !compact
@@ -930,7 +937,7 @@ dbus-send --session --print-reply \
   string:org.freedesktop.Notifications
 ```
 
-### MprisController.players is always empty
+### Mpris.players is always empty
 
 MPRIS2 players must register a bus name matching `org.mpris.MediaPlayer2.*`. Confirm the
 player is actually registered:
@@ -957,8 +964,9 @@ sudo systemctl start upower
 sudo systemctl enable upower
 ```
 
-On desktop machines without batteries, `UPower.displayDevice` is intentionally null. Guard
-all battery UI with `visible: UPower.displayDevice !== null`.
+`UPower.displayDevice` is never null but may be uninitialized. On desktop machines without
+batteries, guard battery UI with `visible: UPower.displayDevice.ready` or
+`visible: UPower.displayDevice.isLaptopBattery` rather than a null check.
 
 ### SystemTray shows no items even though nm-applet is running
 

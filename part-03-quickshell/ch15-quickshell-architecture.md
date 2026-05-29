@@ -147,7 +147,7 @@ statement or a `qmldir` file.
 The `Quickshell` singleton is the root object that Quickshell registers before evaluating
 your `shell.qml`. It exposes:
 
-- `Quickshell.screens` — list of `QuickshellScreen` objects, one per connected output
+- `Quickshell.screens` — list of `ShellScreen` objects, one per connected output
 - `Quickshell.reload()` — trigger a hot reload programmatically
 - `Quickshell.quit()` — exit the shell
 - `Quickshell.configPath` — absolute path to the config directory
@@ -175,8 +175,8 @@ ShellRoot {
     // IPC handler for external scripts
     IpcHandler {
         target: "shell"
-        function reload() { Quickshell.reload() }
-        function lock()   { lockscreen.lock() }
+        function reload(): void { Quickshell.reload() }
+        function lock(): void   { lockscreen.lock() }
     }
 }
 ```
@@ -208,9 +208,9 @@ singletons like `Notifications`, `SystemTray`, `MprisController`). You can defin
 ```qml
 // ~/.config/quickshell/services/AppState.qml
 pragma Singleton
-import QtQuick
+import Quickshell
 
-QtObject {
+Singleton {
     property int activeWorkspace: 1
     property bool doNotDisturb: false
     property string currentLayout: "us"

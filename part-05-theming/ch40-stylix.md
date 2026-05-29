@@ -355,8 +355,8 @@ pkgs.nerd-fonts.fira-code
 pkgs.nerd-fonts.hack
 pkgs.nerd-fonts.iosevka
 
-# Old (still works but downloads all Nerd Fonts):
-pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; }
+# NOTE: pkgs.nerdfonts was removed in nixpkgs 24.11 and will cause an evaluation error.
+# There is no working override path for the old monolithic package.
 ```
 
 ---

@@ -20,6 +20,8 @@ The `anchors` property is a bitmask of `Edges` values. Setting `anchors.top: tru
 
 The `exclusiveZone` property controls how much space the compositor reserves alongside your surface. A positive integer (in logical pixels) pushes maximised and tiled windows away from the anchored edge by that amount. Setting `exclusiveZone: -1` opts out of the protocol's layout mechanism entirely, placing the surface in "overlay" mode where it floats above everything without affecting window placement. Setting it to zero (the default) means the surface is visible but claims no reserved area.
 
+> **Note:** `exclusiveZone` only takes effect when exactly **one or three** anchors are set. With two anchors (e.g., left + right) or all four anchors, the exclusive zone has no effect and the compositor ignores the reservation.
+
 ```qml
 // Minimal full-width top bar
 import Quickshell
@@ -33,7 +35,7 @@ PanelWindow {
     }
     height: 36
     exclusiveZone: height   // reserve exactly the bar height
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
     color: "#1e1e2e"
 
     Text {
@@ -53,7 +55,7 @@ PanelWindow {
     width: 60
     height: 400
     exclusiveZone: 0
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
     color: "#181825"
 }
 ```
@@ -76,7 +78,7 @@ Most shell components belong on `WlrLayer.Top`. The `WlrLayer.Overlay` layer is 
 PanelWindow {
     anchors { top: true; bottom: true; left: true; right: true }
     exclusiveZone: -1
-    layer: WlrLayer.Background
+    WlrLayershell.layer: WlrLayer.Background
     color: "transparent"
 
     ShaderEffect {
@@ -102,8 +104,8 @@ PanelWindow {
     id: launcher
     anchors { bottom: true; left: true; right: true }
     height: visible ? 64 : 0
-    layer: WlrLayer.Overlay
-    keyboardFocus: WlrKeyboardFocus.OnDemand
+    WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
 
     onVisibleChanged: {
         if (visible) requestActivate()
@@ -185,7 +187,7 @@ PanelWindow {
     id: topBar
     anchors { top: true; left: true; right: true }
     height: 36
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
 
     Row {
         anchors.right: parent.right
@@ -262,7 +264,7 @@ MouseArea {
 
 ## 17.4 Multi-Monitor Patterns with Variants
 
-The `Variants` type is Quickshell's mechanism for instantiating one QML component per element of a model — and `Quickshell.screens` is the reactive model of all connected outputs. Combining them gives you a bar (or dock, or any surface) that automatically appears on every monitor, adjusts when you hot-plug or unplug a display, and receives the correct `QuickshellScreen` reference for positioning and DPI-aware sizing.
+The `Variants` type is Quickshell's mechanism for instantiating one QML component per element of a model — and `Quickshell.screens` is the reactive model of all connected outputs. Combining them gives you a bar (or dock, or any surface) that automatically appears on every monitor, adjusts when you hot-plug or unplug a display, and receives the correct `ShellScreen` reference for positioning and DPI-aware sizing.
 
 The pattern is always the same: wrap your window type in `Variants`, pass `model: Quickshell.screens`, declare `required property var modelData` inside the component, and assign `screen: modelData`. The `required` keyword is important — it causes Quickshell to pass the current screen as a property injection, giving you access to the screen's geometry and name.
 
@@ -278,13 +280,13 @@ Variants {
 
     PanelWindow {
         id: bar
-        required property QuickshellScreen modelData
+        required property ShellScreen modelData
 
         screen: modelData
         anchors { top: true; left: true; right: true }
         height: 36
         exclusiveZone: height
-        layer: WlrLayer.Top
+        WlrLayershell.layer: WlrLayer.Top
         color: "#1e1e2e"
 
         Row {
@@ -320,14 +322,14 @@ Variants {
     model: Quickshell.screens
 
     PanelWindow {
-        required property QuickshellScreen modelData
+        required property ShellScreen modelData
         required property int index
 
         screen: modelData
         anchors { top: true; left: true; right: true }
         height: 36
         exclusiveZone: height
-        layer: WlrLayer.Top
+        WlrLayershell.layer: WlrLayer.Top
 
         Row {
             anchors.fill: parent
@@ -350,9 +352,9 @@ Variants {
 
 ---
 
-## 17.5 Screen Management and QuickshellScreen Properties
+## 17.5 Screen Management and ShellScreen Properties
 
-`Quickshell.screens` is a `QML ListModel`-compatible object whose entries are `QuickshellScreen` instances. Each `QuickshellScreen` exposes the output's current configuration as read-only properties. The table below lists the most useful ones.
+`Quickshell.screens` is a `QML ListModel`-compatible object whose entries are `ShellScreen` instances. Each `ShellScreen` exposes the output's current configuration as read-only properties. The table below lists the most useful ones.
 
 | Property | Type | Description |
 |---|---|---|
@@ -371,7 +373,7 @@ You can use `physicalSize` and `width` to compute the actual DPI of an output an
 
 ```qml
 PanelWindow {
-    required property QuickshellScreen modelData
+    required property ShellScreen modelData
     screen: modelData
 
     // Compute logical DPI — use for font scaling
@@ -382,7 +384,7 @@ PanelWindow {
     exclusiveZone: height
 
     anchors { top: true; left: true; right: true }
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
 }
 ```
 
@@ -418,8 +420,8 @@ PanelWindow {
     visible: false
     anchors { bottom: true; left: true; right: true }
     height: 80
-    layer: WlrLayer.Overlay
-    keyboardFocus: WlrKeyboardFocus.OnDemand
+    WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
 
     SearchBar { anchors.fill: parent }
 }
@@ -462,7 +464,7 @@ PanelWindow {
     visible: shown || hideAnimation.running
     anchors { top: true; bottom: true; right: true }
     width: 280
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
     exclusiveZone: shown ? width : 0
 
     transform: Translate {
@@ -509,7 +511,7 @@ Variants {
     model: Quickshell.screens
 
     Item {
-        required property QuickshellScreen modelData
+        required property ShellScreen modelData
 
         // ---- Top Status Bar ----
         PanelWindow {
@@ -518,7 +520,7 @@ Variants {
             anchors { top: true; left: true; right: true }
             height: 36
             exclusiveZone: height
-            layer: WlrLayer.Top
+            WlrLayershell.layer: WlrLayer.Top
             color: "#1e1e2e"
 
             Row {
@@ -558,8 +560,8 @@ Variants {
             anchors { top: true; bottom: true; right: true }
             width: 300
             exclusiveZone: shown ? width : 0
-            layer: WlrLayer.Top
-            keyboardFocus: shown ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+            WlrLayershell.layer: WlrLayer.Top
+            WlrLayershell.keyboardFocus: shown ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
             color: "#181825"
 
             visible: shown || slideAnim.running
@@ -624,14 +626,14 @@ The `WlrLayershell.namespace` property assigns a string identifier to a layer-sh
 ```qml
 PanelWindow {
     WlrLayershell.namespace: "quickshell-bar"
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
     // ...
 }
 
 PanelWindow {
     // Notification popup — should appear above the bar
     WlrLayershell.namespace: "quickshell-notification"
-    layer: WlrLayer.Overlay   // Use Overlay to ensure it's above Top surfaces
+    WlrLayershell.layer: WlrLayer.Overlay   // Use Overlay to ensure it's above Top surfaces
     // ...
 }
 ```
@@ -661,14 +663,14 @@ On HiDPI monitors with fractional scaling (e.g., 1.5x), logical pixel sizes may 
 
 ```qml
 PanelWindow {
-    required property QuickshellScreen modelData
+    required property ShellScreen modelData
     screen: modelData
 
     // 40 logical pixels, rounded to physical pixel boundary
     height: Math.round(40 / modelData.scale) * modelData.scale
     exclusiveZone: height
     anchors { top: true; left: true; right: true }
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
 }
 ```
 
@@ -681,7 +683,7 @@ PanelWindow {
     anchors { bottom: true; left: true; right: true }
     height: 2    // hairline, nearly invisible
     exclusiveZone: 48   // but reserve 48 px
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
     color: "transparent"
 }
 ```
@@ -694,7 +696,7 @@ A surface with `inputRegion: null` (available in some Quickshell builds as `WlrL
 PanelWindow {
     anchors { top: true; bottom: true; left: true; right: true }
     exclusiveZone: -1
-    layer: WlrLayer.Top
+    WlrLayershell.layer: WlrLayer.Top
     color: "transparent"
     // Pointer events pass through to whatever is underneath
     WlrLayershell.inputRegion: Qt.rect(0, 0, 0, 0)  // empty input region
@@ -727,7 +729,7 @@ Compositors known to support it: Hyprland, Sway, river, labwc, wayfire, cage. GN
 
 **Bar height is correct but windows are not pushed away**
 
-Check that `exclusiveZone` equals the bar's logical pixel height and that `anchors` has the edge matching the bar's position. A mismatch (anchoring top but forgetting `anchors.top: true`) causes the compositor to ignore the exclusive zone.
+Check that `exclusiveZone` equals the bar's logical pixel height and that `anchors` has the edge matching the bar's position. A mismatch (anchoring top but forgetting `anchors.top: true`) causes the compositor to ignore the exclusive zone. Also verify you have exactly one or three anchors set — `exclusiveZone` has no effect with two or four anchors.
 
 **Surface appears behind application windows**
 

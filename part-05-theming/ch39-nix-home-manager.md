@@ -37,7 +37,7 @@ Nix also enables per-project or per-user environment isolation that dovetails wi
 
 Home Manager is a Nix library that exposes hundreds of `programs.*` and `services.*` modules — one per application — and aggregates their outputs into a single activation script. When you set `programs.kitty.enable = true;`, Home Manager writes `~/.config/kitty/kitty.conf` with values derived from the other attributes you set. You never manually edit that file again; the source of truth is your Nix config.
 
-The module tree relevant to Wayland ricing breaks down into three layers. The **compositor layer** includes `wayland.windowManager.hyprland`, `wayland.windowManager.sway`, and (via overlays) `wayland.windowManager.niri`. These modules write the compositor's config file and can start it as a systemd user service. The **theming layer** covers `gtk.theme`, `gtk.iconTheme`, `gtk.cursorTheme`, `qt.style`, and `home.pointerCursor` — a unified place to set the Catppuccin Mocha theme for every GTK and Qt application simultaneously. The **application layer** is the bulk of Home Manager: terminals (`foot`, `kitty`, `alacritty`, `wezterm`), shells (`bash`, `zsh`, `fish`, `nushell`), status bars (`services.waybar`), launchers, notification daemons, and so on.
+The module tree relevant to Wayland ricing breaks down into three layers. The **compositor layer** includes `wayland.windowManager.hyprland`, `wayland.windowManager.sway`, and (via overlays) `wayland.windowManager.niri`. These modules write the compositor's config file and can start it as a systemd user service. The **theming layer** covers `gtk.theme`, `gtk.iconTheme`, `gtk.cursorTheme`, `qt.style`, and `home.pointerCursor` — a unified place to set the Catppuccin Mocha theme for every GTK and Qt application simultaneously. The **application layer** is the bulk of Home Manager: terminals (`foot`, `kitty`, `alacritty`, `wezterm`), shells (`bash`, `zsh`, `fish`, `nushell`), status bars (`programs.waybar`), launchers, notification daemons, and so on.
 
 For applications without an official module (Quickshell, as of mid-2025, is the prominent example), Home Manager provides escape hatches: `home.file` for static files, `home.activation` for imperative post-switch scripts, and `systemd.user.services` for custom services. Nothing is off-limits — if an application can be configured with a file, you can manage it.
 
@@ -108,7 +108,7 @@ Flakes are the modern Nix project format. They pin all inputs in `flake.lock` (e
     homeConfigurations."alice@myhostname" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [
-        catppuccin.homeManagerModules.catppuccin
+        catppuccin.homeModules.catppuccin
         sops-nix.homeManagerModules.sops
         ./home.nix
       ];
@@ -179,10 +179,12 @@ The `wayland.windowManager.hyprland` module is the most feature-complete composi
           new_optimizations = true;
           xray = false;
         };
-        drop_shadow = true;
-        shadow_range = 20;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a2eee)";
+        shadow = {
+          enabled = true;
+          range = 20;
+          render_power = 3;
+          color = "rgba(1a1a2eee)";
+        };
       };
 
       animations = {
@@ -276,7 +278,7 @@ The `wayland.windowManager.hyprland` module is the most feature-complete composi
     '';
 
     # Start as a systemd user service (recommended)
-    systemdIntegration = true;
+    systemd.enable = true;
   };
 }
 ```
@@ -446,7 +448,8 @@ One of Home Manager's most powerful ricing features is unified theming. Instead 
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     # Nerd fonts for terminal and status bar glyphs
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "NerdFontsSymbolsOnly" ]; })
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
     # UI fonts
     inter
     cantarell-fonts
@@ -711,7 +714,7 @@ Understanding what belongs at the system level versus the user level prevents su
 
 | Concern | NixOS (`configuration.nix`) | Home Manager (`home.nix`) |
 |---|---|---|
-| GPU drivers | `hardware.opengl.enable = true` | N/A |
+| GPU drivers | `hardware.graphics.enable = true` | N/A |
 | Display manager / greeter | `services.greetd` | N/A |
 | Hyprland package install | `programs.hyprland.enable = true` | `wayland.windowManager.hyprland.enable = true` |
 | Hyprland config | N/A | `wayland.windowManager.hyprland.settings` |

@@ -174,7 +174,7 @@ Process {
 
 ## 18.3 FileView — Reading Files
 
-`FileView` reads a file from disk and exposes its content as the `text` property. When `watchChanges` is `true`, it uses `inotify` under the hood to detect modifications and updates `text` automatically, triggering any dependent bindings. This makes it ideal for `/proc` and `/sys` pseudo-files that change in response to hardware events, as well as ordinary config files you want to reflect without restarting the shell.
+`FileView` reads a file from disk and exposes its content as the `text` property. When `watchChanges` is `true`, it uses `inotify` under the hood to detect modifications and emits the `fileChanged` signal. The `text` property is **not** updated automatically — you must call `this.reload()` in an `onFileChanged` handler to trigger a fresh read. After the reload completes, the `onLoaded` signal fires and `text` reflects the new content. This makes it ideal for `/proc` and `/sys` pseudo-files that change in response to hardware events, as well as ordinary config files you want to reflect without restarting the shell.
 
 The update is asynchronous: after the inotify event, Quickshell re-reads the file on the next event loop iteration. For files that change at very high frequency (e.g., `/proc/net/dev`), you may prefer a `Timer`-driven `Process { command: ["cat", ...] }` with a controlled interval so you can throttle reads explicitly.
 
@@ -194,14 +194,16 @@ Rectangle {
         id: batCapacity
         path: "/sys/class/power_supply/BAT0/capacity"
         watchChanges: true
-        onTextChanged: level = parseInt(text.trim())
+        onFileChanged: this.reload()
+        onLoaded: level = parseInt(text.trim())
     }
 
     FileView {
         id: batStatus
         path: "/sys/class/power_supply/BAT0/status"
         watchChanges: true
-        onTextChanged: charging = (text.trim() === "Charging")
+        onFileChanged: this.reload()
+        onLoaded: charging = (text.trim() === "Charging")
     }
 
     Text {
@@ -217,7 +219,8 @@ FileView {
     id: loadAvg
     path: "/proc/loadavg"
     watchChanges: true
-    onTextChanged: {
+    onFileChanged: this.reload()
+    onLoaded: {
         const parts = text.trim().split(" ")
         root.load1  = parseFloat(parts[0])
         root.load5  = parseFloat(parts[1])
@@ -232,7 +235,8 @@ FileView {
     id: themeFile
     path: StandardPaths.home + "/.config/myshell/theme.json"
     watchChanges: true
-    onTextChanged: {
+    onFileChanged: this.reload()
+    onLoaded: {
         try {
             const cfg = JSON.parse(text)
             Theme.accent  = cfg.accent  ?? "#88c0d0"
@@ -253,7 +257,7 @@ If the file does not exist, `text` will be an empty string and `FileView` will l
 
 `Socket` connects to an existing Unix domain socket. It is the building block for integrating with compositor IPC protocols, pipewire, DBus socket bridges, or any custom daemon that exposes a socket interface. You can both read from and write to the connected socket through its `stdio`-style handlers.
 
-`SocketServer` creates a new Unix domain socket that other processes can connect to. Use it to make your shell scriptable: bind a socket, then have your shell scripts talk to it with `socat` or `nc`. Each incoming connection is represented as a `SocketConnection` object delivered to `onConnectionAdded`.
+`SocketServer` creates a new Unix domain socket that other processes can connect to. Use it to make your shell scriptable: bind a socket, then have your shell scripts talk to it with `socat` or `nc`. Activate the server with `active: true`. Incoming connections are handled via the `handler: Socket { ... }` component property.
 
 ```qml
 // Connect to Hyprland's control socket
@@ -268,7 +272,7 @@ Socket {
         hyprCtl.write(cmd + "\n")
     }
 
-    stdout: SplitParser {
+    parser: SplitParser {
         onRead: (line) => console.log("hypr response:", line)
     }
 }
@@ -281,26 +285,25 @@ import Quickshell.Io
 SocketServer {
     id: controlSocket
     path: "/run/user/" + SystemInfo.userId + "/myshell.sock"
-    listening: true
+    active: true
 
-    onConnectionAdded: (conn) => {
-        conn.stdout.onRead = (line) => handleCommand(line.trim(), conn)
+    handler: Socket {
+        parser: SplitParser {
+            onRead: (line) => handleCommand(line.trim())
+        }
     }
 
-    function handleCommand(cmd, conn) {
+    function handleCommand(cmd) {
         switch (cmd) {
         case "toggle-bar":
             barVisible = !barVisible
-            conn.write("ok\n")
             break
         case "reload-config":
             configFile.reload()
-            conn.write("ok\n")
             break
         default:
-            conn.write("unknown command: " + cmd + "\n")
+            console.warn("unknown command:", cmd)
         }
-        conn.close()
     }
 }
 ```
@@ -320,7 +323,7 @@ Socket {
 }
 ```
 
-Both `Socket` and `SocketServer` expose `connected` / `listening` boolean properties and `onError` signals. Always handle the error signal: sockets can fail to connect if the compositor hasn't started yet (see Chapter 53 for startup sequencing).
+Both `Socket` and `SocketServer` expose `connected` / `active` boolean properties and `onError` signals. Always handle the error signal: sockets can fail to connect if the compositor hasn't started yet (see Chapter 53 for startup sequencing).
 
 ---
 
@@ -328,7 +331,7 @@ Both `Socket` and `SocketServer` expose `connected` / `listening` boolean proper
 
 `IpcHandler` exposes named JavaScript functions from your Quickshell instance to the outside world via the `quickshell ipc call` CLI subcommand. This is the recommended approach for scripting your shell without maintaining a persistent socket connection. The overhead is one fork/exec per call, which is acceptable for interactive use but not for tight loops.
 
-Functions are registered by name and can accept string arguments. The return value (if any) is printed to stdout by the `quickshell ipc call` invocation. All registered functions run in the QML engine's main thread, so they have full access to your component tree.
+Functions are registered by name and can accept typed arguments. **Argument and return types must be explicitly specified or the function will not be registered** — untyped functions are silently ignored by the IPC mechanism. The return value (if any) is printed to stdout by the `quickshell ipc call` invocation. All registered functions run in the QML engine's main thread, so they have full access to your component tree.
 
 ```qml
 // In your ShellRoot or a top-level Singleton
@@ -338,16 +341,16 @@ import Quickshell.Io
 IpcHandler {
     target: "bar"   // namespace for this handler
 
-    function toggleBar() {
+    function toggleBar(): string {
         barLayer.visible = !barLayer.visible
         return barLayer.visible ? "shown" : "hidden"
     }
 
-    function setWorkspace(num) {
+    function setWorkspace(num: int): void {
         HyprlandIpc.dispatch("workspace " + num)
     }
 
-    function notify(title, body) {
+    function notify(title: string, body: string): void {
         NotificationOverlay.push(title, body)
     }
 }
@@ -370,15 +373,15 @@ quickshell ipc call bar notify "Build done" "cargo build succeeded"
 // Multiple IpcHandlers with different namespaces
 IpcHandler {
     target: "volume"
-    function up()   { VolumeControl.step(+5) }
-    function down() { VolumeControl.step(-5) }
-    function mute() { VolumeControl.toggleMute() }
+    function up(): void   { VolumeControl.step(+5) }
+    function down(): void { VolumeControl.step(-5) }
+    function mute(): void { VolumeControl.toggleMute() }
 }
 
 IpcHandler {
     target: "brightness"
-    function up()   { BrightnessControl.step(+10) }
-    function down() { BrightnessControl.step(-10) }
+    function up(): void   { BrightnessControl.step(+10) }
+    function down(): void { BrightnessControl.step(-10) }
 }
 ```
 
@@ -388,9 +391,9 @@ You can discover available IPC targets with `quickshell ipc list`. Each `IpcHand
 
 ## 18.6 JsonAdapter — Reactive JSON Parsing
 
-While `JSON.parse()` inside a `StdioCollector.onStreamFinished` callback works for one-shot queries, `JsonAdapter` provides a reactive binding path. When paired with a `DataStream`, it parses JSON and exposes a `data` property that updates the QML binding graph whenever new JSON arrives. This is particularly useful for long-running processes that emit a stream of JSON objects.
+While `JSON.parse()` inside a `StdioCollector.onStreamFinished` callback works for one-shot queries, `JsonAdapter` provides a reactive binding path for **JSON files on disk**. It is used exclusively as a `FileView.adapter` — attaching it to a `FileView` causes the file's content to be parsed as JSON and exposed as a `data` property that updates the QML binding graph when the file changes. It is not applicable to process stdout streams.
 
-For most common workflows — querying `hyprctl`, reading a config file, parsing `pactl` output — plain `JSON.parse()` is sufficient and easier to understand. Reach for `JsonAdapter` when you have a daemon process that emits JSON events on stdout and you want reactive QML properties without manual plumbing.
+For parsing streaming JSON from a process, use `SplitParser` together with `JSON.parse()` in the `onRead` handler (see the example below). For most common workflows — querying `hyprctl`, reading a config file, parsing `pactl` output — plain `JSON.parse()` is sufficient and easier to understand.
 
 ```qml
 // One-shot JSON parsing (recommended for most cases)
@@ -419,7 +422,27 @@ Process {
 ```
 
 ```qml
-// Streaming JSON events using JsonAdapter
+// JsonAdapter: reactively read a JSON config file from disk
+import Quickshell.Io
+
+FileView {
+    id: configView
+    path: StandardPaths.home + "/.config/myshell/config.json"
+    watchChanges: true
+    onFileChanged: this.reload()
+
+    adapter: JsonAdapter {
+        // data property is updated whenever the file is reloaded
+        onDataChanged: {
+            Theme.accent = data.accent ?? "#88c0d0"
+            Theme.bg     = data.bg     ?? "#2e3440"
+        }
+    }
+}
+```
+
+```qml
+// Streaming JSON events from a process — use SplitParser + JSON.parse(), NOT JsonAdapter
 import Quickshell.Io
 
 Process {
@@ -555,7 +578,7 @@ Note: DBusMenu requires `quickshell-dbus` to be installed (it is a separate opti
 
 ## 18.8 SystemClock and ElapsedTimer
 
-`SystemClock` is a Quickshell singleton that exposes the current date and time as reactive QML properties. It updates on a configurable interval (default: 1000 ms) and is far more efficient than spawning a `date` process on a timer, because all bindings share a single underlying `QTimer`.
+`SystemClock` is a Quickshell singleton that exposes the current date and time as reactive QML properties. Its update granularity is controlled by the `precision` property (`SystemClock.Seconds`, `SystemClock.Minutes`, or `SystemClock.Hours`). It is far more efficient than spawning a `date` process on a timer, because all bindings share a single underlying `QTimer`.
 
 `ElapsedTimer` measures the time elapsed since it was started. Use it for profiling, for computing "N seconds ago" timestamps on notifications, or for implementing progress bars with a time limit.
 
@@ -567,7 +590,7 @@ import QtQuick
 Text {
     id: clockText
     // Format: "14:35" or "14:35:07" — adjust to taste
-    text: SystemClock.time.toLocaleTimeString(Qt.locale(), "HH:mm")
+    text: SystemClock.date.toLocaleTimeString(Qt.locale(), "HH:mm")
     color: Theme.fg
     font.pixelSize: 14
     font.family: "JetBrains Mono"
@@ -578,7 +601,7 @@ Text {
 // Full date + time widget with day-of-week
 Column {
     Text {
-        text: SystemClock.time.toLocaleTimeString(Qt.locale(), "HH:mm:ss")
+        text: SystemClock.date.toLocaleTimeString(Qt.locale(), "HH:mm:ss")
         font.pixelSize: 16
     }
     Text {
@@ -590,14 +613,13 @@ Column {
 ```
 
 ```qml
-// Higher-frequency update for a seconds display
+// Control update granularity with precision
 SystemClock {
-    id: fastClock
-    updateInterval: 1000   // milliseconds; default is 1000
+    id: clock
+    precision: SystemClock.Seconds   // update every second
+    // Use SystemClock.Minutes for a clock that only shows HH:mm
+    // Use SystemClock.Hours  for an even coarser update
 }
-
-// For a sub-second display you would use updateInterval: 100
-// but consider CPU cost — most users do not need sub-second clocks
 ```
 
 ```qml
@@ -629,9 +651,12 @@ Item {
 
 | Property | Type | Notes |
 |---|---|---|
-| `time` | `Date` | Current time, updated every `updateInterval` ms |
-| `date` | `Date` | Current date (same object as `time`) |
-| `updateInterval` | `int` | Update period in ms. Default 1000. |
+| `date` | `Date` | Current date and time as a JS Date object |
+| `hours` | `int` | Current hour (0–23) |
+| `minutes` | `int` | Current minute (0–59) |
+| `seconds` | `int` | Current second (0–59) |
+| `precision` | `enum` | `SystemClock.Seconds`, `SystemClock.Minutes`, `SystemClock.Hours` |
+| `enabled` | `bool` | Whether the clock is ticking. Default `true`. |
 
 ---
 
@@ -827,7 +852,7 @@ PanelWindow {
         Item { Layout.fillWidth: true }
 
         Text {
-            text: SystemClock.time.toLocaleTimeString(Qt.locale(), "HH:mm")
+            text: SystemClock.date.toLocaleTimeString(Qt.locale(), "HH:mm")
             color: "#eceff4"
             font.pixelSize: 13
         }
@@ -868,7 +893,7 @@ The signal fires when the process closes stdout. Some programs buffer stdout whe
 
 **FileView shows empty text / doesn't update**
 
-Check the file path is absolute. `~` is not expanded. Use `StandardPaths.home` for the home directory. For `/proc` and `/sys` files, ensure `watchChanges: true` — but note that some pseudo-files do not generate inotify events. For those, use a `Timer` + `Process { command: ["cat", ...] }` pattern.
+Check the file path is absolute. `~` is not expanded. Use `StandardPaths.home` for the home directory. Ensure you have both `watchChanges: true` and `onFileChanged: this.reload()` — the `text` property is not updated automatically; `reload()` must be called explicitly. For `/proc` and `/sys` files, note that some pseudo-files do not generate inotify events. For those, use a `Timer` + `Process { command: ["cat", ...] }` pattern.
 
 **Socket.connected is false / won't connect**
 

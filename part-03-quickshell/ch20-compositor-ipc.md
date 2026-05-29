@@ -33,7 +33,7 @@ When Quickshell starts, the module connects to both sockets, issues an initial b
 populate its object lists, and then transitions to event-driven updates. Every event received on
 socket2 is parsed and routed to the relevant typed object. For example, a `workspace` event updates
 the active workspace on the relevant `HyprlandMonitor`; an `activewindow` event updates
-`Hyprland.focusedClient`. Because QML property bindings are evaluated lazily on the next animation
+`Hyprland.activeToplevel`. Because QML property bindings are evaluated lazily on the next animation
 frame, you get batched, glitch-free UI updates even when a rapid sequence of events arrives.
 
 The module is available after a single import line. No additional setup, no daemon, no config:
@@ -42,29 +42,18 @@ The module is available after a single import line. No additional setup, no daem
 import Quickshell.Hyprland
 ```
 
-Verify the connection is alive at runtime with `Hyprland.isValid`. This is useful for writing
-compositor-agnostic shells that degrade gracefully when run outside Hyprland:
-
-```qml
-import Quickshell
-import Quickshell.Hyprland
-
-PanelWindow {
-    visible: Hyprland.isValid
-    // rest of your bar
-}
-```
-
 The singleton `Hyprland` exposes the following top-level properties:
 
 | Property | Type | Description |
 |---|---|---|
 | `monitors` | `list<HyprlandMonitor>` | All connected monitors |
 | `workspaces` | `list<HyprlandWorkspace>` | All existing workspaces |
-| `clients` | `list<HyprlandClient>` | All open windows |
+| `toplevels` | `ObjectModel<HyprlandToplevel>` | All open windows |
 | `focusedMonitor` | `HyprlandMonitor` | Monitor with keyboard focus |
-| `focusedClient` | `HyprlandClient` | Currently focused window (null if none) |
-| `isValid` | `bool` | Whether the IPC connection is up |
+| `activeToplevel` | `HyprlandToplevel` | Currently focused window (null if none) |
+| `usingLua` | `bool` | Whether the Hyprland config uses Lua |
+| `requestSocketPath` | `string` | Path to the IPC request socket |
+| `eventSocketPath` | `string` | Path to the IPC event socket |
 
 ---
 
@@ -157,8 +146,8 @@ workspace`). Named workspaces and numeric workspaces are treated identically.
 
 The `monitor` back-reference tells you which `HyprlandMonitor` a workspace is currently assigned
 to. In Hyprland, workspaces can be moved between monitors at runtime, so this reference can change.
-The `windows` count gives the number of open tiled/floating windows on the workspace, which is
-useful for rendering workspace occupancy indicators.
+The `toplevels` list gives the windows on the workspace, and its `count` is useful for rendering
+workspace occupancy indicators.
 
 Full property reference for `HyprlandWorkspace`:
 
@@ -167,9 +156,12 @@ Full property reference for `HyprlandWorkspace`:
 | `id` | `int` | Numeric workspace ID |
 | `name` | `string` | Workspace name (equals `id` for unnamed workspaces) |
 | `monitor` | `HyprlandMonitor` | Monitor currently hosting this workspace |
-| `windows` | `int` | Number of windows on this workspace |
-| `lastWindow` | `string` | Address of the last focused window on this workspace |
-| `hasWindows` | `bool` | Convenience: `windows > 0` |
+| `toplevels` | `ObjectModel` | List of `HyprlandToplevel` on this workspace |
+| `active` | `bool` | Whether this workspace is active on its monitor |
+| `focused` | `bool` | Whether this workspace is on the focused monitor |
+| `urgent` | `bool` | Whether any toplevel on this workspace has urgency |
+| `hasFullscreen` | `bool` | Whether any toplevel on this workspace is fullscreen |
+| `lastIpcObject` | `object` | Raw last IPC data object |
 
 A workspace indicator button that shows occupancy and highlights the active workspace:
 
@@ -196,7 +188,7 @@ Repeater {
             radius: 4
             color: isActive
                 ? "#cba6f7"
-                : modelData.hasWindows ? "#45475a" : "transparent"
+                : modelData.toplevels.count > 0 ? "#45475a" : "transparent"
             border.color: isActive ? "#cba6f7" : "#585b70"
             border.width: 1
         }
@@ -217,7 +209,7 @@ Repeater {
         }
 
         ToolTip.visible: hovered
-        ToolTip.text: modelData.name + " (" + modelData.windows + " windows)"
+        ToolTip.text: modelData.name + " (" + modelData.toplevels.count + " windows)"
     }
 }
 ```
@@ -242,36 +234,34 @@ ListView {
 
 ---
 
-## 20.4 HyprlandClient (Window Objects)
+## 20.4 HyprlandToplevel (Window Objects)
 
-`HyprlandClient` models an open window managed by Hyprland. The `Hyprland.clients` list is kept
-current as windows open, close, move between workspaces, and change titles. The most commonly
-accessed object is `Hyprland.focusedClient`, which reflects the window currently holding keyboard
-focus. When no window is focused (e.g., focus is on a Quickshell layer surface), `focusedClient`
+`HyprlandToplevel` models an open window managed by Hyprland. The `Hyprland.toplevels` list is
+kept current as windows open, close, move between workspaces, and change titles. The most commonly
+accessed object is `Hyprland.activeToplevel`, which reflects the window currently holding keyboard
+focus. When no window is focused (e.g., focus is on a Quickshell layer surface), `activeToplevel`
 is null.
 
-The `class` property holds the X11 window class or Wayland `app_id` string — this is the primary
-key for icon lookups. The `title` property holds the window title and updates live as applications
-change it (e.g., vim changing the title to reflect the current file). The `workspace` back-reference
-tells you which workspace a window lives on, and `floating` tells you whether it's in floating mode.
+The `title` property holds the window title and updates live as applications change it (e.g., vim
+changing the title to reflect the current file). The `workspace` back-reference tells you which
+workspace a window lives on. The window's app-id / class can be accessed via the `.wayland`
+sub-object's `appId` property.
 
-Full property reference for `HyprlandClient`:
+Full property reference for `HyprlandToplevel`:
 
 | Property | Type | Description |
 |---|---|---|
-| `address` | `string` | Unique hex address (stable for the window's lifetime) |
+| `handle` | `string` | Unique handle (stable for the window's lifetime) |
+| `address` | `string` | Hex address of the window |
 | `title` | `string` | Current window title |
-| `class` | `string` | `app_id` / X11 WM_CLASS |
 | `workspace` | `HyprlandWorkspace` | Workspace containing this window |
 | `monitor` | `HyprlandMonitor` | Monitor the window is on |
-| `floating` | `bool` | Whether the window is in floating mode |
-| `x` | `int` | X position in global coordinates |
-| `y` | `int` | Y position in global coordinates |
-| `width` | `int` | Window width |
-| `height` | `int` | Window height |
-| `pinned` | `bool` | Whether the window is pinned across workspaces |
+| `activated` | `bool` | Whether this toplevel is currently activated/focused |
+| `urgent` | `bool` | Whether this window has urgency set |
+| `wayland` | `Toplevel` | Wayland toplevel sub-object (exposes `appId`, etc.) |
+| `lastIpcObject` | `object` | Raw last IPC data object |
 
-A focused-window title display with class-based icon lookup:
+A focused-window title display with app-id-based icon lookup:
 
 ```qml
 import Quickshell
@@ -280,18 +270,18 @@ import QtQuick
 
 Row {
     spacing: 6
-    visible: Hyprland.focusedClient !== null
+    visible: Hyprland.activeToplevel !== null
 
     Image {
         width: 16; height: 16
-        source: Hyprland.focusedClient
-            ? "image://xdg-icon/" + Hyprland.focusedClient.class
+        source: Hyprland.activeToplevel
+            ? "image://xdg-icon/" + Hyprland.activeToplevel.wayland.appId
             : ""
         fillMode: Image.PreserveAspectFit
     }
 
     Text {
-        text: Hyprland.focusedClient?.title ?? ""
+        text: Hyprland.activeToplevel?.title ?? ""
         color: "#cdd6f4"
         font.pixelSize: 12
         elide: Text.ElideRight
@@ -306,14 +296,14 @@ Building a taskbar that groups windows by workspace is straightforward with a fi
 
 ```qml
 Repeater {
-    model: Hyprland.clients.filter(
+    model: Hyprland.toplevels.filter(
         c => c.workspace.id === Hyprland.focusedMonitor.activeWorkspace.id
     )
 
     Button {
-        required property HyprlandClient modelData
-        text: modelData.class
-        highlighted: Hyprland.focusedClient?.address === modelData.address
+        required property HyprlandToplevel modelData
+        text: modelData.wayland.appId
+        highlighted: Hyprland.activeToplevel?.address === modelData.address
         onClicked: Hyprland.dispatch("focuswindow address:" + modelData.address)
     }
 }
@@ -496,15 +486,13 @@ hyprctl globalshortcuts
 
 ## 20.8 Dispatching Hyprland Commands
 
-The `Hyprland` singleton provides three methods for sending commands to the compositor at runtime.
-All three communicate over the request socket and return asynchronously — QML bindings and the
+The `Hyprland` singleton provides a `dispatch` method for sending commands to the compositor at
+runtime. It communicates over the request socket and returns asynchronously — QML bindings and the
 event loop remain unblocked.
 
 | Method | Equivalent hyprctl call | Description |
 |---|---|---|
 | `Hyprland.dispatch(cmd)` | `hyprctl dispatch <cmd>` | Run a Hyprland dispatcher |
-| `Hyprland.keyword(key, val)` | `hyprctl keyword <key> <val>` | Set a config keyword live |
-| `Hyprland.reload()` | `hyprctl reload` | Reload `hyprland.conf` |
 
 Common dispatcher invocations:
 
@@ -534,21 +522,21 @@ Hyprland.dispatch("submap reset")
 Hyprland.dispatch("submap resize")
 ```
 
-Live config changes (useful for toggle switches in a settings panel):
+Live config changes via `keyword` dispatch (useful for toggle switches in a settings panel):
 
 ```qml
 Switch {
     text: "Gaps"
     onCheckedChanged: {
-        Hyprland.keyword("general:gaps_out", checked ? "8" : "0")
-        Hyprland.keyword("general:gaps_in",  checked ? "4" : "0")
+        Hyprland.dispatch("keyword general:gaps_out " + (checked ? "8" : "0"))
+        Hyprland.dispatch("keyword general:gaps_in " + (checked ? "4" : "0"))
     }
 }
 
 Switch {
     text: "Animations"
     onCheckedChanged:
-        Hyprland.keyword("animations:enabled", checked ? "yes" : "no")
+        Hyprland.dispatch("keyword animations:enabled " + (checked ? "yes" : "no"))
 }
 ```
 
@@ -566,11 +554,9 @@ The `I3` singleton's top-level API:
 | Property / Method | Type | Description |
 |---|---|---|
 | `workspaces` | `list<I3Workspace>` | All workspaces |
-| `outputs` | `list<I3Output>` | All outputs (monitors) |
+| `monitors` | `list<I3Monitor>` | All monitors |
 | `focusedWorkspace` | `I3Workspace` | Currently focused workspace |
-| `focusedOutput` | `I3Output` | Output with focus |
-| `isValid` | `bool` | Whether the IPC connection is up |
-| `command(cmd)` | method | Run a Sway/i3 command |
+| `dispatch(cmd)` | method | Run a Sway/i3 command |
 
 `I3Workspace` properties:
 
@@ -578,19 +564,28 @@ The `I3` singleton's top-level API:
 |---|---|---|
 | `id` | `int` | Workspace numeric ID |
 | `name` | `string` | Workspace name |
-| `output` | `I3Output` | Output the workspace is on |
-| `focused` | `bool` | Whether this is the active workspace on its output |
+| `number` | `int` | Workspace number |
+| `monitor` | `I3Monitor` | Monitor the workspace is on |
+| `focused` | `bool` | Whether this is the active workspace on its monitor |
+| `active` | `bool` | Whether this workspace is currently active on its monitor |
 | `urgent` | `bool` | Whether any window on this workspace has urgency |
-| `visible` | `bool` | Whether the workspace is visible on any output |
+| `lastIpcObject` | `object` | Raw last IPC data object |
 
-`I3Output` (monitor) properties:
+`I3Monitor` (monitor) properties:
 
 | Property | Type | Description |
 |---|---|---|
-| `name` | `string` | Output name, e.g. `DP-1` |
-| `active` | `bool` | Whether the output is enabled |
-| `focused` | `bool` | Whether the output has keyboard focus |
-| `currentWorkspace` | `I3Workspace` | Currently visible workspace |
+| `id` | `int` | Monitor numeric ID |
+| `name` | `string` | Monitor name, e.g. `DP-1` |
+| `power` | `bool` | Whether the monitor is powered on |
+| `focused` | `bool` | Whether the monitor has keyboard focus |
+| `activeWorkspace` | `I3Workspace` | Currently active workspace on this monitor |
+| `x` | `int` | X position in global coordinate space |
+| `y` | `int` | Y position in global coordinate space |
+| `width` | `int` | Monitor width in pixels |
+| `height` | `int` | Monitor height in pixels |
+| `scale` | `real` | HiDPI scale factor |
+| `lastIpcObject` | `object` | Raw last IPC data object |
 
 A minimal Sway workspace bar — structurally identical to the Hyprland equivalent:
 
@@ -601,7 +596,7 @@ import QtQuick
 import QtQuick.Controls
 
 Repeater {
-    model: I3.workspaces.filter(ws => ws.output === targetOutput)
+    model: I3.workspaces.filter(ws => ws.monitor === targetMonitor)
 
     Button {
         required property I3Workspace modelData
@@ -609,7 +604,7 @@ Repeater {
         background: Rectangle {
             color: modelData.focused  ? "#cba6f7"
                  : modelData.urgent   ? "#f38ba8"
-                 : modelData.visible  ? "#45475a"
+                 : modelData.active   ? "#45475a"
                  : "transparent"
             radius: 4
         }
@@ -621,7 +616,7 @@ Repeater {
             verticalAlignment: Text.AlignVCenter
         }
 
-        onClicked: I3.command("workspace " + modelData.name)
+        onClicked: I3.dispatch("workspace " + modelData.name)
     }
 }
 ```
@@ -630,32 +625,32 @@ Running arbitrary Sway commands from QML:
 
 ```qml
 // Switch workspace
-I3.command("workspace 3")
-I3.command("workspace browser")
+I3.dispatch("workspace 3")
+I3.dispatch("workspace browser")
 
 // Move window
-I3.command("move container to workspace 5")
+I3.dispatch("move container to workspace 5")
 
-// Focus output
-I3.command("focus output DP-1")
+// Focus monitor
+I3.dispatch("focus output DP-1")
 
 // Launch application
-I3.command("exec kitty")
+I3.dispatch("exec kitty")
 
 // Reload config
-I3.command("reload")
+I3.dispatch("reload")
 ```
 
 Key differences between the Hyprland and i3/Sway modules:
 
 | Feature | Hyprland Module | i3/Sway Module |
 |---|---|---|
-| Window object | `HyprlandClient` with full props | No per-window reactive object |
+| Window object | `HyprlandToplevel` with full props | No per-window reactive object |
 | Global shortcuts | `GlobalShortcut` QML type | Not available (use `bindsym` only) |
 | Focus grab | `HyprlandFocusGrab` | Not available |
-| Live config | `Hyprland.keyword()` | Not available |
+| Live config | `Hyprland.dispatch("keyword …")` | Not available |
 | Raw events | `HyprlandEvent` signals | `I3Event` signals |
-| Monitor type | `HyprlandMonitor` | `I3Output` |
+| Monitor type | `HyprlandMonitor` | `I3Monitor` |
 
 The `I3Event` type mirrors `HyprlandEvent` in concept:
 
@@ -745,8 +740,8 @@ ShellRoot {
                 // ── Focused window title (primary monitor only) ────────
                 Text {
                     visible: barWindow.screenIndex === 0
-                          && Hyprland.focusedClient !== null
-                    text: Hyprland.focusedClient?.title ?? ""
+                          && Hyprland.activeToplevel !== null
+                    text: Hyprland.activeToplevel?.title ?? ""
                     color: "#cdd6f4"
                     font.pixelSize: 12
                     elide: Text.ElideRight
@@ -774,7 +769,7 @@ Button {
     required property HyprlandWorkspace activeWorkspace
 
     property bool isActive: workspace?.id === activeWorkspace?.id
-    property bool hasWindows: (workspace?.windows ?? 0) > 0
+    property bool hasWindows: (workspace?.toplevels.count ?? 0) > 0
 
     width: 26
     height: 26
@@ -814,7 +809,7 @@ Button {
 
     ToolTip.visible: hovered
     ToolTip.delay: 600
-    ToolTip.text: root.workspace?.name + " · " + (root.workspace?.windows ?? 0) + " windows"
+    ToolTip.text: root.workspace?.name + " · " + (root.workspace?.toplevels.count ?? 0) + " windows"
 }
 ```
 
@@ -827,7 +822,7 @@ quickshell -p ./workspace-bar
 Or reference from your main `shell.qml` via a `Loader`:
 
 ```qml
-Loader { source: "workspace-bar/root.qml"; active: Hyprland.isValid }
+Loader { source: "workspace-bar/root.qml" }
 ```
 
 ---
@@ -904,16 +899,16 @@ Then restart your Quickshell service.
 
 **Performance: workspace bar causes frame drops**
 
-If `Hyprland.clients.filter(...)` is called in a binding that fires on every event, the O(n) filter
-runs on each rerender. Cache the filtered list in a property and use a `Connections` or `onChanged`
-handler to refresh it only when `Hyprland.clients` actually changes:
+If `Hyprland.toplevels.filter(...)` is called in a binding that fires on every event, the O(n)
+filter runs on each rerender. Cache the filtered list in a property and use a `Connections` or
+`onChanged` handler to refresh it only when `Hyprland.toplevels` actually changes:
 
 ```qml
-property var visibleClients: []
+property var visibleToplevels: []
 Connections {
     target: Hyprland
-    function onClientsChanged() {
-        visibleClients = Hyprland.clients.filter(
+    function onToplevelsChanged() {
+        visibleToplevels = Hyprland.toplevels.filter(
             c => c.workspace.id === targetWorkspace.id
         )
     }

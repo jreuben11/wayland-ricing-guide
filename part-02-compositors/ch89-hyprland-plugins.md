@@ -16,7 +16,7 @@ installing plugins, using the most popular ones, and writing your own.
 ```bash
 # Add a plugin repository (GitHub URL)
 hyprpm add https://github.com/outfoxxed/hy3
-hyprpm add https://github.com/Ikalco/hyprscroller
+hyprpm add https://github.com/dawsers/hyprscroller
 hyprpm add https://github.com/KZDKM/hyprspace
 
 # List available plugins from all added repos
@@ -25,6 +25,9 @@ hyprpm list
 # Install a plugin
 hyprpm enable hy3
 hyprpm enable hyprscroller
+
+# Load enabled plugins into the running compositor (required after enable/disable)
+hyprpm reload
 
 # Update all plugins
 hyprpm update
@@ -42,8 +45,10 @@ system. `hyprpm update` rebuilds after a Hyprland upgrade.
 ### Loading plugins in hyprland.conf
 
 ```conf
-# Load via hyprpm (recommended)
-# hyprpm enable writes to ~/.config/hypr/plugins/ and auto-loads
+# Load via hyprpm (recommended):
+# Run 'hyprpm reload' after enabling plugins, or add to autostart so plugins
+# load automatically on compositor startup:
+exec-once = hyprpm reload -n
 
 # Or load manually:
 plugin = /home/user/.local/share/hyprpm/repos/hy3/hy3.so
@@ -88,7 +93,7 @@ bind = SUPER SHIFT, l, hy3:movefocus, r
 Windows arrange in columns; navigate and resize horizontally:
 
 ```bash
-hyprpm add https://github.com/Ikalco/hyprscroller
+hyprpm add https://github.com/dawsers/hyprscroller
 hyprpm enable hyprscroller
 ```
 
@@ -221,15 +226,28 @@ target_compile_options(my-plugin PRIVATE ${HYPRLAND_CFLAGS_OTHER})
 #include <hyprland/src/plugins/PluginAPI.hpp>
 #include <hyprland/src/desktop/DesktopTypes.hpp>
 
-APICREATE_PLUGIN_API(IHyprlandPlugin);
+inline HANDLE PHANDLE = nullptr;
+
+// Required: Hyprland uses this to verify the API version the plugin was compiled against
+APICALL EXPORT std::string PLUGIN_API_VERSION() {
+    return HYPRLAND_API_VERSION;  // Do NOT change this
+}
 
 // Called when the plugin loads
-EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
-    return {"My Plugin", "Description", "1.0", "Author"};
+APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
+    PHANDLE = handle;
+
+    // Always verify headers match the running Hyprland build
+    if (__hyprland_api_get_hash() != __hyprland_api_get_client_hash()) {
+        HyprlandAPI::addNotification(handle, "[my-plugin] Mismatched headers! Plugin will not load.", CColor{1,0,0,1}, 5000);
+        throw std::runtime_error("Mismatched headers");
+    }
+
+    return {"My Plugin", "Description", "Author", "1.0"};
 }
 
 // Called when Hyprland unloads the plugin
-EXPORT void PLUGIN_EXIT() {
+APICALL EXPORT void PLUGIN_EXIT() {
     // cleanup
 }
 ```
@@ -253,7 +271,7 @@ void onWindowOpen(void* self, SCallbackInfo& info, std::any data) {
     }
 }
 
-EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
+APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
     g_pPluginHandle = handle;
 
     // Register event hook
@@ -265,10 +283,10 @@ EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
         }
     );
 
-    return {"Auto-float Small Windows", "Float windows < 400px", "1.0", "me"};
+    return {"Auto-float Small Windows", "Float windows < 400px", "me", "1.0"};
 }
 
-EXPORT void PLUGIN_EXIT() {
+APICALL EXPORT void PLUGIN_EXIT() {
     // Hooks are automatically unregistered
 }
 ```
@@ -300,12 +318,12 @@ void myDispatcher(std::string args) {
     );
 }
 
-EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
+APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
     g_pPluginHandle = handle;
 
     HyprlandAPI::addDispatcher(handle, "myplugin:action", myDispatcher);
 
-    return {"My Plugin", "Demo dispatcher", "1.0", "me"};
+    return {"My Plugin", "Demo dispatcher", "me", "1.0"};
 }
 ```
 
@@ -314,20 +332,18 @@ Use in config: `bind = SUPER, X, myplugin:action, hello`
 ### Adding custom config options
 
 ```cpp
-EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
+APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
     g_pPluginHandle = handle;
 
     // Register config variables
-    HyprlandAPI::addConfigValue(handle, "plugin:myplugin:opacity", Hyprlang::FLOAT{0.9f});
-    HyprlandAPI::addConfigValue(handle, "plugin:myplugin:color",   Hyprlang::INT{0xFF89b4fa});
+    HyprlandAPI::addConfigValue(handle, "plugin:myplugin:opacity", SConfigValue{.floatValue = 0.9f});
+    HyprlandAPI::addConfigValue(handle, "plugin:myplugin:color",   SConfigValue{.intValue = 0xFF89b4fa});
 
-    return {"My Plugin", "Config demo", "1.0", "me"};
+    return {"My Plugin", "Config demo", "me", "1.0"};
 }
 
 // Reading config values at runtime:
-float opacity = std::any_cast<Hyprlang::FLOAT>(
-    HyprlandAPI::getConfigValue(g_pPluginHandle, "plugin:myplugin:opacity")->getValue()
-);
+float opacity = HyprlandAPI::getConfigValue(g_pPluginHandle, "plugin:myplugin:opacity")->floatValue;
 ```
 
 ### Building and testing
@@ -367,22 +383,16 @@ HyprlandAPI::addNotification(handle, "Plugin loaded", CColor{0,1,0,1}, 2000);
 
 ## 89.5 Plugin Distribution with hyprpm
 
-To distribute a plugin via hyprpm, create a `manifest.toml` at the repo root:
+To distribute a plugin via hyprpm, create a `hyprpm.toml` at the repo root:
 
 ```toml
+[repository]
 name = "my-plugin"
-description = "What it does"
 authors = ["yourname"]
-version = "1.0.0"
-repository = "https://github.com/you/my-plugin"
-
-[[versions]]
-branch = "main"
-tag = "v1.0.0"
-commit_hash = "abc123def456..."  # pin to a commit for reproducibility
-
-[build]
-cmake = true                     # uses CMakeLists.txt
+commit_pins = [
+    # Each entry is [hyprland_commit_hash, plugin_commit_hash]
+    ["<hyprland-commit-hash>", "<plugin-commit-hash>"]
+]
 ```
 
 Users then: `hyprpm add https://github.com/you/my-plugin`

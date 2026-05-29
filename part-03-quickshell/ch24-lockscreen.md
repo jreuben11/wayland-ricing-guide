@@ -87,7 +87,7 @@ The `isPrimary` flag lets you show the password input only on the primary monito
 
 PAM (Pluggable Authentication Modules) is the standard Linux authentication framework. Quickshell's `PamContext` object in `Quickshell.Services.Pam` drives a PAM conversation: it calls a named PAM service (one of the files in `/etc/pam.d/`), handles the exchange of prompts and responses, and emits `authComplete` with a success or failure result.
 
-The PAM conversation model is asynchronous and message-driven. PAM may issue multiple prompts in sequence (e.g., username then password, or password then TOTP code for multi-factor setups). Each prompt arrives as a `PamConversationMessage` in the `onConversationRequest` signal. Your QML must respond to each message by calling `conv.respond(text)` or, for non-prompt message types (informational, error), simply acknowledge them.
+The PAM conversation model is asynchronous and message-driven. PAM may issue multiple prompts in sequence (e.g., username then password, or password then TOTP code for multi-factor setups). Each prompt is signalled via `onPamMessage`. The properties `responseRequired`, `responseVisible`, `messageIsError`, and `message` are read directly on the `PamContext`; when a response is needed, call `pam.respond(text)` on the context itself.
 
 ```qml
 // lockscreen/PamAuth.qml
@@ -100,36 +100,23 @@ PamContext {
     //   "login"               — standard login service
     //   "hyprlock"            — if you have hyprlock's pam.d entry
     //   "swaylock"            — same
-    configurationName: "system-local-login"
+    config: "system-local-login"
 
-    onConversationRequest: function(conv) {
-        switch (conv.type) {
-            case PamMessageType.Prompt:
-                // Silent prompt — password
-                conv.respond(passwordField.text)
-                passwordField.clear()
-                break
-            case PamMessageType.PromptEcho:
-                // Echo prompt — username or TOTP
-                conv.respond(usernameField.text)
-                break
-            case PamMessageType.Info:
-                // Informational message — show to user
-                infoLabel.text = conv.message
-                break
-            case PamMessageType.Error:
-                // PAM error — show and abort
-                errorLabel.text = conv.message
-                break
+    onPamMessage: function() {
+        if (pam.responseRequired) {
+            pam.respond(passwordField.text)
+            passwordField.clear()
+        } else if (!pam.messageIsError) {
+            infoLabel.text = pam.message
         }
     }
 
-    onAuthComplete: function(success, message) {
-        if (success) {
+    onCompleted: function(result) {
+        if (result === PamResult.Success) {
             lock.unlock()
         } else {
             failedAttempts++
-            errorLabel.text = message || "Authentication failed"
+            errorLabel.text = "Authentication failed"
             // Optional: add a delay before re-enabling input
             retryTimer.start()
         }
@@ -137,7 +124,7 @@ PamContext {
 }
 ```
 
-The `configurationName` maps directly to a file under `/etc/pam.d/`. If you use `"hyprlock"` but that file does not exist, PAM will fail immediately. The safest cross-distro choice is `"system-local-login"` or `"login"`. You can also ship your own `/etc/pam.d/quickshell-lock` file and reference it as `"quickshell-lock"`.
+The `config` property maps directly to a file under `/etc/pam.d/`. If you use `"hyprlock"` but that file does not exist, PAM will fail immediately. The safest cross-distro choice is `"system-local-login"` or `"login"`. You can also ship your own `/etc/pam.d/quickshell-lock` file and reference it as `"quickshell-lock"`.
 
 For a typical single-password setup, the conversation will issue exactly one `Prompt` message and then emit `authComplete`. For fingerprint readers using `fprintd-pam`, you may receive an `Info` message asking the user to swipe before `authComplete` fires — your UI should handle that gracefully by showing a "Swipe fingerprint" prompt.
 
@@ -148,7 +135,7 @@ For a typical single-password setup, the conversation will issue exactly one `Pr
 // account   include   system-local-login
 // session   include   system-local-login
 
-// Then set configurationName: "quickshell-lock"
+// Then set config: "quickshell-lock"
 ```
 
 ---
@@ -237,17 +224,17 @@ Item {
 
         PamContext {
             id: pam
-            configurationName: "system-local-login"
+            config: "system-local-login"
 
-            onConversationRequest: function(conv) {
-                if (conv.type === PamMessageType.Prompt) {
-                    conv.respond(passwordField.text)
+            onPamMessage: function() {
+                if (pam.responseRequired) {
+                    pam.respond(passwordField.text)
                     passwordField.clear()
                 }
             }
 
-            onAuthComplete: function(success, message) {
-                if (success) {
+            onCompleted: function(result) {
+                if (result === PamResult.Success) {
                     lock.unlock()
                 } else {
                     parent.failedAttempts++
@@ -306,8 +293,8 @@ Item {
                 background: null
                 font.pixelSize: 16
 
-                Keys.onReturnPressed: pam.authenticate()
-                Keys.onEnterPressed: pam.authenticate()
+                Keys.onReturnPressed: pam.start()
+                Keys.onEnterPressed: pam.start()
 
                 Component.onCompleted: forceActiveFocus()
             }
@@ -466,29 +453,24 @@ ShellRoot {
     Greetd {
         id: greetd
 
-        // Called when greetd needs a secret (password)
-        onRequestSecret: function(prompt) {
-            secretPromptLabel.text = prompt
-            passwordField.forceActiveFocus()
+        // Called when greetd sends an authentication message
+        onAuthMessage: function() {
+            if (greetd.responseRequired) {
+                passwordField.forceActiveFocus()
+            }
         }
 
-        // Called for non-secret prompts (username, MFA codes)
-        onRequestResponse: function(prompt) {
-            responsePromptLabel.text = prompt
-            responseField.forceActiveFocus()
-        }
-
-        // Auth completed
-        onAuthComplete: function() {
-            // Launch the selected session
-            greetd.startSession(sessionSelector.currentSession.exec)
+        // Called when greetd session is terminated due to auth failure
+        onAuthFailure: function() {
+            errorLabel.text = "Authentication failed"
+            greetd.cancelSession()
+            usernameField.forceActiveFocus()
         }
 
         // Error from greetd backend
         onError: function(errorType, errorDescription) {
             errorLabel.text = errorDescription
-            // Reset for retry
-            greetd.cancelLogin()
+            greetd.cancelSession()
             usernameField.forceActiveFocus()
         }
     }
@@ -500,9 +482,9 @@ ShellRoot {
 The greetd session lifecycle is:
 
 1. Call `greetd.createSession(username)` to start a PAM session.
-2. Respond to `onRequestSecret` / `onRequestResponse` signals with `greetd.respond(text)`.
-3. On `onAuthComplete`, call `greetd.startSession(["Hyprland"])` or equivalent.
-4. On error, call `greetd.cancelLogin()` and restart from step 1.
+2. Respond to `onAuthMessage` signals with `greetd.respond(text)` when `greetd.responseRequired` is true.
+3. Once the state reaches `GreetdState.ReadyToLaunch`, call `greetd.launch(["/usr/bin/Hyprland"])` to start the session and exit Quickshell.
+4. On `onAuthFailure` or error, call `greetd.cancelSession()` and restart from step 1.
 
 ```qml
 // Full greeter UI skeleton
@@ -691,7 +673,7 @@ exec-once = hypridle
 Ensure `Quickshell.screens` is used as the `Variants` model and that the `screen:` property on each `WlSessionLockSurface` is set to the correct output object. Verify with `wlr-randr` or `hyprctl monitors` that all expected outputs are listed.
 
 **PAM returns "Authentication service cannot retrieve authentication info".**
-The PAM service file does not exist. Check `/etc/pam.d/` for the file named by `configurationName`. Fall back to `"login"` or `"system-local-login"`. Verify the PAM module files exist: `ls /lib/security/pam_unix.so`.
+The PAM service file does not exist. Check `/etc/pam.d/` for the file named by `config`. Fall back to `"login"` or `"system-local-login"`. Verify the PAM module files exist: `ls /lib/security/pam_unix.so`.
 
 **Password field is not focused after lock engages.**
 Call `passwordField.forceActiveFocus()` in `Component.onCompleted` of `LockscreenUI`, or in a connection to `WlSessionLock.onLocked`. The Wayland focus model means keyboard input requires explicit focus.
@@ -700,7 +682,7 @@ Call `passwordField.forceActiveFocus()` in `Component.onCompleted` of `Lockscree
 If `shakeAnimation` ends with the container at an offset, add a final `PropertyAnimation` that returns `x` to `0`. Always end shake animations at the natural position.
 
 **Greetd: "error starting session" after successful auth.**
-The session command does not exist or is not in the `greeter` user's PATH. Use absolute paths in `greetd.startSession(["/usr/bin/Hyprland"])`. Check `journalctl -u greetd` for the full error.
+The session command does not exist or is not in the `greeter` user's PATH. Use absolute paths in `greetd.launch(["/usr/bin/Hyprland"])`. Check `journalctl -u greetd` for the full error.
 
 **Greetd: compositor fails to start (blank screen after login).**
 Ensure the compositor has `WAYLAND_DISPLAY` and `XDG_RUNTIME_DIR` set. greetd sets these automatically, but verify with `systemctl status greetd` and look for env var lines.

@@ -100,6 +100,8 @@ struct my_server {
     /* Scene graph: the retained-mode rendering tree */
     struct wlr_scene           *scene;
     struct wlr_scene_output_layout *scene_layout;
+    /* One scene tree per ZWLR_LAYER_SHELL_V1_LAYER_* value (0–3) */
+    struct wlr_scene_tree      *layers[4];
 
     /* Shell protocols */
     struct wlr_xdg_shell       *xdg_shell;
@@ -116,6 +118,7 @@ struct my_server {
     /* Connected object lists */
     struct wl_list outputs;     /* my_output.link */
     struct wl_list toplevels;   /* my_toplevel.link */
+    struct wl_list keyboards;   /* my_keyboard.link */
 
     /* Global listeners */
     struct wl_listener new_output;
@@ -155,6 +158,7 @@ struct my_toplevel {
 };
 
 struct my_keyboard {
+    struct wl_list link;        /* my_server.keyboards */
     struct my_server *server;
     struct wlr_keyboard *wlr_keyboard;
     struct wl_listener modifiers;
@@ -190,7 +194,7 @@ int main(int argc, char *argv[]) {
     server.wl_event_loop = wl_display_get_event_loop(server.wl_display);
 
     /* 2. Backend: auto-detects DRM+libinput or falls back to X11/Wayland nesting */
-    server.backend = wlr_backend_autocreate(server.wl_display, NULL);
+    server.backend = wlr_backend_autocreate(server.wl_event_loop, NULL);
     if (!server.backend) {
         wlr_log(WLR_ERROR, "failed to create backend");
         return 1;
@@ -210,6 +214,10 @@ int main(int argc, char *argv[]) {
     server.scene = wlr_scene_create();
     server.scene_layout = wlr_scene_attach_output_layout(
         server.scene, server.output_layout);
+    /* Create one child tree per layer-shell layer (background/bottom/top/overlay) */
+    for (int i = 0; i < 4; i++) {
+        server.layers[i] = wlr_scene_tree_create(&server.scene->tree);
+    }
 
     /* 7. Register core Wayland globals */
     wlr_compositor_create(server.wl_display, 5, server.renderer);
@@ -342,7 +350,13 @@ static void server_new_output(struct wl_listener *listener, void *data) {
     /* Place the output at the next available position in layout-space */
     struct wlr_output_layout_output *lo =
         wlr_output_layout_add_auto(server->output_layout, wlr_output);
-    (void)lo;
+
+    /* Register the output with the scene graph so wlr_scene_get_scene_output
+     * (called in output_frame) can find it; without this, output_frame renders
+     * nothing. */
+    struct wlr_scene_output *scene_output =
+        wlr_scene_output_create(server->scene, wlr_output);
+    wlr_scene_output_layout_add_output(server->scene_layout, lo, scene_output);
 }
 
 void server_setup_output_listeners(struct my_server *server) {
@@ -559,6 +573,7 @@ static void keyboard_handle_destroy(struct wl_listener *listener, void *data) {
     wl_list_remove(&keyboard->modifiers.link);
     wl_list_remove(&keyboard->key.link);
     wl_list_remove(&keyboard->destroy.link);
+    wl_list_remove(&keyboard->link);
     free(keyboard);
 }
 
@@ -587,6 +602,7 @@ static void server_new_keyboard(struct my_server *server,
     wl_signal_add(&device->events.destroy,         &keyboard->destroy);
 
     wlr_seat_set_keyboard(server->seat, wlr_keyboard);
+    wl_list_insert(&server->keyboards, &keyboard->link);
 }
 
 /* ---- Pointer / Cursor ---- */
@@ -671,13 +687,14 @@ static void server_new_input(struct wl_listener *listener, void *data) {
         break;
     }
     uint32_t caps = WL_SEAT_CAPABILITY_POINTER;
-    if (!wl_list_empty(&server->seat->keyboards)) {
+    if (!wl_list_empty(&server->keyboards)) {
         caps |= WL_SEAT_CAPABILITY_KEYBOARD;
     }
     wlr_seat_set_capabilities(server->seat, caps);
 }
 
 void server_setup_input_listeners(struct my_server *server) {
+    wl_list_init(&server->keyboards);
     server->new_input.notify              = server_new_input;
     server->cursor_motion.notify          = server_cursor_motion;
     server->cursor_motion_absolute.notify = server_cursor_motion; /* reuse */
@@ -792,9 +809,9 @@ static void server_new_layer_surface(struct wl_listener *listener, void *data) {
     struct my_server *server = wl_container_of(listener, server, new_layer_surface);
     struct wlr_layer_surface_v1 *layer_surface = data;
 
-    /* Assign to appropriate scene tree layer */
+    /* Assign to appropriate scene tree layer (compositor-owned, not wlr_scene) */
     struct wlr_scene_tree *layer_tree =
-        server->scene->layer_tree[layer_surface->pending.layer];
+        server->layers[layer_surface->pending.layer];
 
     struct my_layer_surface *ls = calloc(1, sizeof(*ls));
     ls->layer_surface = layer_surface;

@@ -97,7 +97,7 @@ PanelWindow {
 
 The `wlr-foreign-toplevel-management-unstable-v1` protocol lets privileged clients — specifically layer shell surfaces — observe and control the window list. Quickshell exposes this through the `ToplevelManager` singleton. It provides a reactive model of all compositor-managed toplevels (normal application windows), updated automatically as windows open, close, focus, maximize, or minimize.
 
-`ToplevelManager.toplevels` is a `QAbstractListModel` that you can bind directly to `Repeater` or `ListView`. Each element is a `Toplevel` object with observable properties and callable methods. The key read properties are `title` (window title string), `appId` (application identifier, usually the `.desktop` file name minus the extension), `activated` (whether the window has focus), `maximized`, `minimized`, and `fullscreen`. The writable methods are `activate()`, `minimize()`, `unminimize()`, `close()`, `requestMaximize()`, and `requestUnmaximize()`.
+`ToplevelManager.toplevels` is a `QAbstractListModel` that you can bind directly to `Repeater` or `ListView`. Each element is a `Toplevel` object with observable properties and callable methods. The key read properties are `title` (window title string), `appId` (application identifier, usually the `.desktop` file name minus the extension), `activated` (whether the window has focus), `maximized`, `minimized`, and `fullscreen`. The writable bool properties `minimized` and `maximized` can be set directly (e.g. `modelData.minimized = true`). The callable methods are `activate()`, `close()`, `fullscreenOn(screen)`, `setRectangle(window, rect)`, and `unsetRectangle()`.
 
 A complete taskbar implementation typically filters and groups toplevels by workspace, then renders a button row. Quickshell does not expose workspace data directly through ToplevelManager — that information comes from compositor-specific protocols (see Chapter 20 for Hyprland's IPC and Chapter 21 for niri's event socket). The pattern is to correlate toplevel `appId` and `title` against workspace data to build a combined model.
 
@@ -129,10 +129,10 @@ Item {
 
                 onClicked: {
                     if (modelData.minimized) {
-                        modelData.unminimize()
+                        modelData.minimized = false
                         modelData.activate()
                     } else if (modelData.activated) {
-                        modelData.minimize()
+                        modelData.minimized = true
                     } else {
                         modelData.activate()
                     }
@@ -185,11 +185,12 @@ For an expose/overview effect, you can render miniature representations of each 
 | Method | Description |
 |---|---|
 | `activate()` | Raise and focus the window |
-| `minimize()` | Minimize the window |
-| `unminimize()` | Restore from minimized |
 | `close()` | Request the window close |
-| `requestMaximize()` | Ask compositor to maximize |
-| `requestUnmaximize()` | Ask compositor to unmaximize |
+| `fullscreenOn(screen)` | Request fullscreen on the given screen |
+| `setRectangle(window, rect)` | Set the window's geometry hint |
+| `unsetRectangle()` | Clear the geometry hint |
+
+Note: `minimized` and `maximized` are writable bool properties — set them directly (e.g. `modelData.minimized = true` / `modelData.maximized = false`) rather than calling methods.
 
 ---
 
@@ -197,9 +198,9 @@ For an expose/overview effect, you can render miniature representations of each 
 
 `ScreencopyView` is a QML `Item` that renders a live (or single-frame) copy of a compositor surface — either a full screen output or a specific `Toplevel`. Under the hood, it uses the `wlr-screencopy-v1` protocol, which copies frames from the compositor's GPU buffer into a texture that Qt can render. On most hardware this stays on GPU memory the entire time, avoiding a CPU round-trip.
 
-The `captureSource` property accepts either a `QuickshellScreen` object (from `Quickshell.screens`) or a `Toplevel` object. With `liveUpdates: true`, the view subscribes to frame callbacks and re-renders at the compositor's output refresh rate. With `liveUpdates: false`, it captures a single frame and stops — useful for snapshots, app previews, and thumbnails in an overview grid.
+The `captureSource` property accepts either a `QuickshellScreen` object (from `Quickshell.screens`) or a `Toplevel` object. With `live: true`, the view subscribes to frame callbacks and re-renders at the compositor's output refresh rate. With `live: false`, it captures a single frame and stops — useful for snapshots, app previews, and thumbnails in an overview grid.
 
-The `ScreencopyView` renders with correct aspect ratio by default. Use the standard `fillMode` property (`Image.Stretch`, `Image.PreserveAspectFit`, `Image.PreserveAspectCrop`) to control how the captured content fits the item's geometry.
+The `ScreencopyView` scales to fill its `Item` geometry by default. Use the `constraintSize` property to constrain the captured content to a maximum size while preserving aspect ratio — `fillMode` is not a documented property of `ScreencopyView`.
 
 ```qml
 // Full-screen live mirror widget (e.g. for a second monitor preview in a panel)
@@ -212,12 +213,12 @@ ScreencopyView {
     height: 180
 
     captureSource: Quickshell.screens[1]   // second output
-    liveUpdates: true
-    fillMode: Image.PreserveAspectFit
+    live: true
+    constraintSize: Qt.size(320, 180)      // constrain aspect ratio
 }
 ```
 
-For an overview/expose mode, use `liveUpdates: false` to take a snapshot when the overview opens, then display a grid:
+For an overview/expose mode, use `live: false` to take a snapshot when the overview opens, then display a grid:
 
 ```qml
 // Overview.qml — snapshot grid of all open windows
@@ -259,8 +260,8 @@ Item {
             ScreencopyView {
                 anchors.fill: parent
                 captureSource: parent.modelData
-                liveUpdates: false          // snapshot only
-                fillMode: Image.PreserveAspectCrop
+                live: false          // snapshot only
+                // ScreencopyView scales to fill by default; use constraintSize to limit capture resolution
             }
 
             // Title overlay
@@ -299,7 +300,7 @@ ScreencopyView {
     height: 200
 
     captureSource: Quickshell.screens[0]
-    liveUpdates: true
+    live: true
 
     // Clip to a circular lens shape
     layer.enabled: true
@@ -310,13 +311,12 @@ ScreencopyView {
 
     // Scale and offset so the center tracks the cursor
     // (requires a separate cursor position source)
-    sourceClipRect: Qt.rect(
-        cursorPos.x - 25, cursorPos.y - 25, 50, 50
-    )
+    // Note: ScreencopyView captures the full source; apply a scale/translate
+    // transform on a child Item or via the parent's clip + transform to zoom.
 }
 ```
 
-Performance considerations: each `ScreencopyView` with `liveUpdates: true` adds a full-frame copy per refresh cycle. On a 144 Hz monitor, six simultaneous live captures will produce 864 DMA copies per second. Use `liveUpdates: false` wherever possible for static previews. Stagger captures using short `Timer` delays when multiple snapshots are requested at once. For the GPU path to remain efficient, ensure the Qt scene graph runs with the Vulkan or OpenGL backend — the software rasterizer will serialize everything through CPU memory.
+Performance considerations: each `ScreencopyView` with `live: true` adds a full-frame copy per refresh cycle. On a 144 Hz monitor, six simultaneous live captures will produce 864 DMA copies per second. Use `live: false` wherever possible for static previews. Stagger captures using short `Timer` delays when multiple snapshots are requested at once. For the GPU path to remain efficient, ensure the Qt scene graph runs with the Vulkan or OpenGL backend — the software rasterizer will serialize everything through CPU memory.
 
 ---
 
@@ -575,22 +575,29 @@ Variants {
 }
 ```
 
-Protocol capability detection is important for portability. Not every compositor supports every protocol. At startup, Quickshell logs which Wayland globals were advertised by the compositor. You can check availability programmatically:
+Protocol capability detection is important for portability. Not every compositor supports every protocol. At startup, Quickshell logs which Wayland globals were advertised by the compositor. Neither `ToplevelManager` nor `WlSessionLock` expose a documented `available` property — compositor support must be inferred by other means. For `ToplevelManager`, check whether `toplevels` remains empty after startup (indicating the protocol was not granted). For `WlSessionLock`, handle binding errors or test engagement before relying on it:
 
 ```qml
-// Check ToplevelManager availability before using it
+// Infer ToplevelManager support by observing whether toplevels ever populates
 Component.onCompleted: {
-    if (!ToplevelManager.available) {
-        console.warn("wlr-foreign-toplevel-management not supported by compositor")
-        taskbar.visible = false
-    }
-    if (!WlSessionLock.available) {
-        console.warn("ext-session-lock-v1 not supported — lockscreen will not work")
+    // Give the compositor time to send initial toplevel events
+    protocolCheckTimer.start()
+}
+
+Timer {
+    id: protocolCheckTimer
+    interval: 500
+    onTriggered: {
+        if (ToplevelManager.toplevels.count === 0) {
+            // May indicate protocol not supported (e.g. Mutter/GNOME, KWin without extensions)
+            // or simply no windows are open — cannot distinguish definitively at runtime.
+            console.info("ToplevelManager: no toplevels yet; compositor may not support wlr-foreign-toplevel-management")
+        }
     }
 }
 ```
 
-For graceful degradation, the pattern is to gate UI components behind availability checks and show fallback content or hide the feature entirely. A taskbar on a compositor that does not support `wlr-foreign-toplevel-management` (Mutter/GNOME, KWin without extensions) will simply show no windows — better than crashing.
+For graceful degradation, the pattern is to hide features that depend on unsupported protocols and show fallback content. A taskbar on a compositor that does not support `wlr-foreign-toplevel-management` (Mutter/GNOME, KWin without extensions) will simply show no windows — better than crashing.
 
 Output change events are also relevant for multi-GPU setups and compositor reloads. When a Sway or Hyprland config is reloaded, outputs may be briefly destroyed and recreated. Structure your shell root to tolerate the destruction and recreation of screens without losing state in long-lived singletons.
 
@@ -632,14 +639,14 @@ function resolveIcon(appId) {
 }
 ```
 
-The `Toplevel.xwayland` boolean property (where supported) lets you branch logic explicitly. XWayland windows may not support all `Toplevel` methods — for example, some compositors do not propagate `requestMaximize()` correctly for XWayland surfaces:
+The `Toplevel.xwayland` boolean property (where supported) lets you branch logic explicitly. XWayland windows may not support all `Toplevel` property writes — for example, some compositors do not propagate `maximized = true` correctly for XWayland surfaces:
 
 ```qml
 ContextMenu {
     MenuItem {
         text: "Maximize"
         enabled: !modelData.xwayland || compositor.xwaylandMaximizeSupported
-        onTriggered: modelData.requestMaximize()
+        onTriggered: modelData.maximized = true
     }
 }
 ```
@@ -717,7 +724,7 @@ Set `WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive` before making the 
 Use `hyprctl clients -j` or `swaymsg -t get_tree` and inspect the `class` field of XWayland entries to see the exact string the compositor reports. Cross-reference with `/usr/share/applications/*.desktop` `StartupWMClass` fields, which are specifically provided for this matching purpose.
 
 **High GPU usage with multiple ScreencopyViews:**
-Set `liveUpdates: false` for all views that do not need continuous updates. For overview grids, capture snapshots when the overview opens (not continuously). Profile with `WAYLAND_DEBUG=1` to count frame callbacks — each active ScreencopyView generates one per compositor frame.
+Set `live: false` for all views that do not need continuous updates. For overview grids, capture snapshots when the overview opens (not continuously). Profile with `WAYLAND_DEBUG=1` to count frame callbacks — each active ScreencopyView generates one per compositor frame.
 
 ---
 

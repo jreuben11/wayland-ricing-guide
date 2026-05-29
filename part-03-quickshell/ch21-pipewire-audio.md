@@ -39,19 +39,21 @@ everything in sync via the native PipeWire event loop.
 node becomes the default sink, how links are created when an application opens audio, and what
 happens when a device is unplugged. Quickshell communicates with WirePlumber to read and set
 defaults. The `PipeWire.defaultAudioSink` and `PipeWire.defaultAudioSource` properties reflect
-WirePlumber's current policy decisions and, when written to, instruct WirePlumber to change them.
+WirePlumber's current policy decisions. To request a change, write to
+`PipeWire.preferredDefaultAudioSink` or `PipeWire.preferredDefaultAudioSource`; the `defaultAudio*`
+properties are read-only and update automatically when WirePlumber acts on the preference.
 
 PipeWire ships with a PulseAudio compatibility layer (`pipewire-pulse`) and an ALSA plugin
 (`pipewire-alsa`). Applications that open PulseAudio or ALSA sockets connect transparently through
 PipeWire. From your shell's perspective, those applications appear as ordinary stream nodes in
-`PipeWire.nodes` with `type == PwNodeType.Stream`; you interact with them the same way you would
+`PipeWire.nodes` with `isStream == true`; you interact with them the same way you would
 any other node.
 
 | Object | PipeWire concept | QML type |
 |---|---|---|
 | Audio device | Hardware device | `PwDevice` |
 | Sink / source | A processing node (endpoint) | `PwNode` + `PwNodeAudio` |
-| Application stream | A connected stream node | `PwNode` (type Stream) |
+| Application stream | A connected stream node | `PwNode` (`isStream == true`) |
 | Port | One end of a connection | `PwPort` |
 | Link | Connection between two ports | `PwLink` |
 
@@ -67,12 +69,24 @@ key properties:
 | `id` | `int` | Unique graph-object ID |
 | `name` | `string` | Internal node name (e.g. `alsa_output.pci-0000...`) |
 | `description` | `string` | Human-readable label |
-| `type` | `PwNodeType` | `Sink`, `Source`, `Stream`, or `Unknown` |
-| `running` | `bool` | Whether the node is actively processing |
+| `isSink` | `bool` | True if the node accepts audio input (is a sink) |
+| `isStream` | `bool` | True if the node is likely a program/application stream |
+| `type` | (raw) | Reflects PipeWire's `media.class`; not a typed enum — use `isSink`/`isStream` instead |
+| `ready` | `bool` | Whether the node is fully bound and ready to use (readonly) |
 | `audio` | `PwNodeAudio` | Volume, mute, channels, peak levels |
 
 The `audio` sub-object is only valid when the node carries audio. Always guard against `null`
 before accessing it — video nodes and loopback nodes may not expose audio properties.
+
+> **Important — `PwObjectTracker` requirement:** `PwNodeAudio` properties (`volume`, `muted`,
+> etc.) and `PwLink` sub-properties are only valid while the node/link is *bound* via a
+> `PwObjectTracker`. Nodes obtained from `PipeWire.nodes` or `PipeWire.links` must be tracked
+> before their sub-properties are usable:
+> ```qml
+> PwObjectTracker { ids: [node.id] }
+> ```
+> `PipeWire.defaultAudioSink` is tracked automatically, so its `.audio.*` properties are safe
+> to use without a manual tracker.
 
 ```qml
 // ch21/node-list.qml — List all nodes with their type and volume
@@ -91,14 +105,12 @@ Column {
 
             Text {
                 text: {
-                    switch (modelData.type) {
-                        case PwNodeType.Sink:   return "[SINK]  "
-                        case PwNodeType.Source: return "[SRC]   "
-                        case PwNodeType.Stream: return "[STREAM]"
-                        default:                return "[OTHER] "
-                    }
+                    if (modelData.isStream)              return "[STREAM]"
+                    if (modelData.isSink)                return "[SINK]  "
+                    if (!modelData.isSink)               return "[SRC]   "
+                    return "[OTHER] "
                 }
-                color: modelData.running ? "#a8ff78" : "#888"
+                color: modelData.ready ? "#a8ff78" : "#888"
                 font.family: "monospace"
             }
 
@@ -132,7 +144,7 @@ Repeater {
     model: PipeWire.nodes
     delegate: Text {
         required property PwNode modelData
-        visible: modelData.type === PwNodeType.Sink
+        visible: modelData.isSink && !modelData.isStream
         text: modelData.description
     }
 }
@@ -146,9 +158,10 @@ Repeater {
 properties. They are reactive: binding to them ensures your widget always reflects the current
 default even when the user switches devices or plugs in a USB headset.
 
-Writing `PipeWire.defaultAudioSink = someNode` calls WirePlumber's policy API to change the
-system default. The change propagates back through PipeWire and updates the property on all
-connected clients automatically — you do not need to manually refresh anything.
+`PipeWire.defaultAudioSink` is **read-only** and reflects what WirePlumber has chosen as the
+current default. To request a new default, write to `PipeWire.preferredDefaultAudioSink`:
+WirePlumber acts on the preference and the change propagates back to `defaultAudioSink`
+automatically — you do not need to manually refresh anything.
 
 Volume is a float in the range `[0.0, 1.0]` using a cubic scale (matching PulseAudio convention)
 rather than linear. A value of `1.0` represents 100% (0 dBFS), and values above `1.0` represent
@@ -251,15 +264,13 @@ Each `PwLink` exposes:
 
 | Property | Type | Description |
 |---|---|---|
-| `outputNode` | `PwNode` | Node providing audio |
-| `inputNode` | `PwNode` | Node consuming audio |
-| `outputPort` | `PwPort` | Specific port on the output node |
-| `inputPort` | `PwPort` | Specific port on the input node |
-| `active` | `bool` | Whether data is flowing |
+| `source` | `PwNode` | Node sending audio (the output / provider) |
+| `target` | `PwNode` | Node receiving audio (the input / consumer) |
+| `state` | `PwLinkState` | Link state (e.g. `PwLinkState.Active` when data flows) |
 
 The typical use case is determining which application streams are currently connected to the
 default sink — this lets you display a list of "currently playing" apps. Filter `PipeWire.links`
-by `link.inputNode === PipeWire.defaultAudioSink` to get all streams feeding into the default
+by `link.target === PipeWire.defaultAudioSink` to get all streams feeding into the default
 output.
 
 ```qml
@@ -278,16 +289,18 @@ Column {
     }
 
     Repeater {
-        // Collect unique output nodes feeding into the default sink
+        // Collect unique source nodes feeding into the default sink
         model: {
             const sink = PipeWire.defaultAudioSink
             if (!sink) return []
             const seen = new Set()
             const result = []
             for (const link of PipeWire.links) {
-                if (link.inputNode === sink && link.active && !seen.has(link.outputNode.id)) {
-                    seen.add(link.outputNode.id)
-                    result.push(link.outputNode)
+                if (link.target === sink
+                    && link.state === PwLinkState.Active
+                    && !seen.has(link.source.id)) {
+                    seen.add(link.source.id)
+                    result.push(link.source)
                 }
             }
             return result
@@ -311,9 +324,11 @@ QML component with an explicit `Connections` block.
 
 ## 21.5 Audio Level Meters
 
-`PwNodeAudio` exposes per-channel peak levels for building VU meters. The relevant property is
-`PwNodeAudio.peakVolumeFor(channel)`, which returns a float in `[0.0, 1.0]` representing the
-recent peak amplitude on that channel. The channel count is `PwNodeAudio.channelCount`.
+`PwNodePeakMonitor` exposes per-channel peak levels for building VU meters. Create a
+`PwNodePeakMonitor { node: <PwNode> }` element bound to the node you want to monitor. Its
+`peaks` property is a `list<real>` of per-channel values in `[0.0, 1.0]`, and `channels.length`
+gives the channel count. `PwNodeAudio` does **not** have a `peakVolumeFor()` method or a
+`channelCount` property.
 
 Peak levels update at PipeWire's processing interval (typically 512 or 1024 samples). To smooth
 the meter visually, drive the displayed value with a `NumberAnimation` that decays toward the
@@ -326,11 +341,16 @@ import Quickshell.Services.Pipewire
 
 Row {
     spacing: 4
-    property PwNodeAudio audio: PipeWire.defaultAudioSink
-        ? PipeWire.defaultAudioSink.audio : null
+    property PwNode sinkNode: PipeWire.defaultAudioSink
+
+    // PwNodePeakMonitor provides per-channel peak levels; peaks and channels update live
+    PwNodePeakMonitor {
+        id: peakMonitor
+        node: sinkNode
+    }
 
     Repeater {
-        model: audio ? Math.min(audio.channelCount, 2) : 0
+        model: Math.min(peakMonitor.channels.length, 2)
 
         delegate: Rectangle {
             id: barRoot
@@ -344,8 +364,8 @@ Row {
             // Displayed (smoothed) level
             property real displayLevel: 0.0
 
-            // Target level — update from PipeWire peak
-            property real targetLevel: audio ? audio.peakVolumeFor(index) : 0.0
+            // Target level — update from PipeWire peak via PwNodePeakMonitor
+            property real targetLevel: peakMonitor.peaks[index] ?? 0.0
 
             // Fast attack: jump up immediately; slow decay: animate down
             onTargetLevelChanged: {
@@ -384,17 +404,17 @@ For a full mixer strip with multiple channels, wrap the above in a `Repeater` ov
 `PipeWire.nodes` filtered to active stream nodes. Pair the VU meter with the node description
 label from Section 21.2 to produce a live mini-mixer panel.
 
-If you need the *average* level rather than the peak, average `peakVolumeFor(ch)` across all
-channels manually:
+If you need the *average* level rather than the peak, use `PwNodePeakMonitor.peak` (which
+already returns the max across channels) or average `peaks[ch]` across all channels manually:
 
 ```qml
-function averageLevel(audio) {
-    if (!audio || audio.channelCount === 0) return 0.0
+function averageLevel(monitor) {
+    if (!monitor || monitor.channels.length === 0) return 0.0
     let sum = 0.0
-    for (let ch = 0; ch < audio.channelCount; ch++) {
-        sum += audio.peakVolumeFor(ch)
+    for (let ch = 0; ch < monitor.channels.length; ch++) {
+        sum += monitor.peaks[ch]
     }
-    return sum / audio.channelCount
+    return sum / monitor.channels.length
 }
 ```
 
@@ -531,12 +551,13 @@ sink changes, since the user can see at most one at a time anyway.
 
 ## 21.7 Device Enumeration and Switcher
 
-`PipeWire.nodes` contains every node including all sinks. Filtering to `type == PwNodeType.Sink`
+`PipeWire.nodes` contains every node including all sinks. Filtering to `n.isSink && !n.isStream`
 gives the list of output devices. Display this as a menu or flyout to let the user switch the
 default output without opening a separate audio control application.
 
-Setting the default sink requires assigning to `PipeWire.defaultAudioSink`. WirePlumber then
-migrates existing streams to the new default automatically (subject to policy configuration).
+Setting the default sink requires assigning to `PipeWire.preferredDefaultAudioSink`
+(`defaultAudioSink` is read-only). WirePlumber then migrates existing streams to the new default
+automatically (subject to policy configuration).
 
 ```qml
 // ch21/device-switcher.qml — Popup device selector
@@ -572,8 +593,8 @@ Item {
         }
 
         Repeater {
-            // Only sink nodes
-            model: PipeWire.nodes.filter(n => n.type === PwNodeType.Sink)
+            // Only sink nodes (isSink=true, isStream=false)
+            model: PipeWire.nodes.filter(n => n.isSink && !n.isStream)
 
             delegate: Rectangle {
                 required property PwNode modelData
@@ -606,7 +627,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: PipeWire.defaultAudioSink = modelData
+                    onClicked: PipeWire.preferredDefaultAudioSink = modelData
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
                     onContainsMouseChanged: parent.color = containsMouse
@@ -619,8 +640,8 @@ Item {
 ```
 
 For a combined input/output switcher, duplicate the above section and target
-`PipeWire.defaultAudioSource` / `PwNodeType.Source`. An elegant approach is to use a `TabBar`
-with two tabs — "Output" and "Input" — and swap the `model` filter accordingly.
+`PipeWire.preferredDefaultAudioSource` / `!n.isSink && !n.isStream`. An elegant approach is to
+use a `TabBar` with two tabs — "Output" and "Input" — and swap the `model` filter accordingly.
 
 ---
 
@@ -630,9 +651,9 @@ Modern desktops display a persistent indicator when any application is capturing
 implementation detects active source-type stream nodes (applications reading from a microphone)
 and shows a badge in the status bar.
 
-A "capture stream" in PipeWire appears as a `PwNode` with `type == PwNodeType.Stream` that is
-linked to a `PwNodeType.Source` node. The cleanest detection strategy is to iterate `PipeWire.links`
-and check whether any active link's `outputNode` is a source-type node.
+A "capture stream" in PipeWire appears as a `PwNode` with `isStream == true` that is linked
+to a source node (`isSink == false && isStream == false`). The cleanest detection strategy is
+to iterate `PipeWire.links` and check whether any active link's `source` is a source-type node.
 
 ```qml
 // ch21/mic-indicator.qml — Privacy badge for active microphone capture
@@ -646,11 +667,11 @@ Item {
     // True if any stream is actively reading from any source
     property bool micActive: {
         for (const link of PipeWire.links) {
-            if (link.active
-                && link.outputNode
-                && link.outputNode.type === PwNodeType.Source
-                && link.inputNode
-                && link.inputNode.type === PwNodeType.Stream) {
+            if (link.state === PwLinkState.Active
+                && link.source
+                && !link.source.isSink && !link.source.isStream
+                && link.target
+                && link.target.isStream) {
                 return true
             }
         }
@@ -682,16 +703,16 @@ Item {
 ```
 
 To show *which* application is capturing, extend the indicator with a tooltip or small label.
-Iterate the same links but collect the `inputNode.description` for each matching stream:
+Iterate the same links but collect the `target.description` for each matching stream:
 
 ```qml
 property string captureApps: {
     const apps = []
     for (const link of PipeWire.links) {
-        if (link.active
-            && link.outputNode?.type === PwNodeType.Source
-            && link.inputNode?.type === PwNodeType.Stream) {
-            const name = link.inputNode.description || link.inputNode.name
+        if (link.state === PwLinkState.Active
+            && link.source && !link.source.isSink && !link.source.isStream
+            && link.target && link.target.isStream) {
+            const name = link.target.description || link.target.name
             if (!apps.includes(name)) apps.push(name)
         }
     }
@@ -808,9 +829,9 @@ If no monitor nodes appear, check WirePlumber configuration — some minimal con
 monitor ports to save CPU. See `/usr/share/wireplumber/main.lua.d/` for the relevant policy.
 
 **Huge CPU usage from VU meters.**
-Unbounded `Behavior` animations and `peakVolumeFor()` bindings that update every processing
-cycle can be expensive. Cap update frequency by driving peak reads from a `Timer` at 30–60 Hz
-rather than binding directly:
+Unbounded `Behavior` animations and `PwNodePeakMonitor.peaks` bindings that update every
+processing cycle can be expensive. Cap update frequency by driving peak reads from a `Timer`
+at 30–60 Hz rather than binding directly:
 
 ```qml
 Timer {
@@ -818,7 +839,7 @@ Timer {
     running: vuMeterVisible
     repeat: true
     onTriggered: {
-        if (audio) barRoot.targetLevel = audio.peakVolumeFor(0)
+        barRoot.targetLevel = peakMonitor.peaks[0] ?? 0.0
     }
 }
 ```

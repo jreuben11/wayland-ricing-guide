@@ -24,7 +24,7 @@ Smithay is written from scratch in safe Rust. Its abstractions are higher-level:
 | API stability | Follows wlroots C releases | Smithay crate on crates.io |
 | Real-world users | sway (C), river (C) | niri, Jay, cosmic-comp |
 | Learning curve | Need wlroots C knowledge | Rust-native concepts |
-| Test backend | Headless via wlroots | `WaylandBackend` (nested) |
+| Test backend | Headless via wlroots | `WinitBackend` (winit, nested) |
 | DRM/KMS | Via wlroots | `DrmBackend` + `GbmAllocator` |
 | Rendering | wlr_renderer (C) | `GlesRenderer`, `PixmanRenderer` |
 
@@ -51,7 +51,7 @@ rust-version = "1.75"
 
 [dependencies]
 # Core Smithay: Wayland frontend + DRM/libinput backends + OpenGL ES renderer
-smithay = { version = "0.3", features = [
+smithay = { version = "0.7", features = [
     "desktop",
     "wayland_frontend",
     "backend_drm",
@@ -402,22 +402,23 @@ fn init_backend(
 }
 ```
 
-For testing inside an existing compositor (Sway, COSMIC, etc.) replace the DRM/libinput setup with `WaylandBackend`, which creates a nested Wayland window and routes input through the host compositor's seat. This is invaluable during development.
+For testing inside an existing compositor (Sway, COSMIC, etc.) replace the DRM/libinput setup with the winit backend (`WinitBackend`), which opens a window inside the host Wayland or X11 session and routes input through it. This is invaluable during development. Note that `WinitEventLoop` is **not** a calloop event source; dispatch it directly each frame by calling `dispatch_new_events`.
 
 ```rust
 // Nested/testing backend
 use smithay::backend::winit::{self, WinitEvent};
 
-let (backend, winit_evt_loop) = winit::init()?;
-loop_handle.insert_source(winit_evt_loop, move |event, _, state| {
+let (backend, mut winit_evt_loop) = winit::init()?;
+// WinitEventLoop is NOT a calloop source — dispatch it manually each frame:
+winit_evt_loop.dispatch_new_events(|event| {
     match event {
         WinitEvent::Resized { size, .. } => { /* update output geometry */ }
         WinitEvent::Input(input_event) => state.process_input_event(input_event),
-        WinitEvent::Refresh => state.render(),
+        WinitEvent::Redraw => state.render(),
         WinitEvent::CloseRequested => state.should_stop = true,
         _ => {}
     }
-})?;
+});
 ```
 
 ---
@@ -432,7 +433,7 @@ The `damage_tracked_renderer` utility tracks which screen regions changed since 
 use smithay::{
     backend::renderer::{
         gles::GlesRenderer,
-        damage::{DamageTrackedRenderer, DamageTrackedRendererError},
+        damage::{OutputDamageTracker, Error as DamageError},
         element::{
             surface::WaylandSurfaceRenderElement,
             utils::select_dmabuf_feedback,
@@ -446,7 +447,7 @@ use smithay::{
 
 fn render_frame(
     renderer: &mut GlesRenderer,
-    damage_tracker: &mut DamageTrackedRenderer,
+    damage_tracker: &mut OutputDamageTracker,
     output: &Output,
     space: &Space<Window>,
 ) -> anyhow::Result<()> {
@@ -454,10 +455,13 @@ fn render_frame(
     let elements: Vec<SpaceRenderElements<GlesRenderer>> =
         space.render_elements_for_output(renderer, output, 1.0);
 
-    // Render with damage tracking
-    let (damage, _states) = damage_tracker.render_output(
+    // Obtain a framebuffer and buffer age from the backend (KMS/winit), then render.
+    // OutputDamageTracker::from_output(&output) constructs the tracker before this call.
+    // render_output requires an explicit framebuffer and buffer age for partial damage.
+    damage_tracker.render_output(
         renderer,
-        output,
+        &mut framebuffer,  // R::Framebuffer obtained from the backend swap-chain
+        age,               // buffer age (0 = full redraw) from the backend
         &elements,
         [0.1, 0.1, 0.1, 1.0],  // clear colour (dark grey)
     )?;

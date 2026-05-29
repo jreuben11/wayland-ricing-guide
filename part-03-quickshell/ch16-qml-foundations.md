@@ -566,8 +566,9 @@ level, to avoid initialization ordering issues.
 // Theme.qml — a custom global theme singleton
 pragma Singleton
 import QtQuick
+import Quickshell
 
-QtObject {
+Singleton {
     id: root
 
     // Color scheme (Catppuccin Mocha defaults)
@@ -663,7 +664,7 @@ restores them in the new instance.
 ```qml
 // shell.qml — canonical Quickshell entry point
 import QtQuick
-import Quickshell 0.1
+import Quickshell
 
 ShellRoot {
 
@@ -682,7 +683,7 @@ ShellRoot {
             }
             height: 36
             color: "transparent"
-            exclusionMode: ExclusionMode.Exclusive
+            exclusionMode: ExclusionMode.Normal
 
             StatusBar {
                 anchors.fill: parent
@@ -704,6 +705,7 @@ ShellRoot {
     // Persistent: survives quickshell reload
     PersistentProperties {
         id: persist
+        reloadableId: "persistedStates"
         property string lastWorkspace: "1"
         property bool notificationsEnabled: true
     }
@@ -713,7 +715,7 @@ ShellRoot {
 ```qml
 // Scope — non-visual grouping with shared properties
 import QtQuick
-import Quickshell 0.1
+import Quickshell
 
 ShellRoot {
 
@@ -826,10 +828,12 @@ path. If you are using Quickshell's directory-based discovery, ensure the
 statements — or the engine will not register it as a singleton.
 
 **`PersistentProperties` values not restored after reload**
-The `PersistentProperties` block must have a stable `id` across reloads. If you
-rename the `id`, Quickshell treats it as a new storage slot and the old values
-are orphaned. The persistence file is stored in
-`~/.local/share/quickshell/<config-name>/`. Inspect or delete it there.
+The `PersistentProperties` block must have a stable `reloadableId` across reloads.
+The `reloadableId` string (not the QML `id`) is the key Quickshell uses to match
+old values to the new instance. If you change or omit `reloadableId`, Quickshell
+treats it as a new storage slot and the old values are orphaned. The persistence
+file is stored in `~/.local/share/quickshell/<config-name>/`. Inspect or delete
+it there.
 
 **Performance: bindings updating too frequently**
 A binding that reads a frequently-changing property (like a timer tick every 100ms)
