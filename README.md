@@ -15,15 +15,15 @@ and writing your own Wayland extensions.
 | I    | Wayland Foundations | 1–5, 63–65 |
 | II   | Compositor Landscape | 6–14, 66–68, 89, 99 |
 | III  | Quickshell — Deep Dive | 15–25 |
-| IV   | The Ricing Stack | 26–33, 69–70, 72 |
-| V    | Theming & Aesthetics | 34–40, 87, 94 |
-| VI   | Advanced Topics | 41–45, 84–86, 88, 90, 92, 95–97 |
+| IV   | The Ricing Stack | 26–33, 69–70, 72, 104 |
+| V    | Theming & Aesthetics | 34–40, 87, 94, 101, 103 |
+| VI   | Advanced Topics | 41–45, 84–86, 88, 90, 92, 95–97, 102 |
 | VII  | Writing for Wayland | 46–49, 73–74 |
-| VIII | Application Layer | 50–51, 57–59, 75–76 |
+| VIII | Application Layer | 50–51, 57–59, 75–76, 100 |
 | IX   | System Infrastructure | 52–56, 60–62, 71, 77–83, 91, 93, 98 |
 | —    | Appendices | A–E |
 
-**Total: 100 chapters + 8 appendices**
+**Total: 105 chapters + 8 appendices**
 
 ---
 
@@ -83,6 +83,7 @@ and writing your own Wayland extensions.
 - [Chapter 69](part-04-ricing-stack/ch69-file-managers.md) — File Managers: Yazi, Thunar, Dolphin, lf
 - [Chapter 70](part-04-ricing-stack/ch70-color-pickers.md) — Color Picker Tools: hyprpicker, wl-color-picker, pastel
 - [Chapter 72](part-04-ricing-stack/ch72-media-players.md) — Media Players: mpv, VLC, and Wayland Playback
+- [Chapter 104](part-04-ricing-stack/ch104-waybar-css.md) — Waybar CSS Theming Deep Dive
 
 ### Part V — Theming and Aesthetics
 - [Chapter 34](part-05-theming/ch34-color-theory.md) — Color Theory for Desktop Ricing
@@ -94,6 +95,8 @@ and writing your own Wayland extensions.
 - [Chapter 40](part-05-theming/ch40-stylix.md) — Stylix: Auto-Theming Everything from One Wallpaper
 - [Chapter 87](part-05-theming/ch87-font-rendering.md) — Font Rendering Deep Dive: fontconfig, Hinting, CJK
 - [Chapter 94](part-05-theming/ch94-color-management-icc.md) — Color Management and ICC Profiles
+- [Chapter 101](part-05-theming/ch101-nix-flake-rice.md) — Advanced Nix Flake Architecture for a Full Rice
+- [Chapter 103](part-05-theming/ch103-cursor-themes.md) — Cursor Theme Creation: xcursor and hyprcursor
 
 ### Part VI — Advanced Topics
 - [Chapter 41](part-06-advanced/ch41-multi-monitor-hidpi.md) — Multi-Monitor, HiDPI, and Fractional Scaling
@@ -110,6 +113,7 @@ and writing your own Wayland extensions.
 - [Chapter 95](part-06-advanced/ch95-gpu-monitoring-overclocking.md) — GPU Monitoring and Overclocking: lact, nvtop, radeontop
 - [Chapter 96](part-06-advanced/ch96-workspace-automation.md) — Workspace Automation: pyprland, Scratchpads, Persistent Layouts
 - [Chapter 97](part-06-advanced/ch97-wayland-mobile-embedded.md) — Wayland on Mobile and Embedded: Phosh, Sxmo, Weston Kiosk
+- [Chapter 102](part-06-advanced/ch102-wine-wayland.md) — Wine Wayland: Native Windows Apps Without XWayland
 
 ### Part VII — Writing for Wayland
 - [Chapter 46](part-07-wayland-programming/ch46-writing-protocol-extensions.md) — Writing a Wayland Protocol Extension
@@ -128,6 +132,7 @@ and writing your own Wayland extensions.
 - [Chapter 62](part-08-daily-driver/ch62-opinionated-setups.md) — Opinionated Rice Bootstraps: Omarchy, ML4W, HyDE, CachyOS
 - [Chapter 75](part-08-daily-driver/ch75-quickshell-notification-center.md) — Quickshell Notification Center: Full Sidebar Implementation
 - [Chapter 76](part-08-daily-driver/ch76-quickshell-osd.md) — Quickshell OSD: Volume, Brightness, and Media Displays
+- [Chapter 100](part-08-daily-driver/ch100-ags-astal.md) — AGS / Astal: TypeScript Shell Framework
 
 ### Part IX — System Infrastructure
 - [Chapter 52](part-08-daily-driver/ch52-xdg-desktop-portal.md) — xdg-desktop-portal: Screen Sharing, File Chooser, Settings
