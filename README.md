@@ -13,7 +13,7 @@ and writing your own Wayland extensions.
 |------|-------|----------|
 | 0    | Getting Started | 0 |
 | I    | Wayland Foundations | 1–5, 63–65 |
-| II   | Compositor Landscape | 6–14, 66–68, 89 |
+| II   | Compositor Landscape | 6–14, 66–68, 89, 99 |
 | III  | Quickshell — Deep Dive | 15–25 |
 | IV   | The Ricing Stack | 26–33, 69–70, 72 |
 | V    | Theming & Aesthetics | 34–40, 87, 94 |
@@ -23,7 +23,7 @@ and writing your own Wayland extensions.
 | IX   | System Infrastructure | 52–56, 60–62, 71, 77–83, 91, 93, 98 |
 | —    | Appendices | A–E |
 
-**Total: 99 chapters + 8 appendices**
+**Total: 100 chapters + 8 appendices**
 
 ---
 
@@ -56,6 +56,7 @@ and writing your own Wayland extensions.
 - [Chapter 67](part-02-compositors/ch67-gnome-shell-wayland.md) — GNOME Shell on Wayland
 - [Chapter 68](part-02-compositors/ch68-cosmic-desktop.md) — COSMIC Desktop: System76's Rust DE
 - [Chapter 89](part-02-compositors/ch89-hyprland-plugins.md) — Hyprland Plugins and hyprpm
+- [Chapter 99](part-02-compositors/ch99-hyprland-lua.md) — Hyprland Lua Configuration (0.55+)
 
 ### Part III — Quickshell: The Modern Shell Framework
 - [Chapter 15](part-03-quickshell/ch15-quickshell-architecture.md) — Quickshell Architecture and Philosophy
