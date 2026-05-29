@@ -661,7 +661,7 @@ WAYLAND_DEBUG=1 glxinfo 2>&1 | grep -i dmabuf
 
 # In Hyprland, explicit sync (requires linux-dmabuf v4+) can be enabled:
 render {
-    explicit_sync = 2   # 0=off, 1=force, 2=auto (Hyprland 0.40+)
+    explicit_sync = 2   # 0=off, 1=on, 2=auto (Hyprland 0.40+)
 }
 ```
 
@@ -904,8 +904,7 @@ sway --version
 | Protocol XML browser (offline) | `/usr/share/wayland-protocols/` |
 | wlroots protocol tracker | https://gitlab.freedesktop.org/wlroots/wlroots/-/tree/master/protocol |
 
-*Next: Chapter 4 — Input Handling: libinput, seat configuration, and gesture
-recognition on Wayland.*
+*Next: Chapter 4 — libwayland Programming: Writing Wayland Clients in C*
 
 ---
 

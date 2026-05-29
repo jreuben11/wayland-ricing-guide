@@ -24,10 +24,10 @@ chapter assume Quickshell 0.1.0 or later:
 pacman -S quickshell
 
 # Nix (flake)
-inputs.quickshell.url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+inputs.quickshell.url = "github:quickshell-mirror/quickshell";
 ```
 
-Cross-references: Ch 14 covers Quickshell window anchoring, Ch 18 covers D-Bus IPC in detail,
+Cross-references: Ch 17 covers Quickshell window anchoring, Ch 18 covers the Quickshell.Io module (Process, Socket, IpcHandler),
 and Ch 53 covers session startup and service ordering.
 
 ---
@@ -809,7 +809,7 @@ ShellRoot {
         PanelWindow {
             required property var modelData
             screen: modelData
-            layer: WlrLayer.Bottom
+            layer: WlrLayer.Top
             anchors { top: true; left: true; right: true }
             height: 34
             exclusiveZone: height

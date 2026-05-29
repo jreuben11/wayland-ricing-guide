@@ -11,7 +11,7 @@ delivers it.
 This chapter covers installation, the hyprlang configuration language, layout algorithms, window
 rules, keybindings, animations, IPC scripting, and the broader Hyprland ecosystem of utilities.
 By the end you will have a fully functional, visually polished desktop configuration. See Ch 3
-for a compositor comparison table, Ch 12 for Sway as an alternative, and Ch 53 for session
+for a compositor comparison table, Ch 07 for Sway as an alternative, and Ch 53 for session
 startup automation.
 
 ---
@@ -1275,7 +1275,7 @@ hyprctl --instance 0 dispatch exec true  # smoke test IPC is alive
 ## See Also
 
 - **Ch 3** — Compositor comparison: Hyprland vs Sway vs river vs niri
-- **Ch 12** — Sway: i3-compatible Wayland tiling
+- **Ch 07** — Sway: i3-compatible Wayland tiling
 - **Ch 21** — Waybar: building a Hyprland status bar
 - **Ch 27** — Themes and GTK/Qt styling on Wayland
 - **Ch 34** — Notification daemons: dunst, mako, swaync

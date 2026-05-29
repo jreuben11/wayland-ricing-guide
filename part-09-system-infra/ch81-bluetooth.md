@@ -6,7 +6,7 @@ Bluetooth on Linux is built on the BlueZ stack, which has been the dominant open
 
 Unlike many "just install blueman" guides, this chapter treats Bluetooth as a subsystem you need to understand and control. You'll learn to manage devices from scripts, configure auto-connect behavior, profile-switch programmatically for podcasts versus calls, and diagnose the surprisingly varied failure modes of Bluetooth audio on Linux.
 
-This chapter assumes you have PipeWire installed as your audio backend. If you're still on PulseAudio, most audio commands will differ; see Ch 79 for the PipeWire migration path. For session startup of these services, see Ch 53 on session management and exec-once patterns.
+This chapter assumes you have PipeWire installed as your audio backend. If you're still on PulseAudio, most audio commands will differ; see Ch 56 for the PipeWire migration path. For session startup of these services, see Ch 53 on session management and exec-once patterns.
 
 ---
 

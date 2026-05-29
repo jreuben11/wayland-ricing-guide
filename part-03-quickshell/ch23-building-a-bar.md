@@ -4,7 +4,7 @@
 
 This chapter is an end-to-end tutorial for building a production-quality, multi-monitor status bar from scratch using Quickshell. The bar will cover the full stack: Wayland layer-shell anchoring, per-monitor instantiation, IPC with Hyprland, PipeWire audio, UPower battery, MPRIS media, system tray, and live theming with pywal. Each section adds one module to a running bar, so you can stop at any depth and have a working system.
 
-By the end you will have a bar that rivals Waybar in functionality but is written entirely in QML — composable, scriptable, and trivially extensible. The techniques here apply directly to any Quickshell panel you build. If you are new to Quickshell's window model, read Chapter 19 (PanelWindow and Layer Shell) first. For the IPC types used in the workspace and window-title modules, see Chapter 21 (Hyprland IPC). For the theming system, Chapter 26 (Theme Singletons) gives the full design.
+By the end you will have a bar that rivals Waybar in functionality but is written entirely in QML — composable, scriptable, and trivially extensible. The techniques here apply directly to any Quickshell panel you build. If you are new to Quickshell's window model, read Chapter 17 (PanelWindow and Layer Shell) first. For the IPC types used in the workspace and window-title modules, see Chapter 20 (Hyprland IPC). For the theming system, Chapter 26 (Theme Singletons) gives the full design.
 
 The finished bar is approximately 600 lines of QML across nine files. Every snippet in this chapter is copy-paste ready and has been tested against Quickshell 0.2.x on Hyprland 0.40+. Where platform assumptions matter they are called out explicitly.
 
@@ -213,7 +213,7 @@ Item {
     implicitHeight: parent.height
 
     // All workspaces visible on this monitor
-    property var wsOnScreen: HyprlandIpc.workspaces.filter(
+    property var wsOnScreen: Hyprland.workspaces.filter(
         ws => ws.monitor === screen.name
     )
 
@@ -228,11 +228,11 @@ Item {
             Pill {
                 required property var modelData
 
-                active:   modelData.id === HyprlandIpc.focusedWorkspace?.id
+                active:   modelData.id === Hyprland.focusedWorkspace?.id
                 occupied: modelData.windows > 0
                 label:    String(modelData.id)
 
-                onClicked: HyprlandIpc.dispatch("workspace " + modelData.id)
+                onClicked: Hyprland.dispatch("workspace " + modelData.id)
             }
         }
     }
@@ -242,7 +242,7 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
         onWheel: wheel => {
-            HyprlandIpc.dispatch(
+            Hyprland.dispatch(
                 wheel.angleDelta.y > 0
                     ? "workspace e-1"
                     : "workspace e+1"
@@ -290,7 +290,7 @@ Rectangle {
 }
 ```
 
-Note that `HyprlandIpc.workspaces` is a live model: Quickshell updates it whenever Hyprland emits workspace events over its Unix socket. The `filter()` call runs reactively thanks to QML's property binding system — any time `workspaces` changes, `wsOnScreen` recomputes. See Chapter 21 for the full Hyprland IPC reference.
+Note that `Hyprland.workspaces` is a live model: Quickshell updates it whenever Hyprland emits workspace events over its Unix socket. The `filter()` call runs reactively thanks to QML's property binding system — any time `workspaces` changes, `wsOnScreen` recomputes. See Chapter 20 for the full Hyprland IPC reference.
 
 ---
 
@@ -309,7 +309,7 @@ Item {
     implicitWidth:  Math.min(titleText.implicitWidth + icon.width + 8, 320)
     implicitHeight: parent.height
 
-    readonly property var client: HyprlandIpc.focusedClient
+    readonly property var client: Hyprland.focusedClient
     readonly property string title:  client?.title  ?? ""
     readonly property string appId:  client?.class  ?? ""
 
@@ -362,7 +362,7 @@ Item {
 }
 ```
 
-`HyprlandIpc.focusedClient` is `null` when the desktop is focused (no window active). The `?.` safe-navigation operator handles this: `client?.title ?? ""` returns an empty string rather than crashing. You can show a custom placeholder:
+`Hyprland.focusedClient` is `null` when the desktop is focused (no window active). The `?.` safe-navigation operator handles this: `client?.title ?? ""` returns an empty string rather than crashing. You can show a custom placeholder:
 
 ```qml
 text: title !== "" ? title : "Desktop"
@@ -377,7 +377,7 @@ The volume module reads the default audio sink from the `Quickshell.PipeWire` in
 ```qml
 // bar/modules/Volume.qml
 import Quickshell
-import Quickshell.Services.PipeWire
+import Quickshell.Services.Pipewire
 import QtQuick
 import QtQuick.Layouts
 
@@ -430,7 +430,7 @@ Item {
 
 The PipeWire binding is reactive: as soon as another application changes the system volume, `volume` updates and the percentage re-renders. The clamp in the scroll handler prevents the volume from going above 100% or below 0%, which avoids distortion or silent mute states.
 
-For per-app volume control, iterate `PipeWire.nodes` and filter by `node.nodeClass === "Stream/Output"`. See Chapter 22 (PipeWire Integration) for the full node model.
+For per-app volume control, iterate `PipeWire.nodes` and filter by `node.nodeClass === "Stream/Output"`. See Chapter 21 (PipeWire Integration) for the full node model.
 
 ---
 
@@ -456,8 +456,8 @@ Item {
 
     function batteryIcon(): string {
         if (!bat)              return "battery-missing"
-        if (bat.state === UPower.Charging ||
-            bat.state === UPower.FullyCharged) return "battery-full-charging"
+        if (bat.state === UPowerDeviceState.Charging ||
+            bat.state === UPowerDeviceState.FullyCharged) return "battery-full-charging"
         const pct = bat.percentage
         if (pct <= 10)         return "battery-caution"
         if (pct <= 25)         return "battery-low"
@@ -490,9 +490,9 @@ Item {
             ToolTip.visible: mouseArea.containsMouse
             ToolTip.text: {
                 if (!bat) return "No battery"
-                if (bat.state === UPower.Charging)
+                if (bat.state === UPowerDeviceState.Charging)
                     return "Charging — " + formatTime(bat.timeToFull) + " until full"
-                if (bat.state === UPower.Discharging)
+                if (bat.state === UPowerDeviceState.Discharging)
                     return "On battery — " + formatTime(bat.timeToEmpty) + " remaining"
                 return "Fully charged"
             }
@@ -538,7 +538,7 @@ Item {
     readonly property var player: Mpris.players[0] ?? null
     readonly property string trackTitle:  player?.trackTitle  ?? ""
     readonly property string trackArtist: player?.trackArtist ?? ""
-    readonly property bool   playing:     player?.playbackState === MprisPlayer.Playing
+    readonly property bool   playing:     player?.playbackState === MprisPlaybackState.Playing
 
     RowLayout {
         id:      row
@@ -573,7 +573,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 cursorShape:  Qt.PointingHandCursor
-                onClicked:    player?.togglePlaying()
+                onClicked:    player?.playPause()
             }
         }
 
@@ -681,7 +681,7 @@ Item {
 }
 ```
 
-For a lower-latency alternative on WiFi-only systems, read `/proc/net/wireless` directly inside a `FileView` with an interval timer. The `nmcli` approach is preferred because it handles multiple interfaces, VPNs, and Ethernet correctly. See Chapter 20 (Process and Pipes) for the full `Process` + `SplitParser` reference.
+For a lower-latency alternative on WiFi-only systems, read `/proc/net/wireless` directly inside a `FileView` with an interval timer. The `nmcli` approach is preferred because it handles multiple interfaces, VPNs, and Ethernet correctly. See Chapter 18 (Core Modules: Io) for the full `Process` + `SplitParser` reference.
 
 ---
 
@@ -948,8 +948,8 @@ hyprctl monitors | grep -A5 "Monitor"
 | Module        | Data Source                          | Update Trigger        | Interactivity                  |
 |---------------|--------------------------------------|-----------------------|--------------------------------|
 | Clock         | `SystemClock`                        | Timer (1 s)           | Hover tooltip                  |
-| Workspaces    | `HyprlandIpc.workspaces`             | Hyprland event        | Click to switch, scroll        |
-| WindowTitle   | `HyprlandIpc.focusedClient`          | Hyprland event        | None                           |
+| Workspaces    | `Hyprland.workspaces`                | Hyprland event        | Click to switch, scroll        |
+| WindowTitle   | `Hyprland.focusedClient`             | Hyprland event        | None                           |
 | Volume        | `PipeWire.defaultAudioSink`          | PipeWire event        | Click mute, scroll adjust      |
 | Battery       | `UPower.devices`                     | UPower event          | Hover tooltip                  |
 | Media         | `Mpris.players`                      | MPRIS D-Bus event     | Play/pause, skip               |
@@ -982,7 +982,7 @@ Ensure `layer: WlrLayer.Top` (not `WlrLayer.Background`). On Hyprland, layer-she
 
 ### Workspaces showing wrong monitor
 
-`HyprlandIpc.workspaces` returns all workspaces across all monitors. Always filter by `ws.monitor === screen.name`. Note that `screen.name` in Quickshell matches the connector name Hyprland uses (e.g., `DP-1`, `HDMI-A-1`). Mismatch happens if you hotplug monitors and Hyprland reassigns connector names — add a debug label temporarily:
+`Hyprland.workspaces` returns all workspaces across all monitors. Always filter by `ws.monitor === screen.name`. Note that `screen.name` in Quickshell matches the connector name Hyprland uses (e.g., `DP-1`, `HDMI-A-1`). Mismatch happens if you hotplug monitors and Hyprland reassigns connector names — add a debug label temporarily:
 
 ```qml
 Text { text: screen.name; color: "red" }
@@ -1028,7 +1028,7 @@ If Quickshell reports unknown types like `SystemTray` or `PipeWire`, verify the 
 
 | Service            | Import statement                            |
 |--------------------|---------------------------------------------|
-| PipeWire           | `import Quickshell.Services.PipeWire`       |
+| PipeWire           | `import Quickshell.Services.Pipewire`       |
 | UPower             | `import Quickshell.Services.UPower`         |
 | MPRIS              | `import Quickshell.Services.Mpris`          |
 | SystemTray         | `import Quickshell.Services.SystemTray`     |
@@ -1045,9 +1045,9 @@ quickshell --list-services
 
 ## Related Chapters
 
-- **Chapter 19** — PanelWindow and Layer Shell: anchoring, exclusive zones, and multi-monitor window management in depth.
-- **Chapter 21** — Hyprland IPC: the full `HyprlandIpc` API surface, event types, and dispatch commands.
-- **Chapter 22** — PipeWire Integration: per-node volume, microphone metering, and audio routing.
+- **Chapter 17** — PanelWindow and Layer Shell: anchoring, exclusive zones, and multi-monitor window management in depth.
+- **Chapter 20** — Hyprland IPC: the full `Hyprland` API surface, event types, and dispatch commands.
+- **Chapter 21** — PipeWire Integration: per-node volume, microphone metering, and audio routing.
 - **Chapter 24** — Notifications Panel: building an overlay notification list as a companion to this bar.
 - **Chapter 26** — Theme Singletons: design patterns for `Theme.qml`, palette switching, and CSS-variable analogues in QML.
 - **Chapter 53** — Session Startup: ensuring Quickshell launches after the compositor and D-Bus services are ready, using `systemd --user` service ordering.

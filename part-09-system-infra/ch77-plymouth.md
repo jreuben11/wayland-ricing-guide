@@ -11,7 +11,7 @@ entirely through kernel mode-setting (KMS), making it uniquely independent of X1
 This chapter covers Plymouth installation, theme selection, custom theme authorship, LUKS passphrase
 dialog theming, and smooth transitions to SDDM/GDM. The techniques here apply to Arch-based systems
 (pacman/AUR), Debian/Ubuntu derivatives, and NixOS. See Ch 72 for GRUB visual theming (the stage
-before Plymouth), and Ch 78 for SDDM/GDM theming (the stage after). For session startup scripts
+before Plymouth), and Ch 54 for SDDM/GDM theming (the stage after). For session startup scripts
 that run after the login manager, see Ch 53.
 
 | Stage | Component | Chapter |
@@ -19,7 +19,7 @@ that run after the login manager, see Ch 53.
 | Firmware | UEFI splash / vendor logo | N/A |
 | Bootloader | GRUB theme / systemd-boot | Ch 72 |
 | Boot splash | Plymouth | **Ch 77** |
-| Login manager | SDDM / GDM | Ch 78 |
+| Login manager | SDDM / GDM | Ch 54 |
 | Compositor startup | Hyprland / sway launch | Ch 53 |
 
 ---
@@ -323,7 +323,7 @@ Plymouth's scripting language resembles a simplified C. The key objects are:
 - `Plymouth.SetDisplayMessageFunction(fn)` — called with display messages
 - `Plymouth.SetDisplayPasswordFunction(fn)` — called when passphrase input is needed
 
-```javascript
+```text
 // /usr/share/plymouth/themes/mytheme/mytheme.script
 // ── Catppuccin Mocha themed boot splash ──
 
@@ -429,7 +429,7 @@ a styled dialog that matches your rice.
 
 For the `script` module, handle the password prompt with `SetDisplayPasswordFunction`:
 
-```javascript
+```text
 // In mytheme.script — add after existing code
 
 // ── Password prompt (LUKS) ──
@@ -553,7 +553,7 @@ assets must be large enough or they will appear tiny. Plymouth does not do autom
 The recommended approach is to provide multiple resolution-specific background images and use
 `Window.GetWidth()` / `Window.GetHeight()` in the script to select the correct one:
 
-```javascript
+```text
 // Resolution-adaptive background selection
 w = Window.GetWidth();
 h = Window.GetHeight();
@@ -586,7 +586,7 @@ convert -size 3840x2160 xc:'#1e1e2e' background-4k.png
 For the logo and UI elements, scale them proportionally to screen height rather than using fixed
 pixel positions:
 
-```javascript
+```text
 // Proportional positioning (works at any resolution)
 scale   = screen_height / 1080.0;
 logo_w  = Math.Int(128 * scale);
@@ -743,7 +743,7 @@ plymouth --quit
 
 ---
 
-*See also: Ch 72 (GRUB Visual Theming), Ch 78 (SDDM / GDM Login Manager Theming), Ch 53 (Session Startup and Autostart Scripts), Ch 74 (systemd-boot and UKI).*
+*See also: Ch 72 (GRUB Visual Theming), Ch 54 (SDDM / GDM Login Manager Theming), Ch 53 (Session Startup and Autostart Scripts), Ch 74 (systemd-boot and UKI).*
 
 ---
 

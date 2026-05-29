@@ -20,7 +20,7 @@ decision lives in a swappable plugin rather than compiled-in logic. If you are c
 themed Compiz or KWin setup and want parity on Wayland, Wayfire is the closest match available.
 
 Cross-reference: Chapter 8 covers Hyprland for users who prioritise ecosystem size and dotfile
-availability. Chapter 11 covers Sway for a strictly tiling, i3-compatible workflow. See Chapter 53
+availability. Chapter 7 covers Sway for a strictly tiling, i3-compatible workflow. See Chapter 53
 for session startup and display manager integration across all compositors.
 
 ---
@@ -906,7 +906,7 @@ WAYLAND_DEBUG=1 wayfire 2>&1 | grep -i "buffer\|attach\|commit" | head -40
 
 ---
 
-*See also: Chapter 8 (Hyprland), Chapter 11 (Sway), Chapter 21 (Waybar), Chapter 53 (Session Startup and Display Managers)*
+*See also: Chapter 8 (Hyprland), Chapter 7 (Sway), Chapter 21 (Waybar), Chapter 53 (Session Startup and Display Managers)*
 
 ---
 

@@ -126,8 +126,8 @@ misc {
 }
 
 # Option 2: disable XWayland entirely (maximum security, breaks X11 apps)
-misc {
-    disable_xwayland = true
+xwayland {
+    enabled = false
 }
 
 # Option 3: force XWayland to start immediately at compositor launch
@@ -680,8 +680,8 @@ Common applications that still require XWayland (as of 2025):
 
 ```conf
 # Hyprland: disable XWayland
-misc {
-    disable_xwayland = true
+xwayland {
+    enabled = false
 }
 ```
 
@@ -777,7 +777,7 @@ ls /tmp/.X11-unix/
 Xwayland :99 -rootless &
 DISPLAY=:99 xterm &  # should open an xterm if Xwayland starts OK
 
-# Hyprland: check misc.disable_xwayland
+# Hyprland: check xwayland.enabled
 grep -i xwayland ~/.config/hypr/hyprland.conf
 ```
 
@@ -818,12 +818,12 @@ cat /proc/cmdline | grep nvidia
 |---|---|---|
 | App starts as X11 instead of Wayland | Missing env vars | Set `QT_QPA_PLATFORM=wayland`, `GDK_BACKEND=wayland`, `ELECTRON_OZONE_PLATFORM_HINT=wayland` |
 | Blurry X11 app on HiDPI | DPI mismatch | `xrdb -merge <<< "Xft.dpi: 192"` + `force_zero_scaling = true` |
-| X11 app crashes, no display | XWayland not running | Check `misc.disable_xwayland`, check `/tmp/.X11-unix/` |
+| X11 app crashes, no display | XWayland not running | Check `xwayland.enabled`, check `/tmp/.X11-unix/` |
 | Clipboard paste fails X11 ↔ Wayland | Bridge stalled | `pkill Xwayland` or run `autocutsel -fork` |
 | Mouse click offset in X11 app | Fractional scale coordinates | `hyprctl keyword xwayland:force_zero_scaling true` |
 | XWayland software rendering | Glamor/EGL failure | Check journal for EGL errors, specify `-rendernode` |
 | No window decorations on X11 app | Override-redirect or CSD | `windowrulev2 = decorate on, xwayland:1` |
-| `DISPLAY` not set | XWayland disabled or slow start | Check `misc.disable_xwayland = false`, check compositor log |
+| `DISPLAY` not set | XWayland disabled or slow start | Check `xwayland { enabled = true }`, check compositor log |
 
 ---
 

@@ -42,7 +42,7 @@ frame time on a 60 Hz panel with a discrete GPU under moderate load; disabling t
 the overhead immediately.
 
 **Config style preference** determines long-term maintainability. File-based configs (Sway's
-`config` in i3 syntax, Hyprland's `hyprland.conf` in its own KDL-like format, Niri's KDL) are
+`config` in i3 syntax, Hyprland's `hyprland.conf` in its own hyprlang (custom DSL), Niri's KDL) are
 Git-friendly and reproduce identically on a new machine via a dotfiles repo. GUI-first configs
 (KWin via System Settings, COSMIC via its own settings app) reduce the learning cliff but are
 harder to automate with `home-manager` or `chezmoi`. Scriptable runtime configs (River's
@@ -149,7 +149,7 @@ daily-driving. Entries marked `*` have important caveats explained in the rows t
 | Layout | Manual tiling | Dynamic tiling | Plugin | Tag/manual | Scrollable columns | Stacking | Tiling + Stacking |
 | Backend library | wlroots | Aquamarine | wlroots | wlroots | Smithay | wlroots | KWin (custom) |
 | Implementation lang | C | C++ | C++ | Zig | Rust | C | C++ / QML |
-| Config format | i3-syntax text | KDL-like text | INI + GUI | Shell script | KDL | XML + theme | GUI + KWin scripts |
+| Config format | i3-syntax text | hyprlang (custom DSL) | INI + GUI | Shell script | KDL | XML + theme | GUI + KWin scripts |
 | Animations | Minimal | Heavy (tweakable) | Heavy | None | Moderate | None | Moderate |
 | NVIDIA support | Fair | Good | Fair | Poor–Fair | Fair | Fair | Best |
 | HDR support | No | Partial (0.42+) | No | No | Planned | No | Yes (Plasma 6.3+) |
@@ -341,7 +341,7 @@ a NixOS module and a home-manager module. See Ch 47 for NixOS-specific dotfile m
 ```
 
 **Minimal, hackable, close to the metal — use dwl.**
-dwl is a dwm-inspired compositor written in C, intentionally kept under 3000 lines. There is
+dwl is a dwm-inspired compositor written in C, intentionally kept under 2000 lines. There is
 no official config file; configuration is done by editing `config.h` and recompiling. Patches
 are distributed as diff files in the same tradition as dwm. If you want to understand what a
 compositor actually does at the wlroots API level, dwl is the fastest path to that knowledge.

@@ -24,7 +24,7 @@ Session bus  (/run/user/1000/bus)   — one per login session
 
 System bus   (/run/dbus/system_bus_socket)
   ├── org.bluez                       (Bluetooth)
-  ├── org.NetworkManager              (NetworkManager)
+  ├── org.freedesktop.NetworkManager  (NetworkManager)
   ├── org.freedesktop.login1          (logind)
   └── org.freedesktop.UPower          (battery)
 ```
@@ -61,7 +61,7 @@ busctl --user call \
   "myapp" 0 "dialog-info" "Title" "Body" 0 0 {} {} 5000
 
 # Get a property
-busctl --user get-property \
+busctl get-property \
   org.freedesktop.UPower \
   /org/freedesktop/UPower/devices/battery_BAT0 \
   org.freedesktop.UPower.Device \
@@ -101,7 +101,7 @@ gdbus call --session \
   "myapp" 0 "dialog-info" "Title" "Body" "[]" "{}" 5000
 
 # Get a property
-gdbus get-property --session \
+gdbus get-property --system \
   --dest org.freedesktop.UPower \
   --object-path /org/freedesktop/UPower \
   --interface org.freedesktop.UPower \
@@ -169,12 +169,12 @@ busctl --user get-property "$player" /org/mpris/MediaPlayer2 \
 
 ```bash
 # Get battery percentage
-battery_path=$(busctl --user call \
+battery_path=$(busctl call \
   org.freedesktop.UPower /org/freedesktop/UPower \
   org.freedesktop.UPower EnumerateDevices \
   2>/dev/null | grep -o '/org/freedesktop/UPower/devices/battery[^"]*')
 
-percent=$(busctl --user get-property \
+percent=$(busctl get-property \
   org.freedesktop.UPower "$battery_path" \
   org.freedesktop.UPower.Device Percentage 2>/dev/null | awk '{print $2}')
 
@@ -185,7 +185,7 @@ echo "Battery: ${percent}%"
 
 ```bash
 # Get current connection state
-busctl --user call org.freedesktop.NetworkManager \
+busctl call org.freedesktop.NetworkManager \
   /org/freedesktop/NetworkManager \
   org.freedesktop.NetworkManager state
 
@@ -303,7 +303,8 @@ Varlink is systemd's newer IPC protocol for system-level services. It uses
 Unix sockets with a JSON-based type system. It is **not replacing session-bus
 D-Bus** for desktop services — notifications, MPRIS, and portals will stay on
 D-Bus. Varlink targets: systemd services, `io.systemd.*` interfaces, and new
-kernel/userspace boundaries.
+kernel/userspace boundaries. For a full treatment of Varlink services, the wire
+format, and writing clients and servers, see **Ch 98**.
 
 ### What uses Varlink today
 
@@ -356,20 +357,12 @@ error InvalidShader (name: string)
 
 ### When to use Varlink vs D-Bus
 
-| Scenario | Use |
-|----------|-----|
-| Desktop notifications | D-Bus (`org.freedesktop.Notifications`) |
-| MPRIS media control | D-Bus (`org.mpris.MediaPlayer2`) |
-| System tray (SNI) | D-Bus (`org.kde.StatusNotifierWatcher`) |
-| Portal access | D-Bus (`org.freedesktop.portal.*`) |
-| systemd unit management | D-Bus (`org.freedesktop.systemd1`) |
-| DNS resolution | Varlink (`io.systemd.Resolve`) |
-| Journal streaming | Varlink (`io.systemd.Journal`) |
-| New system service (2025+) | Varlink (preferred for new code) |
-| Writing a Quickshell service | D-Bus (better tooling support) |
-
-Varlink is gaining ground for system-level services but has not displaced D-Bus
-for desktop/user-session services. Both will coexist for the foreseeable future.
+As a quick rule of thumb: use **D-Bus** for anything desktop/session-facing
+(notifications, MPRIS, portals, system tray, Quickshell services) and
+**Varlink** for new system-level services and existing `io.systemd.*`
+interfaces (DNS resolution, journal streaming, user database). See
+**Ch 98 §98.8** for the full decision guide with a comprehensive comparison
+table.
 
 ---
 

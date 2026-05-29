@@ -176,7 +176,7 @@ The "Configure Active Theme" tab exposes per-theme overrides: you can adjust opa
 
 | Theme | Style | Source |
 |---|---|---|
-| Catppuccin-Kvantum | Mocha/Macchiato/Frappe/Latte | github.com/catppuccin/Kvantum |
+| Catppuccin-Kvantum | Mocha/Macchiato/Frappé/Latte | github.com/catppuccin/Kvantum |
 | Gruvbox-Kvantum | Gruvbox Dark/Light variants | github.com/theglitchh/kvantum-gruvbox |
 | Nordic-Kvantum | Nord-inspired blue-grey | github.com/EliverLara/Nordic |
 | Orchid | Purple/translucent modern | included in kvantum package |
@@ -506,12 +506,14 @@ fc-match "JetBrains Mono"
 
 The main user fontconfig file lives at `~/.config/fontconfig/fonts.conf`. A well-tuned config for modern LCD displays:
 
+For a complete, annotated fontconfig template see Ch 87 §87.9. The Qt-relevant family preferences are:
+
 ```xml
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
 
-  <!-- Default fonts by purpose -->
+  <!-- Qt UI font preferences -->
   <alias>
     <family>sans-serif</family>
     <prefer>
@@ -535,37 +537,6 @@ The main user fontconfig file lives at `~/.config/fontconfig/fonts.conf`. A well
       <family>Noto Sans Mono</family>
     </prefer>
   </alias>
-
-  <!-- Hinting and antialiasing for LCD displays -->
-  <match target="font">
-    <edit name="antialias" mode="assign">
-      <bool>true</bool>
-    </edit>
-    <edit name="hinting" mode="assign">
-      <bool>true</bool>
-    </edit>
-    <edit name="hintstyle" mode="assign">
-      <const>hintslight</const>
-    </edit>
-    <edit name="rgba" mode="assign">
-      <const>rgb</const>    <!-- Use 'none' for OLED, 'rgb' for LCD -->
-    </edit>
-    <edit name="lcdfilter" mode="assign">
-      <const>lcddefault</const>
-    </edit>
-    <edit name="autohint" mode="assign">
-      <bool>false</bool>
-    </edit>
-  </match>
-
-  <!-- Bitmap fonts: disable for clean scalable rendering -->
-  <selectfont>
-    <rejectfont>
-      <pattern>
-        <patelt name="scalable"><bool>false</bool></patelt>
-      </pattern>
-    </rejectfont>
-  </selectfont>
 
 </fontconfig>
 ```
@@ -763,7 +734,7 @@ QT_QPA_PLATFORM=xcb qt5ct
 
 ---
 
-*See also: Ch 35 (GTK theming and gtk.css), Ch 40 (Stylix automated theming), Ch 53 (session startup and environment injection), Ch 55 (icon and cursor themes)*
+*See also: Ch 35 (GTK theming and gtk.css), Ch 37 (icon, cursor, and font themes), Ch 40 (Stylix automated theming), Ch 53 (session startup and environment injection)*
 
 ---
 

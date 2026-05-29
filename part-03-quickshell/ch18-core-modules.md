@@ -6,7 +6,7 @@ The `Quickshell.Io` module is the primary interface between your Quickshell shel
 
 This chapter walks through every major type in the `Io` module with complete, copy-paste-ready examples. Each section builds on the previous: you will see how `Process` feeds into `StdioCollector`, how `StdioCollector` feeds into `JsonAdapter`, and how `IpcHandler` lets external scripts drive your running shell. Readers who are already comfortable with QML property bindings will find these APIs natural; newcomers should first read Chapter 14 (QML Fundamentals) before proceeding.
 
-Cross-references: Chapter 17 covers the Quickshell object lifecycle and `ShellRoot`. Chapter 19 covers the `Widgets` module. Chapter 22 covers Hyprland-specific IPC helpers built on top of these primitives. Chapter 53 covers session startup and service dependencies.
+Cross-references: Chapter 17 covers the Quickshell object lifecycle and `ShellRoot`. Chapter 19 covers the `Widgets` module. Chapter 20 covers Hyprland-specific IPC helpers built on top of these primitives. Chapter 53 covers session startup and service dependencies.
 
 ---
 
@@ -486,7 +486,7 @@ Each `DBusMenuItem` has:
 ```qml
 // Minimal tray icon with right-click menu
 import Quickshell
-import Quickshell.DBus
+import Quickshell.DBusMenu
 import QtQuick
 import QtQuick.Controls
 

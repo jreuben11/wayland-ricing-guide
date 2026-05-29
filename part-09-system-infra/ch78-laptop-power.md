@@ -865,7 +865,7 @@ sudo systemctl status cpupower.service
 ---
 
 *See also: Ch 22 (UPower D-Bus integration), Ch 53 (session startup and autostart),
-Ch 60 (Hyprland idle management with hypridle), Ch 79 (display and monitor management).*
+Ch 60 (Hyprland idle management with hypridle), Ch 33 (display and monitor management).*
 
 ---
 

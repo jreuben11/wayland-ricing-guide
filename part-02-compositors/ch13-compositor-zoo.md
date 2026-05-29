@@ -679,7 +679,7 @@ for the login screen.
 | gamescope    | wlroots   | C++      | N/A          | Yes  | Yes  | CLI flags    | Gaming sessions              |
 | cage         | wlroots   | C        | None         | No   | No   | None         | Kiosk / embedded             |
 | weston       | Various   | C        | None         | No   | Yes  | weston.ini   | Protocol dev / testing       |
-| Hyprland     | wlroots   | C++      | Dynamic      | Yes  | Yes  | hyprland.conf| Ricing power users           |
+| Hyprland     | Aquamarine | C++      | Dynamic      | Yes  | Yes  | hyprland.conf| Ricing power users           |
 | Sway         | wlroots   | C        | i3-style     | No   | Yes  | sway config  | i3 migrants                  |
 | niri         | Smithay   | Rust     | Scrollable   | Yes  | Yes  | KDL          | Scrollable-tiling aficionados|
 

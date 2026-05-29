@@ -785,7 +785,7 @@ output "ASUS ASCQ MG279QR SN123456" position 2560,0 mode 2560x1440@144Hz scale 1
 
 ## Cross-References
 
-- **Ch 31** — Compositor configuration basics (sway, Hyprland, niri); where output config sections live in each compositor's config file.
+- **Ch 7, 8, 11** — Compositor configuration basics (sway, Hyprland, niri); where output config sections live in each compositor's config file.
 - **Ch 41** — Per-application environment variables for scaling, DPI, and Wayland/X11 backend selection.
 - **Ch 52** — Waybar multi-monitor configuration and output assignment.
 - **Ch 53** — Session startup: ordering kanshi, waybar, and other daemons with systemd user services.

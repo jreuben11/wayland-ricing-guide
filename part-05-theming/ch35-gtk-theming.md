@@ -6,7 +6,7 @@ Most Linux desktop applications are GTK-based. From GNOME's own apps to cross-de
 
 This chapter covers both models in depth. You will learn how to install and activate themes, apply CSS overrides, handle the libadwaita controversy, wire GTK theming into Wayland sessions without an X server, configure dark mode via the freedesktop portal stack, and debug the inevitable mismatches. The treatment is practical: every configuration shown here has been verified to work in a pure Wayland environment with common compositors (Hyprland, Sway, river).
 
-Cross-reference: For cursor theming specifically, see Ch 36. For icon themes, see Ch 37. For Wayland session startup ordering (which affects when GTK settings are loaded), see Ch 53. For KDE Qt theming on a mixed GTK/Qt desktop, see Ch 38.
+Cross-reference: For cursor theming specifically, see Ch 37. For icon themes, see Ch 37. For Wayland session startup ordering (which affects when GTK settings are loaded), see Ch 53. For KDE Qt theming on a mixed GTK/Qt desktop, see Ch 36.
 
 ---
 
@@ -64,7 +64,7 @@ gsettings get org.gnome.desktop.interface gtk-theme
 gtk-theme-name=Catppuccin-Mocha-Standard-Mauve-0.7.0
 gtk-application-prefer-dark-theme=1
 gtk-icon-theme-name=Papirus-Dark
-gtk-cursor-theme-name=Catppuccin-Mocha-Dark-Cursors
+gtk-cursor-theme-name=catppuccin-mocha-dark-cursors
 gtk-cursor-theme-size=24
 gtk-font-name=Inter 11
 gtk-button-images=0
@@ -209,7 +209,7 @@ For Sway, Hyprland, river, and similar compositors, the safest approach is to se
 ```ini
 env = GTK_THEME,Catppuccin-Mocha-Standard-Mauve-0.7.0:dark
 env = GTK2_RC_FILES,/dev/null
-env = XCURSOR_THEME,Catppuccin-Mocha-Dark-Cursors
+env = XCURSOR_THEME,catppuccin-mocha-dark-cursors
 env = XCURSOR_SIZE,24
 ```
 
@@ -225,7 +225,7 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 set $gnome-schema org.gnome.desktop.interface
 exec gsettings set $gnome-schema gtk-theme 'Catppuccin-Mocha-Standard-Mauve-0.7.0'
 exec gsettings set $gnome-schema icon-theme 'Papirus-Dark'
-exec gsettings set $gnome-schema cursor-theme 'Catppuccin-Mocha-Dark-Cursors'
+exec gsettings set $gnome-schema cursor-theme 'catppuccin-mocha-dark-cursors'
 exec gsettings set $gnome-schema cursor-size 24
 exec gsettings set $gnome-schema color-scheme 'prefer-dark'
 ```
@@ -271,7 +271,7 @@ On NixOS or any system using Home Manager, GTK configuration is declarative and 
     enable = true;
 
     theme = {
-      name = "Catppuccin-Mocha-Standard-Mauve-0.7.0";
+      name = "catppuccin-mocha-mauve-standard+default";
       package = pkgs.catppuccin-gtk.override {
         accents = [ "mauve" ];
         size = "standard";
@@ -286,7 +286,7 @@ On NixOS or any system using Home Manager, GTK configuration is declarative and 
     };
 
     cursorTheme = {
-      name = "Catppuccin-Mocha-Dark-Cursors";
+      name = "catppuccin-mocha-dark-cursors";
       size = 24;
       package = pkgs.catppuccin-cursors.mochaDark;
     };
@@ -327,9 +327,9 @@ On NixOS or any system using Home Manager, GTK configuration is declarative and 
   # Ensure dconf settings propagate for GNOME apps
   dconf.settings = {
     "org/gnome/desktop/interface" = {
-      gtk-theme = "Catppuccin-Mocha-Standard-Mauve-0.7.0";
+      gtk-theme = "catppuccin-mocha-mauve-standard+default";
       icon-theme = "Papirus-Dark";
-      cursor-theme = "Catppuccin-Mocha-Dark-Cursors";
+      cursor-theme = "catppuccin-mocha-dark-cursors";
       cursor-size = 24;
       color-scheme = "prefer-dark";
       font-name = "Inter 11";
@@ -420,7 +420,7 @@ Choosing a GTK theme involves balancing visual coherence, maintenance status, GT
 | Nordic | Yes | No | Via Gradience | github.com/EliverLara/Nordic |
 | Everforest | Yes | Partial | Via Gradience | github.com/Fausto-Korpsvart/Everforest-GTK-Theme |
 
-**Catppuccin-GTK** is the most maintained multi-flavor theme as of 2025, with Latte, Frappe, Macchiato, and Mocha variants, each in multiple accent colors. It ships a Gradience preset alongside the CSS theme:
+**Catppuccin-GTK** is the most maintained multi-flavor theme as of 2025, with Latte, Frappé, Macchiato, and Mocha variants, each in multiple accent colors. It ships a Gradience preset alongside the CSS theme:
 
 ```bash
 # Install via AUR (Arch):

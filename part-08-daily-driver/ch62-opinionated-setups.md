@@ -552,8 +552,7 @@ For font configuration, Omarchy's font stack is an excellent reference. It
 installs `ttf-jetbrains-mono-nerd`, `noto-fonts`, `noto-fonts-emoji`, and
 `noto-fonts-cjk` as a complete set that covers Latin, CJK, emoji, and Nerd Font
 icons in a single coherent family. This prevents the "missing glyph rectangle"
-problem in status bars and terminals. See Ch 55 for the full font configuration
-chapter.
+problem in status bars and terminals. See Ch 37 for font installation and configuration.
 
 ## 62.9 Customizing From a Base
 

@@ -919,7 +919,7 @@ dbus-monitor "interface='org.freedesktop.Notifications',member='Notify'" 2>/dev/
 
 ---
 
-*See also: Ch 22 (Quickshell notification widgets), Ch 27 (Waybar status bar integration), Ch 53 (session startup and systemd user services), Ch 31 (screenshot and clipboard tools).*
+*See also: Ch 22 (Quickshell notification widgets), Ch 26 (Waybar status bar integration), Ch 53 (session startup and systemd user services), Ch 31 (screenshot and clipboard tools).*
 
 ---
 

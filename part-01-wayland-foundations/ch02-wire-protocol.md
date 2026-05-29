@@ -6,7 +6,7 @@ Wayland's wire protocol is the backbone of every interaction between a client ap
 
 This chapter dissects the Wayland wire protocol in depth. We start with the Unix domain socket transport layer, move through the binary message format, examine the object model and lifecycle, and conclude with the global registry pattern that underpins all capability negotiation. By the end you will be able to read raw protocol dumps, write a minimal client from scratch in C, and understand exactly why Wayland behaves the way it does.
 
-All material here builds on Chapter 1's overview of the compositor architecture. The protocol extensions discussed in Chapter 7 (xdg-shell) and Chapter 12 (wlr-layer-shell) are implemented as layers on top of the foundations described here. See Chapter 53 for session startup and how the `WAYLAND_DISPLAY` socket path is established before any client connects.
+All material here builds on Chapter 1's overview of the compositor architecture. The protocol extensions discussed in Chapter 3 (xdg-shell) and Chapter 3 (wlr-layer-shell) are implemented as layers on top of the foundations described here. See Chapter 53 for session startup and how the `WAYLAND_DISPLAY` socket path is established before any client connects.
 
 ---
 
@@ -270,7 +270,7 @@ A `wl_buffer` wraps a region of memory containing rendered pixels. The two commo
 
 **`wl_shm` (shared memory):** Allocates a `memfd` or `shm_open` file, maps it in both the client and compositor, and passes the fd via `SCM_RIGHTS`. Simple and universally supported. Involves a CPU memory copy when the compositor composites.
 
-**`zwp_linux_dmabuf_v1` (DMA-BUF):** Uses a GPU-allocated buffer represented by a DMA-BUF file descriptor. Enables true zero-copy rendering when the compositor also uses the GPU. Required for hardware-accelerated clients. Covered in depth in Chapter 5.
+**`zwp_linux_dmabuf_v1` (DMA-BUF):** Uses a GPU-allocated buffer represented by a DMA-BUF file descriptor. Enables true zero-copy rendering when the compositor also uses the GPU. Required for hardware-accelerated clients. Covered in depth in Chapter 63.
 
 ### `wl_shm` Buffer from Scratch
 
@@ -575,7 +575,7 @@ If a required global (e.g., `zwlr_layer_shell_v1`) is absent:
 
 The Wayland wire protocol is compact and well-structured. Every message is an 8-byte header plus typed arguments. Objects are numeric IDs with lifecycles governed by `new_id` and destructor requests. The global registry is the universal capability discovery mechanism, with version negotiation built in. Surfaces are the rendering primitive; their state is double-buffered and committed atomically. Frame callbacks pace rendering to vsync, and damage regions minimize compositor work.
 
-With these foundations, you can understand every subsequent chapter's protocol interactions. Chapter 3 introduces `libwayland-client` and `libwayland-server` in depth. Chapter 7 builds on this to explain the `xdg-shell` role protocol for standard windows. Chapter 12 covers `wlr-layer-shell` for status bars and overlay surfaces—the bread and butter of Wayland ricing.
+With these foundations, you can understand every subsequent chapter's protocol interactions. Chapter 4 introduces `libwayland-client` programming in depth. Chapter 7 builds on this to explain the `xdg-shell` role protocol for standard windows. Chapter 12 covers `wlr-layer-shell` for status bars and overlay surfaces—the bread and butter of Wayland ricing.
 
 ---
 

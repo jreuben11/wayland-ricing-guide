@@ -8,7 +8,7 @@ The trade-off is that Wayland debugging requires more targeted tooling. You need
 
 A key principle: when a Wayland application misbehaves, always start by confirming it is actually running under Wayland (not silently falling back to XWayland), then verify the session environment variables are correct, and only then reach for protocol-level tracing. Most user-facing bugs are environment misconfiguration, not protocol errors.
 
-Cross-reference: for session startup and environment variable injection, see Ch 12 (Session Management). For toolkit-specific Wayland flags, see Ch 22 (GTK/Qt Wayland Backends). For portal configuration, see Ch 38 (xdg-desktop-portal Setup).
+Cross-reference: for session startup and environment variable injection, see Ch 12 (Session Management). For toolkit-specific Wayland flags, see Ch 22 (GTK/Qt Wayland Backends). For portal configuration, see Ch 52 (xdg-desktop-portal Setup).
 
 ---
 

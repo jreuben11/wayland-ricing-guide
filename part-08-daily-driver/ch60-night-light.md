@@ -6,7 +6,7 @@ Reducing blue light in the evening is one of the most impactful ergonomic tweaks
 
 This chapter covers every major night-light tool available on Wayland as of 2025: `wlsunset` for minimal location-based adjustment, `gammastep` as the direct Redshift successor, `hyprsunset` for Hyprland-native control, and manual approaches via `wlr-randr`. It also covers geolocation via GeoClue2, desktop integration, HDR compatibility caveats, and scripted control through Quickshell and waybar.
 
-Night light is not just aesthetics — it is part of your daily workflow. Integrating it cleanly with session startup (see Ch 53), idle management (see Ch 59), and your status bar (see Ch 45) turns a standalone tool into an ambient, automatic feature of your rice that you never have to think about again.
+Night light is not just aesthetics — it is part of your daily workflow. Integrating it cleanly with session startup (see Ch 53), idle management (see Ch 30), and your status bar (see Ch 45) turns a standalone tool into an ambient, automatic feature of your rice that you never have to think about again.
 
 ## The Wayland Gamma Control Protocol
 
@@ -460,7 +460,7 @@ fi
 
 ### Quickshell Night Light Widget
 
-For Quickshell-based status bars (see Ch 47), you can embed a live night-light toggle with temperature readout:
+For Quickshell-based status bars (see Ch 23), you can embed a live night-light toggle with temperature readout:
 
 ```qml
 // ~/.config/quickshell/nightlight.qml

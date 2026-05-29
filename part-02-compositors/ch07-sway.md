@@ -4,7 +4,7 @@
 
 Sway is the most mature and widely deployed wlroots-based Wayland compositor. Created by Drew DeVault in 2015 as a faithful re-implementation of i3 for Wayland, it has become the go-to compositor for users migrating from X11 who want stability, a proven configuration model, and a rich ecosystem of supporting tools.
 
-Unlike many Wayland compositors that introduce entirely new configuration systems, Sway's explicit design goal is compatibility: if a valid i3 config does not work in Sway, that is treated as a bug. This compatibility guarantee makes migration from i3 essentially frictionless for the vast majority of configurations. The project also maintains the wlroots library — the foundational Wayland compositor toolkit used by Hyprland, Wayfire, River, and many others.
+Unlike many Wayland compositors that introduce entirely new configuration systems, Sway's explicit design goal is compatibility: if a valid i3 config does not work in Sway, that is treated as a bug. This compatibility guarantee makes migration from i3 essentially frictionless for the vast majority of configurations. The project also maintains the wlroots library — the foundational Wayland compositor toolkit used by Wayfire, River, and many others.
 
 This chapter covers Sway from first boot through advanced scripting and multi-monitor configurations. Readers already familiar with i3 can skip to Section 7.3 for Wayland-specific differences and Section 7.5 for IPC scripting. For session startup and PAM/logind integration, see **Ch 53: Session Management on Wayland**.
 
@@ -16,7 +16,7 @@ Sway was born from frustration. In 2015 Drew DeVault was a dedicated i3 user who
 
 The "if it doesn't work like i3, it's a bug" policy is not marketing — it is a documented development constraint enforced during code review. This means that when you read an i3 user guide, nearly all configuration directives translate directly. The only deliberate exceptions are features that are architecturally impossible under Wayland's security model (such as global X11 hotkeys for arbitrary windows) or that have been superseded by Wayland-native equivalents.
 
-Critically, Sway's team also maintains **wlroots**, the compositor toolkit library. This dual role means Sway gets first access to new wlroots features and that wlroots APIs are shaped partly by Sway's needs. Other compositors (Hyprland, River, Wayfire) consume wlroots but do not control its roadmap in the same way. As of 2026, Sway runs on wlroots 0.18+ and requires a kernel with DRM/KMS support (5.15+ recommended, 6.1 LTS or newer preferred).
+Critically, Sway's team also maintains **wlroots**, the compositor toolkit library. This dual role means Sway gets first access to new wlroots features and that wlroots APIs are shaped partly by Sway's needs. Other compositors (River, Wayfire) consume wlroots but do not control its roadmap in the same way. As of 2026, Sway runs on wlroots 0.18+ and requires a kernel with DRM/KMS support (5.15+ recommended, 6.1 LTS or newer preferred).
 
 Current maintainership has stabilized around a small core team after Drew DeVault stepped back from day-to-day development. The project follows a conservative release cadence: major releases ship when stable, not on a calendar schedule. This makes Sway a dependable foundation for production ricing work where you don't want a compositor update to break your workflow mid-project.
 
@@ -865,7 +865,7 @@ bindsym ctrl+Print             exec grim -g "$(swaymsg -t get_tree | \
 
 ## 7.8 Sway vs. Hyprland: Choosing Your Path
 
-Both Sway and Hyprland are wlroots-based tiling compositors with active communities. The choice is not about which is "better" — it is about which tradeoffs serve your workflow.
+Sway is wlroots-based; Hyprland uses its own Aquamarine backend. Both are tiling compositors with active communities. The choice is not about which is "better" — it is about which tradeoffs serve your workflow.
 
 ### Feature Comparison
 
@@ -874,7 +874,7 @@ Both Sway and Hyprland are wlroots-based tiling compositors with active communit
 | Config language | i3-compatible text | Custom declarative DSL |
 | Animations | None (by design) | Rich, GPU-accelerated |
 | Window blur | No | Yes (blur for floating) |
-| Rounding | No (use picom hack) | Native border-radius |
+| Rounding | No (not supported natively) | Native border-radius |
 | Multi-monitor | Excellent, battle-tested | Excellent, but historically buggier |
 | XWayland | Stable | Stable (optional rootful XWayland) |
 | Stability | Very high | High (occasional regressions) |

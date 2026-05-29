@@ -231,7 +231,7 @@ QT_WAYLAND_DISABLE_WINDOWDECORATION=1  # use compositor-side decorations
 XCURSOR_THEME=Adwaita        # cursor theme for Wayland Qt
 XCURSOR_SIZE=24
 
-# Electron applications (Electron 22+)
+# Electron applications (Electron 20+)
 ELECTRON_OZONE_PLATFORM_HINT=wayland
 
 # SDL2
@@ -367,13 +367,13 @@ wayland-info | grep interface | awk '{print $3}' | tr -d "'" | sort
 
 Not all Wayland protocols are relevant to desktop ricing. The following are the ones you will encounter most often in subsequent chapters of this book.
 
-**`zwlr_layer_shell_v1`** — The most important protocol for ricing. It allows clients to create surfaces that are pinned to screen edges, rendered above or below regular windows, and excluded from the tiling layout. Bars (waybar, eww, ironbar), wallpaper daemons (swww, hyprpaper), notification daemons (dunst, mako), and lock screens (swaylock) all use this protocol. See **Ch 8** for layer-shell surface configuration.
+**`zwlr_layer_shell_v1`** — The most important protocol for ricing. It allows clients to create surfaces that are pinned to screen edges, rendered above or below regular windows, and excluded from the tiling layout. Bars (waybar, eww, ironbar), wallpaper daemons (swww, hyprpaper), notification daemons (dunst, mako), and lock screens (swaylock) all use this protocol. See **Ch 3** (§3.4) for layer-shell surface configuration.
 
 **`xdg_output_unstable_v1`** / **`wl_output`** — Describes monitor geometry including logical vs. physical coordinates, scale factor, and refresh rate. Essential for multi-monitor configurations. See **Ch 5** for output management.
 
-**`zwlr_screencopy_v1`** — Allows clients to capture the screen. Used by screenshot tools (`grim`), screen recorders, and remote desktop implementations. See **Ch 47** for screen capture tooling.
+**`zwlr_screencopy_v1`** — Allows clients to capture the screen. Used by screenshot tools (`grim`), screen recorders, and remote desktop implementations. See **Ch 31** (Screenshots and Recording: grim, slurp, wf-recorder, OBS) for screen capture tooling.
 
-**`wp_fractional_scale_v1`** / **`wp_viewport`** — Enables non-integer HiDPI scaling (e.g., 1.5×, 1.75×) without blurriness. Requires compositor support and toolkit support (GTK4 ≥ 4.10, Qt6 ≥ 6.4). See **Ch 6** for HiDPI configuration.
+**`wp_fractional_scale_v1`** / **`wp_viewport`** — Enables non-integer HiDPI scaling (e.g., 1.5×, 1.75×) without blurriness. Requires compositor support and toolkit support (GTK4 ≥ 4.10, Qt6 ≥ 6.4). See **Ch 41** for HiDPI and fractional scaling configuration.
 
 **`ext_session_lock_v1`** — Standardised screen lock protocol, replacing the wlroots-specific `zwlr_input_inhibitor_v1`. Swaylock 1.7+, hyprlock use this. See **Ch 53** for session startup and lock screen configuration.
 

@@ -17,7 +17,7 @@ chapter walks through the library's architecture, backend system, protocol
 implementations, scene graph API, and input model so you can debug with confidence
 and, if you want to, write your own compositor.
 
-Cross-references: See Ch 04 (Wayland Protocol Deep-Dive) for the protocol layer that
+Cross-references: See Ch 01–02 (Wayland Protocol Architecture and Wire Protocol) for the protocol layer that
 wlroots implements, Ch 06 (Sway) for the most mature wlroots consumer, and Ch 53
 (Session Startup) for how a wlroots compositor is launched by a display manager or
 login shell.

@@ -21,7 +21,7 @@ This includes Hyprland, Sway, River, Wayfire, labwc, and most wlroots-based comp
 and KDE Plasma use their own layer-shell extensions and are not compatible with these tools.
 
 See **Ch 08** for compositor fundamentals and protocol details, **Ch 53** for session startup
-ordering, and **Ch 31** for pywal/matugen color scheme pipelines that feed into wallpaper scripts.
+ordering, and **Ch 38** for pywal/matugen color scheme pipelines that feed into wallpaper scripts.
 
 ---
 
@@ -608,7 +608,7 @@ ShellRoot {
 }
 ```
 
-See **Ch 42** for a deeper introduction to Quickshell and WlrLayershell surface configuration.
+See **Ch 15** for a deeper introduction to Quickshell and WlrLayershell surface configuration.
 
 ---
 
@@ -626,7 +626,7 @@ each wallpaper change makes your entire desktop theme — bar colors, terminal c
 GTK colors — shift to match the new image automatically. This is the centerpiece of the "unified
 aesthetic" rice philosophy.
 
-See **Ch 31** for pywal and matugen color pipeline configuration, and **Ch 53** for session
+See **Ch 38** for pywal and matugen color pipeline configuration, and **Ch 53** for session
 startup ordering that ensures wallpaper and color schemes are applied before the bar renders.
 
 **Random wallpaper script with swww:**
@@ -867,7 +867,7 @@ regenerate via a pywal template and then send SIGHUP to running instances.
 
 ---
 
-*See also:* **Ch 31** — pywal and matugen color pipelines | **Ch 42** — Quickshell shell
+*See also:* **Ch 38** — pywal and matugen color pipelines | **Ch 15** — Quickshell shell
 framework | **Ch 53** — Session startup ordering | **Ch 08** — Wayland protocol fundamentals
 
 ---

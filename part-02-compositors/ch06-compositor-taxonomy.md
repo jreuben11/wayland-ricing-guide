@@ -45,7 +45,7 @@ Ricers overwhelmingly prefer declarative text configs because they compose well 
 
 | Base | Language | Compositors Built On It |
 |------|----------|------------------------|
-| **wlroots** | C | Sway, Hyprland, river, dwl, labwc, Wayfire, niri (partial) |
+| **wlroots** | C | Sway, river, dwl, labwc, Wayfire |
 | **Smithay** | Rust | niri, cosmic-comp, Anvil |
 | **KWin** | C++ / QML | KDE Plasma, Plasma Mobile, lxqt-kwin |
 | **Mutter** | C / GObject | GNOME Shell, Phosh |
@@ -74,7 +74,7 @@ The dwm-inherited tag model is underappreciated: a window can be on multiple tag
 | **Moderate** | Bezier-curve window animations, configurable | Hyprland, KWin |
 | **Heavy / showcase** | 3D cube, wobbly windows, fire effects | Wayfire, KDE desktop effects |
 
-Animation has a real latency cost. "Snappy" animations (30–80 ms) improve perceived responsiveness. Animations beyond ~200 ms actively slow work. Hyprland's `animation` stanza gives per-event, per-curve control; see Chapter 9 for tuning.
+Animation has a real latency cost. "Snappy" animations (30–80 ms) improve perceived responsiveness. Animations beyond ~200 ms actively slow work. Hyprland's `animation` stanza gives per-event, per-curve control; see Chapter 8 for tuning.
 
 ---
 
@@ -137,7 +137,7 @@ Manual tiling compositors give the user complete, explicit control over window p
 
 Sway's container model: every output contains a tree of containers. Containers are either workspaces, horizontal splits, vertical splits, tabbed stacks, or stacked groups. Windows are leaves. You navigate and operate on this tree using keyboard shortcuts. The `swaymsg` command introspects and modifies the tree at runtime.
 
-**dwl** (dwm for Wayland) is an ultra-minimal wlroots-based compositor that ports the dwm model. It is not a compositor you configure with a file — you patch and recompile the C source. This makes it extremely lightweight (<3000 lines of code) and infinitely customisable if you read C, but impractical for users who want configuration without compilation.
+**dwl** (dwm for Wayland) is an ultra-minimal wlroots-based compositor that ports the dwm model. It is not a compositor you configure with a file — you patch and recompile the C source. This makes it extremely lightweight (<2000 lines of code) and infinitely customisable if you read C, but impractical for users who want configuration without compilation.
 
 ```bash
 # Install Sway on Fedora
@@ -406,14 +406,14 @@ chmod +x ~/.config/river/init
 
 Plugin-based compositors expose their rendering and behaviour through a plugin/extension API. Rather than baking every feature into the compositor core, they provide hooks where external code (loaded as shared libraries, Lua scripts, or QML) can intercept rendering, input, and window management events.
 
-**Wayfire** is the primary wlroots-based plugin compositor. Its plugin architecture uses a C++ ABI: plugins implement well-defined interfaces (output, view, input transformer, etc.) and are loaded as `.so` files at startup. The `wf-config` system provides a structured INI-like config (`~/.config/wayfire.ini`) with per-plugin sections. The **WCM** (Wayfire Config Manager) is a GTK GUI for `wayfire.ini`, but config-file editing is equally effective.
+**Wayfire** is the primary wlroots-based plugin compositor. Its plugin architecture uses a C++ ABI: plugins implement well-defined interfaces (output, view, input transformer, etc.) and are loaded as `.so` files at startup. The `wf-config` system provides a structured INI-like config (`~/.config/wayfire/wayfire.ini`) with per-plugin sections. The **WCM** (Wayfire Config Manager) is a GTK GUI for `wayfire.ini`, but config-file editing is equally effective.
 
 Wayfire ships with plugins for: grid tiling, expo (zoomed-out workspace overview), cube (3D rotating workspace cube), wobbly windows (simulating cloth physics), annotate (drawing on screen), and many more. The full community plugin list lives at `https://github.com/WayfireWM/wayfire-plugins-extra`.
 
 **KWin Scripts** extend KWin in QML and JavaScript. A KWin Script can respond to any window lifecycle event, move or resize windows, change virtual desktops, or trigger system actions. This is how third-party tiling layouts (e.g., `kwin-bismuth`, `kwin-polonium`) are implemented on KDE without forking KWin itself. Scripts are installed through KDE's store or manually into `~/.local/share/kwin/scripts/`.
 
 ```ini
-# ~/.config/wayfire.ini — annotated example with common plugins
+# ~/.config/wayfire/wayfire.ini — annotated example with common plugins
 
 [core]
 plugins = required autostart wm-actions fast-switcher resize move place \
@@ -493,7 +493,7 @@ cd polonium && make install
 
 Scrollable compositors abandon the discrete workspace metaphor entirely. Instead of switching between numbered workspaces, windows are arranged on a continuous strip (or plane), and you navigate by panning. This mirrors the spatial memory model of a physical desk: you know roughly "where" each window lives and pan to it.
 
-**niri** (written in Rust on Smithay) is the primary production-quality scrollable compositor. Its model is a horizontal strip: windows tile vertically within columns, and columns scroll horizontally. Opening a new window always creates a new column to the right of the current one. This encourages keeping related windows in the same column and browsing laterally across contexts. niri has strong animation support baked in and a KDE-style configuration format.
+**niri** (written in Rust on Smithay) is the primary production-quality scrollable compositor. Its model is a horizontal strip: windows tile vertically within columns, and columns scroll horizontally. Opening a new window always creates a new column to the right of the current one. This encourages keeping related windows in the same column and browsing laterally across contexts. niri has strong animation support baked in and a KDL-format configuration file.
 
 niri's killer feature for context-heavy work is that panning preserves context — you never lose a window because it fell off a workspace. Every window always exists somewhere on the strip; you can always find it by scrolling or using the `niri msg` query interface.
 
@@ -683,7 +683,7 @@ The table below compares every compositor discussed in this chapter across all f
 |------------|-------------|--------------|--------------|-----------|-----------|
 | **Sway** | Manual tiling | Declarative text | wlroots | Numbered workspaces | Subtle (via swayipc) |
 | **dwl** | Manual tiling + tags | C source patch | wlroots | dwm-style tags | None |
-| **Hyprland** | Dynamic (dwindle/master) | Declarative text | wlroots | Named/numbered WS | Heavy, configurable |
+| **Hyprland** | Dynamic (dwindle/master) | Declarative text | Aquamarine | Named/numbered WS | Heavy, configurable |
 | **river** | Dynamic (external generators) | IPC shell script | wlroots | dwm-style tags | None |
 | **Wayfire** | Stacking + grid plugin | INI + plugins | wlroots | Numbered workspaces | Heavy (plugins) |
 | **labwc** | Stacking | XML (OpenBox) | wlroots | Numbered workspaces | Subtle |
@@ -795,7 +795,7 @@ pgrep -a 'sway\|Hyprland\|wayfire\|kwin_wayland\|niri\|river\|cage'
 
 ---
 
-*See Chapter 7 (Sway Deep Dive) and Chapter 9 (Hyprland Deep Dive) for compositor-specific configuration detail. See Chapter 40 for IPC scripting patterns across all compositors. See Chapter 53 for display manager and session startup configuration.*
+*See Chapter 7 (Sway Deep Dive) and Chapter 8 (Hyprland Deep Dive) for compositor-specific configuration detail. See Chapter 40 for IPC scripting patterns across all compositors. See Chapter 53 for display manager and session startup configuration.*
 
 ---
 

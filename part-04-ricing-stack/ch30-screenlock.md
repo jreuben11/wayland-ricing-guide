@@ -6,7 +6,7 @@ Screen locking is one of the most security-sensitive aspects of a desktop enviro
 
 The `ext-session-lock-v1` protocol, ratified and merged into the Wayland protocols repository, is the canonical interface for session locking on Wayland. When a lock client requests a session lock, the compositor grants exclusive control of all outputs and blocks all input routing to other clients until the lock is explicitly unlocked or the locker crashes. Crash recovery is specified in the protocol: the compositor may choose to remain locked if the locker dies unexpectedly, preventing a forced-crash bypass.
 
-This chapter covers the three dominant screen lockers in active use — hyprlock, swaylock, and gtklock — along with their idle management companions (hypridle and swayidle), DPMS control, and advanced patterns like per-application idle inhibition. Whether you are on a wlroots compositor, Hyprland specifically, or something else, you will find a solution here. For session startup configuration that launches these daemons at login, see Ch 53. For integrating lock state with status bars, see Ch 22 (Waybar) and Ch 23 (eww).
+This chapter covers the three dominant screen lockers in active use — hyprlock, swaylock, and gtklock — along with their idle management companions (hypridle and swayidle), DPMS control, and advanced patterns like per-application idle inhibition. Whether you are on a wlroots compositor, Hyprland specifically, or something else, you will find a solution here. For session startup configuration that launches these daemons at login, see Ch 53. For integrating lock state with status bars, see Ch 26 (Waybar, eww, AGS/Astal).
 
 ---
 
@@ -868,7 +868,7 @@ gtklock --modules /usr/lib/gtklock/playerctl-module.so 2>&1
 | hypridle   | Idle management for Hyprland          | `~/.config/hypr/hypridle.conf`         | Hyprland         |
 | swayidle   | Idle management for wlroots           | CLI / systemd unit                     | sway, wlroots    |
 
-For session startup integration that ensures your idle daemon and locker are launched correctly at login, see Ch 53. For status bar indicators that reflect lock/idle state, see Ch 22 (Waybar) and Ch 23 (eww/Quickshell). For PAM and authentication hardening beyond screen locking, see Ch 55 (Security Hardening).
+For session startup integration that ensures your idle daemon and locker are launched correctly at login, see Ch 53. For status bar indicators that reflect lock/idle state, see Ch 26 (Waybar, eww, AGS/Astal). For PAM and authentication hardening beyond screen locking, see Ch 55 (Security Hardening).
 
 ---
 

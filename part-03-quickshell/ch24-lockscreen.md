@@ -6,7 +6,7 @@ Wayland's security model fundamentally changed how lockscreens work compared to 
 
 Quickshell exposes this protocol through `WlSessionLock` and its companion `WlSessionLockSurface`, and provides PAM integration via `Quickshell.Services.Pam`. For the pre-login use case — where no session exists yet — Quickshell integrates with `greetd` through `Quickshell.Services.Greetd`. This chapter covers both paths in depth: building a hardened session lockscreen and building a full greetd login greeter.
 
-Cross-references: See Ch 21 for Quickshell IPC fundamentals (used for external lock triggers), Ch 22 for idle daemon integration, and Ch 53 for session startup configuration with greetd as the display manager.
+Cross-references: See Ch 18 for Quickshell IPC fundamentals (used for external lock triggers), Ch 22 for idle daemon integration, and Ch 53 for session startup configuration with greetd as the display manager.
 
 ---
 

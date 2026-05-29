@@ -6,7 +6,7 @@ Daily package management in a terminal-centric rice benefits enormously from TUI
 
 This chapter covers three distinct package ecosystems — Arch Linux / AUR, NixOS / Nix flakes, and the universal Flatpak system — along with containerization tools (Distrobox) for cross-distro package access. Each section provides installation instructions, daily-use workflows, configuration tips, and integration patterns suited to a Wayland-first environment.
 
-Package manager TUI tools integrate naturally with terminal emulators like Kitty or Foot (see Ch 14) and can be launched from application launchers such as fuzzel or Rofi-Wayland (see Ch 42). When combined with a well-configured shell (Ch 71) and `tmux` or `zellij` session management (Ch 72), package operations become a seamless part of your workflow rather than an interruption.
+Package manager TUI tools integrate naturally with terminal emulators like Kitty or Foot (see Ch 50) and can be launched from application launchers such as fuzzel or Rofi-Wayland (see Ch 28). When combined with a well-configured shell (Ch 51) and `tmux` or `zellij` session management (Ch 72), package operations become a seamless part of your workflow rather than an interruption.
 
 The philosophy throughout is: reduce context-switching, give rich information at the point of decision, and make rollback or cleanup as easy as installation. Each tool covered here satisfies at least two of those three goals.
 
@@ -152,7 +152,7 @@ pacseek stores its configuration at `~/.config/pacseek/config.json`. Useful cust
 }
 ```
 
-To launch pacseek as a floating window from a Hyprland keybind (see Ch 22):
+To launch pacseek as a floating window from a Hyprland keybind (see Ch 8):
 
 ```ini
 # ~/.config/hypr/keybindings.conf
@@ -755,11 +755,11 @@ distrobox create --name ubuntu24 --image ubuntu:24.04 \
 
 ## Cross-References
 
-- Ch 14 — Kitty and Foot terminal configuration (for launching TUIs)
-- Ch 22 — Hyprland keybindings (bind package TUIs to keys)
-- Ch 31 — xdg-desktop-portal setup (required for Flatpak on Wayland)
-- Ch 42 — Application launchers (fuzzel, Rofi-Wayland) for package search integration
-- Ch 71 — Shell configuration (zsh/fish/nushell — AUR helper shell completion)
+- Ch 50 — Kitty and Foot terminal configuration (for launching TUIs)
+- Ch 8 — Hyprland keybindings (bind package TUIs to keys)
+- Ch 52 — xdg-desktop-portal setup (required for Flatpak on Wayland)
+- Ch 28 — Application launchers (fuzzel, Rofi-Wayland) for package search integration
+- Ch 51 — Shell configuration (zsh/fish/nushell — AUR helper shell completion)
 - Ch 72 — Terminal multiplexers (tmux/zellij for persistent build sessions)
 - Ch 84 — System monitoring TUI tools (btop, bottom — for watching builds)
 

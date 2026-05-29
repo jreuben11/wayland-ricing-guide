@@ -679,7 +679,7 @@ editors. Understanding this distinction prevents hours of confused debugging.
 
 **Terminal-based editors** (Neovim in Kitty/Alacritty/foot, Helix) inherit transparency
 from the terminal emulator. Set `background_opacity 0.92` in Kitty's config or the
-equivalent for your terminal (see Ch 55), and Neovim's `transparent_background = true`
+equivalent for your terminal (see Ch 50), and Neovim's `transparent_background = true`
 in its colorscheme opts removes the editor's own background fill so the terminal's
 composited background shows through.
 

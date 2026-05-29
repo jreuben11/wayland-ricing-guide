@@ -21,7 +21,7 @@ methodology. It is structured as a reference you will return to whenever portals
 unexpectedly.
 
 See Ch 53 for session startup ordering (portals must start after the compositor but before
-applications that consume them), and Ch 55 for PipeWire configuration details that affect
+applications that consume them), and Ch 56 for PipeWire configuration details that affect
 the ScreenCast portal.
 
 ---
@@ -805,8 +805,8 @@ interface to the correct backend; export `XDG_CURRENT_DESKTOP` and `WAYLAND_DISP
 the systemd user environment before portals start; and ensure PipeWire is running for
 ScreenCast and Camera interfaces.
 
-See Ch 53 for session startup ordering details, Ch 55 for PipeWire configuration, and
-Ch 47 for Hyprland environment variable management.
+See Ch 53 for session startup ordering details, Ch 56 for PipeWire configuration, and
+Ch 53 for Hyprland environment variable management.
 
 ---
 

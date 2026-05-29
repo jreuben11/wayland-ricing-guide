@@ -692,7 +692,7 @@ When evaluating labwc against alternatives, the axis of comparison is almost alw
 
 | Feature | labwc | KWin (KDE Plasma) | GNOME Mutter | Wayfire |
 |---|---|---|---|---|
-| Configuration format | OpenBox XML | KConfig + KWin scripts | GNOME Settings + Extensions | YAML (wayfire.ini) |
+| Configuration format | OpenBox XML | KConfig + KWin scripts | GNOME Settings + Extensions | INI (wayfire.ini) |
 | Scripting / plugins | None built-in | KWin scripts (JS) | GNOME Shell extensions (JS) | Wayfire plugins (C++) |
 | Tiling support | Edge snap only | KWin tiling plugin | GNOME tiling (limited) | Grid plugin |
 | Animations | Minimal fade | Full GPU animations | Full GPU animations | Plugin-based |
@@ -716,7 +716,7 @@ shell.
 **vs. Wayfire in stacking mode**: Wayfire supports a "stacking" layout through
 configuration but its strength is its plugin architecture for desktop effects and
 tiling. labwc has no plugin system; if you want compositing effects or grid tiling,
-Wayfire is the better base. See Ch 11 for Wayfire coverage.
+Wayfire is the better base. See Ch 09 for Wayfire coverage.
 
 ---
 

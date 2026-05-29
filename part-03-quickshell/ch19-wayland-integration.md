@@ -555,7 +555,7 @@ Note that `Exclusive` keyboard focus on a layer surface will prevent the composi
 
 Wayland compositors expose connected outputs (monitors) via the `wl_output` global, and Quickshell makes these available as `Quickshell.screens`, a reactive list of `QuickshellScreen` objects. When a monitor is connected or disconnected at runtime, the list updates and any `Variants` or `Repeater` bound to it will automatically create or destroy the corresponding surfaces.
 
-Each `QuickshellScreen` carries `name` (the DRM connector name, e.g. `DP-1`, `HDMI-A-1`), `width`, `height`, `scale` (fractional scaling factor), `refreshRate`, and `isPrimary`. Use these to make per-monitor decisions: a secondary display might show a minimal bar without system tray, or a higher DPI screen might use a larger panel height.
+Each `QuickshellScreen` carries `name` (the DRM connector name, e.g. `DP-1`, `HDMI-A-1`), `width`, `height`, `scale` (fractional scaling factor), and `refreshRate`. Use these to make per-monitor decisions: a secondary display might show a minimal bar without system tray, or a higher DPI screen might use a larger panel height. Quickshell does not expose a compositor-defined "primary" concept; use `index === 0` as a proxy for the primary screen when needed.
 
 ```qml
 // Shell root: one bar per screen, adapted to screen capabilities

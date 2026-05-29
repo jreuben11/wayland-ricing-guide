@@ -262,7 +262,7 @@ MouseArea {
 
 ## 17.4 Multi-Monitor Patterns with Variants
 
-The `Variants` type is Quickshell's mechanism for instantiating one QML component per element of a model — and `Quickshell.screens` is the reactive model of all connected outputs. Combining them gives you a bar (or dock, or any surface) that automatically appears on every monitor, adjusts when you hot-plug or unplug a display, and receives the correct `QsScreen` reference for positioning and DPI-aware sizing.
+The `Variants` type is Quickshell's mechanism for instantiating one QML component per element of a model — and `Quickshell.screens` is the reactive model of all connected outputs. Combining them gives you a bar (or dock, or any surface) that automatically appears on every monitor, adjusts when you hot-plug or unplug a display, and receives the correct `QuickshellScreen` reference for positioning and DPI-aware sizing.
 
 The pattern is always the same: wrap your window type in `Variants`, pass `model: Quickshell.screens`, declare `required property var modelData` inside the component, and assign `screen: modelData`. The `required` keyword is important — it causes Quickshell to pass the current screen as a property injection, giving you access to the screen's geometry and name.
 
@@ -278,7 +278,7 @@ Variants {
 
     PanelWindow {
         id: bar
-        required property QsScreen modelData
+        required property QuickshellScreen modelData
 
         screen: modelData
         anchors { top: true; left: true; right: true }
@@ -320,7 +320,7 @@ Variants {
     model: Quickshell.screens
 
     PanelWindow {
-        required property QsScreen modelData
+        required property QuickshellScreen modelData
         required property int index
 
         screen: modelData
@@ -350,9 +350,9 @@ Variants {
 
 ---
 
-## 17.5 Screen Management and QsScreen Properties
+## 17.5 Screen Management and QuickshellScreen Properties
 
-`Quickshell.screens` is a `QML ListModel`-compatible object whose entries are `QsScreen` instances. Each `QsScreen` exposes the output's current configuration as read-only properties. The table below lists the most useful ones.
+`Quickshell.screens` is a `QML ListModel`-compatible object whose entries are `QuickshellScreen` instances. Each `QuickshellScreen` exposes the output's current configuration as read-only properties. The table below lists the most useful ones.
 
 | Property | Type | Description |
 |---|---|---|
@@ -371,7 +371,7 @@ You can use `physicalSize` and `width` to compute the actual DPI of an output an
 
 ```qml
 PanelWindow {
-    required property QsScreen modelData
+    required property QuickshellScreen modelData
     screen: modelData
 
     // Compute logical DPI — use for font scaling
@@ -509,7 +509,7 @@ Variants {
     model: Quickshell.screens
 
     Item {
-        required property QsScreen modelData
+        required property QuickshellScreen modelData
 
         // ---- Top Status Bar ----
         PanelWindow {
@@ -661,7 +661,7 @@ On HiDPI monitors with fractional scaling (e.g., 1.5x), logical pixel sizes may 
 
 ```qml
 PanelWindow {
-    required property QsScreen modelData
+    required property QuickshellScreen modelData
     screen: modelData
 
     // 40 logical pixels, rounded to physical pixel boundary

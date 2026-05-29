@@ -423,7 +423,7 @@ One of Home Manager's most powerful ricing features is unified theming. Instead 
   # Qt theming via qt5ct / kvantum
   qt = {
     enable = true;
-    platformTheme.name = "kvantum";
+    platformTheme.name = "qtct";
     style = {
       name = "kvantum";
       package = pkgs.catppuccin-kvantum.override {
@@ -1036,7 +1036,8 @@ home.packages = lib.mkForce (lib.filter (p: p.pname or "" != "chromium") config.
 ---
 
 *See also:*
-- *Chapter 38 — Theming Fundamentals: GTK/Qt/Icon Themes*
+- *Chapter 35 — GTK Theming: Adwaita, libadwaita, CSS Overrides*
+- *Chapter 36 — Qt and KDE Theming: Kvantum, qt5ct/qt6ct*
 - *Chapter 40 — NixOS System Configuration for Wayland*
 - *Chapter 42 — Quickshell Deep Dive*
 - *Chapter 53 — Session Startup and Autostart*

@@ -54,7 +54,7 @@ to parent-walking.
 
 ```qml
 // hello.qml — minimal working QML file
-import QtQuick 6.0
+import QtQuick
 
 Rectangle {
     id: root
@@ -75,8 +75,8 @@ Rectangle {
 
 ```qml
 // Demonstrating live bindings — width tracks a slider value
-import QtQuick 6.0
-import QtQuick.Controls 6.0
+import QtQuick
+import QtQuick.Controls
 
 Column {
     width: 400; height: 200
@@ -133,7 +133,7 @@ omitted.
 
 ```qml
 // Custom property declarations
-import QtQuick 6.0
+import QtQuick
 
 Rectangle {
     id: root
@@ -161,7 +161,7 @@ Rectangle {
 ```qml
 // Using the above component from a parent file
 // (assuming the file above is saved as AccentLabel.qml)
-import QtQuick 6.0
+import QtQuick
 
 Column {
     spacing: 8
@@ -207,7 +207,7 @@ The engine breaks the loop by not propagating the update, which typically causes
 a frozen or zero value. Always keep the dependency graph acyclic.
 
 ```qml
-import QtQuick 6.0
+import QtQuick
 
 Item {
     id: root
@@ -281,7 +281,7 @@ parameter types, or you will get a type coercion warning at runtime.
 
 ```qml
 // Custom signal with parameter
-import QtQuick 6.0
+import QtQuick
 
 Rectangle {
     id: button
@@ -311,7 +311,7 @@ Rectangle {
 
 ```qml
 // Using connect() for programmatic wiring
-import QtQuick 6.0
+import QtQuick
 
 Item {
     width: 400; height: 200
@@ -369,7 +369,7 @@ global object, `XMLHttpRequest` for HTTP, and QML-provided APIs for file I/O
 
 ```qml
 // Block-form binding with conditional logic
-import QtQuick 6.0
+import QtQuick
 
 Item {
     property real cpuUsage: 0.72   // 72%
@@ -410,7 +410,7 @@ function lerp(a, b, t) {
 
 ```qml
 // Importing and using utils.js
-import QtQuick 6.0
+import QtQuick
 import "utils.js" as Utils
 
 Text {
@@ -451,7 +451,7 @@ optionally a `header`, `footer`, and `section.delegate`.
 
 ```qml
 // Inline Component with Loader — toggle a heavy panel
-import QtQuick 6.0
+import QtQuick
 
 Item {
     width: 400; height: 300
@@ -505,7 +505,7 @@ Item {
 
 ```qml
 // Repeater with ListModel — workspace switcher
-import QtQuick 6.0
+import QtQuick
 
 Row {
     spacing: 4
@@ -565,7 +565,7 @@ level, to avoid initialization ordering issues.
 ```qml
 // Theme.qml — a custom global theme singleton
 pragma Singleton
-import QtQuick 6.0
+import QtQuick
 
 QtObject {
     id: root
@@ -612,7 +612,7 @@ QtObject {
 
 ```qml
 // Using the Theme singleton from any other file
-import QtQuick 6.0
+import QtQuick
 import "." as Local   // or however your module is structured
 
 Rectangle {
@@ -662,7 +662,7 @@ restores them in the new instance.
 
 ```qml
 // shell.qml — canonical Quickshell entry point
-import QtQuick 6.0
+import QtQuick
 import Quickshell 0.1
 
 ShellRoot {
@@ -712,7 +712,7 @@ ShellRoot {
 
 ```qml
 // Scope — non-visual grouping with shared properties
-import QtQuick 6.0
+import QtQuick
 import Quickshell 0.1
 
 ShellRoot {
@@ -771,7 +771,7 @@ Common runtime errors and their meanings:
 
 ```qml
 // Defensive null-checking pattern
-import QtQuick 6.0
+import QtQuick
 
 Loader {
     id: myLoader
@@ -851,9 +851,9 @@ that you expected to be opaque.
 - **Ch 14** — Installing and launching Quickshell, config directory layout
 - **Ch 15** — `shell.qml` structure, `ShellRoot` deep-dive, module loading
 - **Ch 17** — `PanelWindow` and Wayland layer-shell protocol integration
-- **Ch 18** — Anchoring, layout types (`Row`, `Column`, `Grid`, `StackLayout`)
-- **Ch 21** — Connecting QML to D-Bus services via Quickshell's DBus module
-- **Ch 24** — The `Process` type: spawning subprocesses and parsing stdout
+- **Ch 17** — Anchoring, layout types (`Row`, `Column`, `Grid`, `StackLayout`) with `PanelWindow`
+- **Ch 22** — Connecting QML to D-Bus services via Quickshell's DBus module
+- **Ch 18** — Core Modules: Io, DBusMenu, Singletons — `Process`, `FileView`, `Socket`, `IpcHandler`
 - **Ch 29** — Animations and `Behavior` blocks for smooth UI transitions
 - **Ch 35** — Theme singletons in practice: live color scheme switching
 - **Ch 53** — Session startup: launching Quickshell from a systemd user unit

@@ -584,7 +584,7 @@ gdbus introspect --session --dest org.a11y.atspi.Registry \
   --object-path /org/a11y/atspi/accessible/root 2>/dev/null | head -40
 ```
 
-See Ch 53 for session startup sequencing, including how to ensure `at-spi2-registryd` launches before graphical applications. See Ch 47 for XDG portals and how `xdg-desktop-portal-accessibility` interfaces with the AT-SPI2 stack on non-GNOME compositors.
+See Ch 53 for session startup sequencing, including how to ensure `at-spi2-registryd` launches before graphical applications. See Ch 52 for XDG portals and how `xdg-desktop-portal-accessibility` interfaces with the AT-SPI2 stack on non-GNOME compositors.
 
 ---
 

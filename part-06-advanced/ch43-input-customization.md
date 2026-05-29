@@ -27,8 +27,7 @@ with production-ready configurations.
 
 See Ch 12 for an overview of Wayland architecture and how compositor, libinput,
 and the kernel interact. See Ch 53 for session startup patterns to auto-launch
-daemons like kanata. See Ch 45 for compositor-specific input event handling in
-Hyprland and Sway.
+daemons like kanata.
 
 ---
 
@@ -1017,8 +1016,8 @@ otd detect
 
 *See also:*
 - *Ch 12 — Wayland Architecture: how libinput fits into the compositor stack*
-- *Ch 44 — Output Configuration: display arrangement and scaling*
-- *Ch 45 — Compositor Keybinds: Hyprland, Sway, and niri bind syntax*
+- *Ch 41 — Multi-Monitor, HiDPI, and Fractional Scaling*
+- *Ch 45 — Debugging Wayland: WAYLAND_DEBUG, weston-info, wldbg*
 - *Ch 47 — Drawing Tablet Workflows: pressure curves and stylus configuration*
 - *Ch 53 — Session Startup: autostarting daemons with systemd user services*
 

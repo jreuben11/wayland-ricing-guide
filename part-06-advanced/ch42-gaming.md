@@ -71,9 +71,8 @@ the compositing overhead, matching X11's bare-metal frame delivery. Enable it in
 ```ini
 # ~/.config/hypr/hyprland.conf
 misc {
-    # Allow direct scanout for fullscreen XWayland clients
-    # (eliminates compositor overhead for fullscreen games)
-    allow_session_lock_restore = true
+    # Enable direct scanout for fullscreen clients (eliminates compositor overhead)
+    no_direct_scanout = false
 }
 
 # Fullscreen optimization rule for all games
@@ -109,7 +108,7 @@ to list all X11 windows, or run `xlsclients` from a terminal after launching the
 gamescope is Valve's dedicated gaming microcompositor, built on wlroots. It wraps a single
 application (or a handful of them, in SteamOS's case) in its own compositor instance, providing
 a controlled rendering environment independent of your desktop compositor. This gives you per-game
-upscaling, VRR, HDR tonemapping, frame limiting, and Mangohud integration without any of those
+upscaling, VRR, HDR tonemapping, frame limiting, and MangoHud integration without any of those
 features needing to be implemented in your desktop compositor.
 
 gamescope can run in two modes. **Nested mode** runs gamescope as a Wayland window inside your
@@ -129,7 +128,7 @@ gamescope -w 1920 -h 1080 -W 2560 -H 1440 --fsr-upscaling --fsr-sharpness 5 -f -
 # Embedded/direct mode: full display takeover, 165Hz, VRR enabled
 gamescope -W 2560 -H 1440 -r 165 --adaptive-sync --hdr-enabled --embedded -- %command%
 
-# Nested, force 1080p output to a 4K display with FSR, with Mangohud
+# Nested, force 1080p output to a 4K display with FSR, with MangoHud
 gamescope -w 1920 -h 1080 -W 3840 -H 2160 --fsr-upscaling --fsr-sharpness 3 --mangoapp -f -- %command%
 
 # Cap frames for battery savings on a laptop

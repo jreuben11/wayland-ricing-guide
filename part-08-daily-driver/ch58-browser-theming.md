@@ -18,7 +18,7 @@ since version 121 (late 2023). Chromium reached comparable maturity slightly lat
 
 This chapter assumes you are running a Wayland compositor (Hyprland, Sway, Niri, or River). For
 session startup details see **Ch 53 — Session Startup and Environment Variables**. For
-portal/file-picker plumbing see **Ch 55 — XDG Desktop Portals**. For pywal/color pipeline
+portal/file-picker plumbing see **Ch 52 — xdg-desktop-portal: Screen Sharing, File Chooser, Settings**. For pywal/color pipeline
 integration see **Ch 47 — Pywal and Automatic Color Theming**.
 
 ---
@@ -66,14 +66,9 @@ rules silently fail.
 # Hyprland rules for Firefox — ~/.config/hypr/hyprland.conf
 windowrulev2 = nomaxsize, class:^(firefox)$
 windowrulev2 = nofloat, class:^(firefox)$, title:^(?!.*Picture-in-Picture).*$
-windowrulev2 = float, class:^(firefox)$, title:^(Picture-in-Picture)$
-windowrulev2 = pin, class:^(firefox)$, title:^(Picture-in-Picture)$
-windowrulev2 = size 480 270, class:^(firefox)$, title:^(Picture-in-Picture)$
-windowrulev2 = move 100%-490 100%-280, class:^(firefox)$, title:^(Picture-in-Picture)$
 ```
 
-The Picture-in-Picture rules pin the floating video overlay to the bottom-right corner —
-a common ricing touch that keeps PiP out of the way while tiling other windows.
+See §58.7 for the complete Hyprland window-rule set including PiP pinning.
 
 ### about:config Flags for Wayland Performance
 
@@ -819,9 +814,9 @@ export GDK_BACKEND=x11
   running `pywalfox update` after palette generation.
 - **Ch 53 — Session Startup and Environment Variables**: Where and how to set `MOZ_ENABLE_WAYLAND`
   and `LIBVA_DRIVER_NAME` so they reach all launched applications.
-- **Ch 55 — XDG Desktop Portals**: How `xdg-desktop-portal-hyprland` (or `-gtk`, `-wlr`) provides
+- **Ch 52 — xdg-desktop-portal: Screen Sharing, File Chooser, Settings**: How `xdg-desktop-portal-hyprland` (or `-gtk`, `-wlr`) provides
   the file picker and screen sharing backends that Firefox uses via `widget.use-xdg-desktop-portal.*`.
-- **Ch 60 — GTK and Qt Application Theming**: The same `GDK_BACKEND` and `QT_QPA_PLATFORM`
+- **Ch 35 — GTK Theming** and **Ch 36 — Qt and KDE Theming**: The same `GDK_BACKEND` and `QT_QPA_PLATFORM`
   variables that affect browsers also affect all GTK/Qt apps — set them consistently.
 - **Ch 44 — Catppuccin End-to-End Theming**: Applying a single Catppuccin flavor across the
   terminal, compositor, bar, and browser simultaneously.

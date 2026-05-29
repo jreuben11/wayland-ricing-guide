@@ -17,8 +17,8 @@ reopen vulnerabilities that Wayland is designed to close.
 We cover the core isolation primitives, the role of XDG portals and Flatpak,
 protocol-level access controls (screencopy, input inhibitor, session lock), and
 practical hardening strategies including Bubblewrap namespaces and the emerging
-`wp-security-context-v1` sandboxing protocol. See Ch 10 for Wayland protocol
-fundamentals, Ch 20 for compositor architecture, and Ch 53 for session startup
+`wp-security-context-v1` sandboxing protocol. See Ch 1 for Wayland protocol
+fundamentals, Ch 5 for compositor building blocks (wlroots), and Ch 53 for session startup
 where security-relevant environment variables are set.
 
 ---
@@ -899,7 +899,7 @@ pgrep bwrap
 
 ---
 
-*See also: Ch 10 (Wayland Protocol Architecture), Ch 20 (Compositor Internals),
+*See also: Ch 1 (Wayland Protocol Architecture), Ch 5 (wlroots — Compositor Building Blocks),
 Ch 53 (Session Startup and Environment), Ch 70 (Flatpak Ricing), Ch 80 (Network
 Namespaces for Desktop Apps)*
 

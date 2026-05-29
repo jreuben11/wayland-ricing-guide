@@ -20,9 +20,7 @@ startup ordering, and Ch 70 for other system services commonly needed in custom 
 
 ---
 
-## Sections
-
-### 71.1 The Problem
+## 71.1 The Problem
 
 On a fresh wlroots-based compositor setup:
 - No system tray → `nm-applet` doesn't visually appear
@@ -50,7 +48,7 @@ packages. Arch puts `polkit-gnome-authentication-agent-1` under `/usr/lib/polkit
 Fedora puts it under `/usr/libexec/polkit-gnome-authentication-agent-1`, NixOS wraps it
 in a derivation path. The configurations below note these differences explicitly.
 
-### 71.2 NetworkManager TUI: nmtui
+## 71.2 NetworkManager TUI: nmtui
 
 The fastest solution — works without any graphical tools:
 
@@ -104,7 +102,7 @@ bindsym $mod+n exec foot --app-id nmtui nmtui
 for_window [app_id="nmtui"] floating enable, resize set 800 600
 ```
 
-### 71.3 nm-applet — System Tray Widget
+## 71.3 nm-applet — System Tray Widget
 
 ```bash
 # Install
@@ -167,7 +165,7 @@ nm-connection-editor
 # Or open it from nm-applet: right-click → Edit Connections
 ```
 
-### 71.4 iwgtk — Lightweight WiFi Manager
+## 71.4 iwgtk — Lightweight WiFi Manager
 
 For setups using `iwd` instead of NetworkManager:
 
@@ -219,7 +217,7 @@ connection state. It is significantly lighter than nm-applet (no D-Bus service, 
 daemon) but lacks VPN management. Ideal for minimal rices where you rarely switch
 networks.
 
-### 71.5 CLI Network Management Reference
+## 71.5 CLI Network Management Reference
 
 ```bash
 # ── NetworkManager CLI (nmcli) ────────────────────────────────────────────────
@@ -297,7 +295,7 @@ else
 fi
 ```
 
-### 71.6 DNS Configuration
+## 71.6 DNS Configuration
 
 ```bash
 # Check current DNS resolver status
@@ -361,9 +359,7 @@ conflict between the two.
 
 ---
 
-## Polkit Authentication Agents
-
-### 71.7 What Polkit Is
+## 71.7 What Polkit Is
 
 Polkit (formerly PolicyKit) is the privilege escalation framework for Linux desktops.
 When a GUI app needs root access (mounting drives, installing packages, changing system
@@ -405,7 +401,7 @@ busctl --user list | grep polkit
 # org.freedesktop.PolicyKit1.AuthenticationAgent
 ```
 
-### 71.8 Available Polkit Agents
+## 71.8 Available Polkit Agents
 
 | Agent | Package | Toolkit | Binary Path | Notes |
 |-------|---------|---------|-------------|-------|
@@ -425,7 +421,7 @@ Hyprland with native look: `hyprpolkitagent` renders dialogs that respect Hyprla
 borders and gaps configuration. The functional behavior is identical — the choice is
 purely aesthetic and toolkit-consistency.
 
-### 71.9 Starting a Polkit Agent
+## 71.9 Starting a Polkit Agent
 
 **Hyprland:**
 ```conf
@@ -506,7 +502,7 @@ bus is available and *after* the graphical session target. See Ch 53 for details
 `graphical-session.target` ordering. If you start the agent too early (before D-Bus),
 it will fail to register and exit silently.
 
-### 71.10 Testing Polkit
+## 71.10 Testing Polkit
 
 ```bash
 # Test 1: pkexec — should trigger a password dialog if agent is running
@@ -537,7 +533,7 @@ dbus-send --system --print-reply \
   b:true u:0
 ```
 
-### 71.11 Polkit Rules (Advanced)
+## 71.11 Polkit Rules (Advanced)
 
 Polkit's rule engine runs JavaScript. Rules files are in `/etc/polkit-1/rules.d/`
 (system) or `~/.local/share/polkit-1/rules.d/` (user, supported in newer polkit).
@@ -608,7 +604,7 @@ pkcheck --action-id org.freedesktop.udisks2.filesystem-mount --process $$ -u
 `pkaction --version` shows < 0.106, consult the legacy documentation. All examples in
 this chapter target polkit ≥ 0.106 (JavaScript rules).
 
-### 71.12 VPN Setup
+## 71.12 VPN Setup
 
 ```bash
 # ── OpenVPN ──────────────────────────────────────────────────────────────────

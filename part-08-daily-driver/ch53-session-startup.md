@@ -15,8 +15,8 @@ integrations, or leave the system tray empty — not because the apps are wrong,
 but because they arrived before their environment was ready.
 
 This chapter covers Hyprland and Sway in depth, with notes on niri and river where
-their approaches diverge. For display manager configuration, see Ch 50. For
-portal-specific debugging (screen share, file picker), see Ch 55.
+their approaches diverge. For display manager configuration, see Ch 54. For
+portal-specific debugging (screen share, file picker), see Ch 52.
 
 ---
 
@@ -734,11 +734,9 @@ journalctl --user -b -f > /tmp/session-startup.log &
 
 - **Ch 50** — Display managers (SDDM, GDM, greetd): how the session is launched
   and where to set environment before the compositor starts.
-- **Ch 52** — Hyprland configuration deep-dive: `env =` syntax, monitor setup,
-  input device configuration.
-- **Ch 54** — XDG Desktop Portal in depth: backend selection, portal API
-  capabilities, screen sharing configuration for OBS and browser.
-- **Ch 55** — PipeWire and WirePlumber: audio graph management, device routing,
+- **Ch 52** — xdg-desktop-portal: Screen Sharing, File Chooser, Settings backend configuration.
+- **Ch 54** — Display Managers and Greeters: SDDM, GDM, greetd — login screen configuration and session handoff.
+- **Ch 56** — PipeWire and WirePlumber: audio graph management, device routing,
   Bluetooth audio, replacing PulseAudio.
 - **Ch 58** — Idle and lock screen: `hypridle`, `swayidle`, `hyprlock`,
   `swaylock` configuration and systemd inhibit integration.

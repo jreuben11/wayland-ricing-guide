@@ -6,7 +6,7 @@ Clipboard management on Wayland is architecturally different from X11, and under
 
 This chapter covers the canonical Wayland clipboard stack: `wl-clipboard` for low-level copy/paste, `cliphist` for persistent history, `copyq` for GUI-heavy workflows, and integration patterns across Hyprland, Sway, and Niri. We also examine primary selection semantics, MIME type handling, XWayland compatibility, and security considerations. By the end you will have a fully automated clipboard pipeline that survives application crashes, stores images, and surfaces history via your preferred launcher.
 
-Cross-references: See Ch 24 for Hyprland `exec-once` startup. See Ch 35 for rofi/wofi/fuzzel launchers used as pickers. See Ch 53 for systemd user session startup alternatives.
+Cross-references: See Ch 24 for Hyprland `exec-once` startup. See Ch 28 for application launchers used as pickers. See Ch 53 for systemd user session startup alternatives.
 
 ---
 

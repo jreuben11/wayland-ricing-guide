@@ -982,9 +982,9 @@ NumberAnimation on time {
 *See also:*
 - *Ch 53 — Session Startup and exec-once Patterns*
 - *Ch 27 — Animated Wallpapers with mpvpaper and swww*
-- *Ch 55 — Quickshell Introduction and PanelWindow Basics*
-- *Ch 58 — Status Bars and Waybar Configuration*
-- *Ch 61 — Notification Daemons: mako, dunst, SwayNotificationCenter*
+- *Ch 55 — Dotfile Management: stow, chezmoi, yadm, bare git*
+- *Ch 26 — Bars and Panels: Waybar, eww, AGS/Astal*
+- *Ch 29 — Notification Daemons: mako, dunst, swaync*
 
 ---
 

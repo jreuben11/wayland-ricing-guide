@@ -792,15 +792,7 @@ chmod +x ~/.config/hypr/scripts/screenshot.sh
 
 `wl-copy` forks a clipboard daemon that holds the content. If your script runs `wl-copy` and the daemon is killed by a process manager, clipboard contents are lost. Use `wl-copy --foreground` inside a persistent process, or use `cliphist` to persist clipboard history:
 
-```bash
-# Install and set up cliphist
-sudo pacman -S cliphist
-# Pipe wl-paste events into cliphist
-wl-paste --type text --watch cliphist store &
-wl-paste --type image --watch cliphist store &
-# Query history
-cliphist list | wofi --dmenu | cliphist decode | wl-copy
-```
+See Ch 32 for cliphist installation, watcher setup, and picker integration patterns.
 
 ---
 

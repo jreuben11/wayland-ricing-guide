@@ -349,7 +349,7 @@ Socket {
     connected: true
 
     parser: SplitParser {
-        splitMarker: "\n"
+        separator: "\n"
         onRead: (line) => handleDaemonMessage(JSON.parse(line))
     }
 

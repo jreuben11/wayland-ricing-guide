@@ -8,7 +8,7 @@ This chapter covers three tiers of remote desktop use: lightweight VNC via wayvn
 
 The chapter also covers auxiliary topics: PipeWire audio forwarding, rustdesk for ad-hoc remote support, SSH tunneling strategies, and systemd service integration for headless or semi-headless remote servers.
 
-See Ch 53 for compositor session startup, Ch 71 for PipeWire audio fundamentals, and Ch 77 for firewall and network configuration that affects remote access ports.
+See Ch 53 for compositor session startup, Ch 56 for PipeWire audio fundamentals, and Ch 71 for firewall and network configuration that affects remote access ports.
 
 ---
 
@@ -21,7 +21,7 @@ The Wayland ecosystem has converged on several capture mechanisms. wlroots compo
 | VNC        | wayvnc                      | zwlr-screencopy-v1       | wlroots (Hyprland, sway, river) | Lightweight remote access   |
 | RDP        | gnome-remote-desktop        | PipeWire portal          | GNOME 42+               | Enterprise, Windows clients       |
 | RDP        | kde-remote-desktop          | PipeWire portal          | KDE Plasma 6+           | Enterprise, Windows clients       |
-| GameStream | Sunshine                    | KMS/DRM or wlr-screencopy | Any (with right cap)   | Low-latency game streaming        |
+| GameStream | Sunshine                    | KMS/DRM or zwlr-screencopy-v1 | Any (with right cap)   | Low-latency game streaming        |
 | Multi-proto | rustdesk                   | xdg-portal / screencopy  | Any (with portal)       | Ad-hoc remote support             |
 | Tunnel     | SSH + Waypipe               | Wayland protocol proxy   | Any                     | Running remote Wayland apps locally|
 | Legacy     | SSH X11 forwarding          | X11 only                 | X11 apps via XWayland   | Legacy X11 app forwarding         |
@@ -763,7 +763,7 @@ autossh -M 0 -f -N \
 
 ### VPN Access (WireGuard)
 
-For permanent remote access, a WireGuard VPN is more robust than per-connection SSH tunnels. See Ch 77 for WireGuard setup. Once the VPN is established, all remote desktop protocols operate over the VPN's encrypted tunnel without additional SSH wrapping.
+For permanent remote access, a WireGuard VPN is more robust than per-connection SSH tunnels. See Ch 71 for WireGuard setup. Once the VPN is established, all remote desktop protocols operate over the VPN's encrypted tunnel without additional SSH wrapping.
 
 ### Fail2ban for RDP
 

@@ -18,7 +18,7 @@ This chapter covers the six most widely used launchers in the Wayland ricing com
 explains how each integrates with Sway, Hyprland, and niri, walks through their configuration
 formats in detail, provides ready-to-use power-menu and clipboard-picker patterns, and closes with a
 full QML app launcher built inside Quickshell. Cross-references to compositor keybinding setup
-appear in Ch 15 (Sway keybindings), Ch 22 (Hyprland binds), and Ch 53 (session startup scripts).
+appear in Ch 15 (Sway keybindings), Ch 8 (Hyprland binds), and Ch 53 (session startup scripts).
 
 ---
 
@@ -687,11 +687,7 @@ history daemon. `cliphist` stores clipboard entries in a SQLite database and exp
 `list` subcommand that outputs entries in a dmenu-compatible format.
 
 ```bash
-# Start cliphist daemon (add to session startup — see Ch 53)
-wl-paste --type text --watch cliphist store &
-wl-paste --type image --watch cliphist store &
-
-# Picker script
+# Picker script (brief example — see Ch 32 for full cliphist installation, daemon setup, and picker integration patterns)
 cliphist list | fuzzel --dmenu --prompt=" clip: " | cliphist decode | wl-copy
 ```
 
@@ -719,7 +715,7 @@ bind = $mainMod SHIFT, E,exec, ~/.local/bin/emoji-picker
 
 ## 28.11 Quickshell App Launcher
 
-Quickshell (covered in depth in Ch 35) can build a fully custom launcher using QML. The approach
+Quickshell (covered in depth in Ch 18) can build a fully custom launcher using QML. The approach
 parses `.desktop` files via `Process` + `gio`, implements fuzzy search in JavaScript, and renders
 results in an `IpcHandler`-driven overlay. This gives pixel-perfect control over layout and
 animation that no external launcher binary can match, at the cost of more code.
@@ -844,7 +840,7 @@ ShellRoot {
 ```
 
 ```bash
-# Signal from Hyprland keybind (see Ch 35 for qs ipc details)
+# Signal from Hyprland keybind (see Ch 18 for qs ipc details)
 bind = $mainMod, SPACE, exec, qs ipc call launcher toggle
 ```
 
@@ -852,7 +848,7 @@ A full production Quickshell launcher would use a dedicated `.desktop` parser sc
 JSON (name, exec, icon, keywords), loads all entries into `appModel.all` at startup, and pre-caches
 icon paths using the XDG icon theme algorithm. The QML fuzzy search function can be upgraded to
 score matches by position (prefix match scores higher than mid-word match) for better ranking.
-See Ch 35 for the complete Quickshell IPC and Process APIs.
+See Ch 18 for the complete Quickshell IPC and Process APIs.
 
 ---
 
@@ -885,7 +881,7 @@ WantedBy=graphical-session.target
 ```
 
 See Ch 53 for a full treatment of session startup ordering and the `graphical-session.target`
-dependency tree. See Ch 15 (Sway) and Ch 22 (Hyprland) for compositor-specific keybinding syntax
+dependency tree. See Ch 15 (Sway) and Ch 8 (Hyprland) for compositor-specific keybinding syntax
 and the `$mainMod` variable convention.
 
 ---

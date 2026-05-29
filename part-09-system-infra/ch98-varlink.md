@@ -3,7 +3,7 @@
 ## Overview
 
 Varlink is a typed, interface-oriented IPC protocol developed alongside systemd.
-It uses Unix sockets with newline-delimited JSON framing — simpler than D-Bus
+It uses Unix sockets with null-byte-delimited JSON framing (for `io.systemd.*` services; some third-party implementations use newlines instead) — simpler than D-Bus
 binary encoding, faster to implement, and designed for system services rather
 than desktop session bus communication. This chapter covers the full protocol,
 the IDL type system, the `io.systemd.*` service catalogue, writing services and
@@ -43,7 +43,7 @@ Client process
     │  connect(2) to Unix socket path
     ▼
 Varlink socket  (e.g. /run/systemd/resolve/io.systemd.Resolve)
-    │  read/write newline-delimited JSON
+    │  read/write null-byte-delimited JSON (io.systemd.* services)
     ▼
 Service process (systemd-resolved, user daemon, etc.)
     │  implements io.systemd.Resolve interface

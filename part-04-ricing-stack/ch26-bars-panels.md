@@ -7,7 +7,7 @@ system telemetry — CPU load, network state, volume, active workspaces — and 
 session to everyday workflows. On Wayland, bars are first-class layer-shell clients: they anchor
 to screen edges via the `wlr-layer-shell` protocol and never interfer with your window layout.
 
-Before Quickshell dominated the scene (see Ch 27), three frameworks shaped the Wayland ricing
+Before Quickshell dominated the scene (see Ch 15), three frameworks shaped the Wayland ricing
 community: Waybar, eww, and AGS/Astal. Each has a distinct philosophy. Waybar offers a shallow
 learning curve with a JSON + CSS configuration model that gets you a feature-complete bar in
 under an hour. eww introduced a proper widget DSL (Yuck) with reactive data bindings years
@@ -20,7 +20,7 @@ community dotfiles target Waybar or eww. Compositors like Sway, labwc, and River
 Waybar modules. When you fork a dotfile, adapt a theme, or debug a colleague's setup, you will
 encounter all three. This chapter gives you the depth to work confidently with each.
 
-Cross-references: Ch 25 covers the `wlr-layer-shell` protocol that all these bars use. Ch 27
+Cross-references: Ch 25 covers the `wlr-layer-shell` protocol that all these bars use. Ch 15
 covers Quickshell, the QML-based successor. Ch 53 covers session startup, including how to
 launch your bar from the compositor config or systemd user session.
 
@@ -328,7 +328,7 @@ pkill waybar && waybar &
 
 You can also define a Hyprland keybind to reload Waybar:
 
-```conf
+```ini
 # In hyprland.conf
 bind = $mainMod SHIFT, B, exec, pkill waybar && waybar &
 ```
@@ -354,7 +354,7 @@ Install eww from source or the AUR:
 yay -S eww-wayland
 
 # From source (requires Rust toolchain)
-git clone https://github.com/elkowarr/eww.git
+git clone https://github.com/elkowar/eww.git
 cd eww
 cargo build --release --no-default-features --features=wayland
 install -Dm755 target/release/eww ~/.local/bin/eww
@@ -752,7 +752,7 @@ functions, and hot reload. The Astal libraries give you typed bindings to every 
 rather than raw shell-script parsing. The trade-off is a build toolchain dependency (Node/Deno)
 and a steeper initial scaffolding step.
 
-Quickshell (Ch 27) represents the current frontier: Qt Quick / QML rendering, the best
+Quickshell (Ch 15) represents the current frontier: Qt Quick / QML rendering, the best
 Wayland protocol coverage, true GPU-accelerated animations, and per-screen shader effects. If
 your bar needs smooth animations, video backgrounds, or blur effects that GTK3 cannot provide,
 Quickshell is the path forward.
@@ -787,7 +787,7 @@ config, or registering with `systemd --user` after the graphical target.
 
 ### 26.6.1 Launching from Hyprland
 
-```conf
+```ini
 # ~/.config/hypr/hyprland.conf
 exec-once = waybar
 # or
@@ -799,7 +799,7 @@ exec-once = eww open bar
 `exec-once` runs the command once at startup. Use `exec` if you want the command to re-run on
 config reload. For a restart keybind:
 
-```conf
+```ini
 bind = $mainMod SHIFT, B, exec, pkill waybar; waybar &
 ```
 

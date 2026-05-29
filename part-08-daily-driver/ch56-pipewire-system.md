@@ -2,7 +2,7 @@
 
 ## Overview
 
-PipeWire is the universal audio/video server that replaced PulseAudio and JACK on modern Linux systems. It provides a unified API for audio and video processing with compatibility layers for legacy PulseAudio and JACK applications. Ch 21 covers the Quickshell API. This chapter covers installing, configuring, and mastering PipeWire as a complete system — from initial setup through pro audio routing, Bluetooth codecs, EQ, and screen capture.
+PipeWire is the universal audio/video server that replaced PulseAudio and JACK on modern Linux systems. It provides a unified API for audio and video processing with compatibility layers for legacy PulseAudio and JACK applications. Ch 21 covers the Quickshell PipeWire API (`Quickshell.Services.Pipewire`). This chapter covers installing, configuring, and mastering PipeWire as a complete system — from initial setup through pro audio routing, Bluetooth codecs, EQ, and screen capture.
 
 PipeWire was designed from the ground up to solve the long-standing fragmentation of the Linux audio stack. Before PipeWire, you had to choose between PulseAudio (desktop audio, mixing, per-application volume) and JACK (pro audio, low-latency, routing). PipeWire unifies both use cases in a single daemon that speaks all their protocols natively. This makes it possible to run an Ardour session on the same system that serves your Discord voice chat, at the same time, without glitches.
 

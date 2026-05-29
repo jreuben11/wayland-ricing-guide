@@ -140,7 +140,8 @@ i18n.inputMethod = {
 ```nix
 # home.nix
 i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5.addons = with pkgs; [ fcitx5-chinese-addons fcitx5-mozc ];
 };
 ```
@@ -794,7 +795,7 @@ exec-once = dbus-update-activation-environment --systemd GTK_IM_MODULE QT_IM_MOD
 ---
 
 *See also: Ch 12 (Session Startup), Ch 41 (Hyprland Environment Configuration),
-Ch 53 (Systemd User Services), Ch 78 (Fonts and Locale), Ch 80 (Accessibility Tools).*
+Ch 53 (Systemd User Services), Ch 87 (Font Rendering and Locale), Ch 44 (Accessibility Tools).*
 
 ---
 

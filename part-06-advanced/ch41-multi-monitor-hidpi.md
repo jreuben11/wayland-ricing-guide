@@ -447,7 +447,7 @@ swaymsg output DP-1 mode 2560x1440@60Hz
 wlr-randr --output DP-1 --mode 2560x1440@60Hz
 ```
 
-Frame pacing — the consistency of frame delivery intervals — can degrade with mismatched refresh rates on multi-monitor setups. Hyprland uses per-output render loops, so a 165Hz and 60Hz monitor render independently. The 165Hz monitor is not throttled to 60Hz. However, some games and applications that target a specific frame budget may behave unexpectedly; use `gamescope` as a nested compositor for those (see **Ch 47 — Gaming on Wayland**).
+Frame pacing — the consistency of frame delivery intervals — can degrade with mismatched refresh rates on multi-monitor setups. Hyprland uses per-output render loops, so a 165Hz and 60Hz monitor render independently. The 165Hz monitor is not throttled to 60Hz. However, some games and applications that target a specific frame budget may behave unexpectedly; use `gamescope` as a nested compositor for those (see **Ch 42 — Gaming on Wayland**).
 
 ---
 
@@ -858,7 +858,7 @@ HYPRLAND_LOG_WLR=1 Hyprland 2>&1 | grep -i scanout
 
 ---
 
-*Related chapters: Ch 33 (kanshi output profiles), Ch 47 (gaming and gamescope), Ch 53 (session startup), Ch 56 (color calibration).*
+*Related chapters: Ch 33 (kanshi output profiles), Ch 42 (gaming and gamescope), Ch 53 (session startup).*
 
 ---
 

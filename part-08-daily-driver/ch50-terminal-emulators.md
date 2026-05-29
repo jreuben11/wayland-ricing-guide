@@ -5,14 +5,12 @@ The terminal is the most-looked-at element in any rice. All major modern
 terminals are Wayland-native; the differences lie in GPU backend, font rendering,
 extensibility, and special protocol support.
 
-## Sections
-
-### 50.1 The Wayland Terminal Landscape
+## 50.1 The Wayland Terminal Landscape
 - All terminals covered here use either OpenGL/Vulkan or Wayland SHM rendering
 - Key differentiators: GPU vs CPU rendering, protocol extras, config language
 - XWayland terminals (xterm, rxvt): avoid unless debugging
 
-### 50.2 Kitty — The Feature King
+## 50.2 Kitty — The Feature King
 
 **Why Kitty:** GPU-accelerated, rich feature set, extensible with "kittens"
 
@@ -49,7 +47,7 @@ tab_powerline_style angled
 - Direct: append color block to `kitty.conf`
 - Pywal: `include ~/.cache/wal/colors-kitty.conf`
 
-### 50.3 Alacritty — Minimal and Fast
+## 50.3 Alacritty — Minimal and Fast
 
 **Why Alacritty:** The fastest terminal, zero features beyond rendering, TOML config
 
@@ -71,13 +69,13 @@ foreground = "#cdd6f4"
 
 **Alacritty philosophy:**
 - No tabs, no splits, no scrollback search (use tmux/zellij)
-- IPC: `alacrittyctl` for runtime config changes (since 0.13)
+- IPC: `alacritty msg` for runtime config changes (since 0.13)
 - Very fast startup: good for scripts that spawn terminals
 - Vi mode: keyboard-driven selection and copy
 
 **What Alacritty lacks:** images, sixel, hyperlinks, GPU compute features
 
-### 50.4 Foot — Wayland-Native and Lightweight
+## 50.4 Foot — Wayland-Native and Lightweight
 
 **Why Foot:** Designed specifically for Wayland, low resource usage, fast
 
@@ -108,7 +106,7 @@ exec-once = foot --server
 bind = SUPER, Return, exec, footclient
 ```
 
-### 50.5 WezTerm — Programmable in Lua
+## 50.5 WezTerm — Programmable in Lua
 
 **Why WezTerm:** Full Lua scripting, multiplexing, SSH domains, GPU-accelerated
 
@@ -137,7 +135,7 @@ return config
 - **Sixel**: full support
 - **Conditional config**: different settings per OS/host
 
-### 50.6 Ghostty — The New Challenger (2024+)
+## 50.6 Ghostty — The New Challenger (2024+)
 
 **Why Ghostty:** Fast, native, written in Zig, cross-platform (macOS + Linux)
 
@@ -159,7 +157,7 @@ window-padding-y = 12
 - Liberation Fonts bundled — works out of box
 - Still maturing: some features WezTerm/Kitty have are pending
 
-### 50.7 Terminal Comparison Matrix
+## 50.7 Terminal Comparison Matrix
 
 | Feature | Kitty | Alacritty | Foot | WezTerm | Ghostty |
 |---------|-------|-----------|------|---------|---------|
@@ -174,7 +172,7 @@ window-padding-y = 12
 | Wayland native | Yes | Yes | Yes (only) | Yes | Yes |
 | Scripting/extensibility | Python kittens | None | None | Lua | Limited |
 
-### 50.8 Terminal-Agnostic Configuration Tips
+## 50.8 Terminal-Agnostic Configuration Tips
 
 **Nerd Fonts verification:**
 ```bash
@@ -195,10 +193,10 @@ curl -s https://gist.githubusercontent.com/.../24bit.sh | bash
 - WezTerm: `source ~/.config/wezterm/shell-integration.sh`
 - Enables semantic zones, OSC 133 prompt marking, cwd tracking
 
-### 50.9 Transparency and Blur
+## 50.9 Transparency and Blur
 - Terminal opacity: set in terminal config (`background_opacity`)
 - Blur behind terminal: set in compositor
-  - Hyprland: `layerrule = blur, class:^(kitty)$` — doesn't apply (window rules instead)
+  - Hyprland blur for terminal windows uses `windowrulev2 = blur, class:^(kitty)$` (not `layerrule`, which applies only to layer surfaces)
   - Hyprland: `windowrulev2 = opacity 0.9 0.9, class:^(kitty)$`
   - Hyprland blur: `decoration.blur.enabled = true`
 - The terminal must use a background with alpha < 1 for blur to show through

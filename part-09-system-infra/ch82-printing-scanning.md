@@ -794,7 +794,7 @@ lp -d "PrinterName" -o scaling=100 -o media=A4 file.pdf
 
 ---
 
-*See also: Ch 53 (Session startup and service management), Ch 14 (GTK/Qt Wayland compatibility), Ch 83 (Bluetooth and wireless peripherals).*
+*See also: Ch 53 (Session startup and service management), Ch 14 (GTK/Qt Wayland compatibility), Ch 81 (Bluetooth Management).*
 
 ---
 

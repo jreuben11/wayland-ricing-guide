@@ -25,9 +25,10 @@ This chapter covers installation and flake integration, the full configuration s
 target tuning, custom template authoring, the Quickshell workaround, opacity and font management,
 polarity and scheme selection, and a troubleshooting reference.
 
-See **Ch 38** for GTK/Qt theming without Stylix, **Ch 39** for manual base16 shell palette
-management, **Ch 41** for Catppuccin and other theme ecosystems, and **Ch 53** for session startup
-order (relevant because GTK settings must be visible before apps launch).
+See **Ch 35** for GTK theming without Stylix and **Ch 36** for Qt theming without Stylix,
+**Ch 34** for manual base16 palette management and color extraction tools, **Ch 41** for Catppuccin
+and other theme ecosystems, and **Ch 53** for session startup order (relevant because GTK settings
+must be visible before apps launch).
 
 ---
 

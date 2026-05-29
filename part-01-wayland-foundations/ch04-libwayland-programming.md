@@ -15,8 +15,8 @@ functional clock bar using the `wlr-layer-shell` protocol. Every code snippet is
 and compilable; headers and linking flags are explicit throughout. By the end you will
 understand the complete client lifecycle from `wl_display_connect()` to `wl_display_disconnect()`.
 
-Cross-references: See Ch 3 for the Wayland wire protocol internals that underpin everything
-here. See Ch 7 for `libxkbcommon` key handling in depth. See Ch 12 for the Rust
+Cross-references: See Ch 2 for the Wayland wire protocol internals that underpin everything
+here. See Ch 73 for the Rust
 `wayland-client` crate if you prefer a memory-safe alternative. See Ch 53 for session
 startup and how `WAYLAND_DISPLAY` gets set in your login environment.
 
@@ -118,7 +118,7 @@ package. Download them directly from the wlroots repository:
 ```bash
 mkdir -p protocols
 curl -o protocols/wlr-layer-shell-unstable-v1.xml \
-  https://raw.githubusercontent.com/swaywm/wlr-protocols/master/unstable/wlr-layer-shell-unstable-v1.xml
+  https://gitlab.freedesktop.org/wlroots/wlr-protocols/-/raw/master/unstable/wlr-layer-shell-unstable-v1.xml
 ```
 
 For quick one-off compilation without Meson, `pkg-config` provides the exact flags:

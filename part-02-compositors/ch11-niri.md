@@ -26,8 +26,8 @@ from PaperWM, Karousel, or Hyprscroller, Niri will feel immediately familiar.
 If you are coming from i3 or Sway, expect to unlearn the workspace-first mental
 model and embrace the scrollable canvas.
 
-For compositor comparisons, see **Ch 10 (Hyprland)**, **Ch 12 (Sway)**, and
-**Ch 13 (River)**. For session startup and display manager integration, see
+For compositor comparisons, see **Ch 08 (Hyprland)**, **Ch 07 (Sway)**, and
+**Ch 10 (River)**. For session startup and display manager integration, see
 **Ch 53**. For status bar configuration, see **Ch 22 (Waybar)** and
 **Ch 24 (Quickshell)**.
 
@@ -859,7 +859,7 @@ Hyprland. Understanding these helps you make an informed choice.
 | Touch gestures               | Basic swipe-to-scroll      | Full gesture scripting not yet available |
 
 For users who need floating windows extensively (e.g., Gimp, legacy apps),
-Hyprland (Ch 10) or Sway (Ch 12) are better choices. For scrollable-layout
+Hyprland (Ch 08) or Sway (Ch 07) are better choices. For scrollable-layout
 users willing to handle floating needs via XWayland workarounds, Niri is
 excellent.
 

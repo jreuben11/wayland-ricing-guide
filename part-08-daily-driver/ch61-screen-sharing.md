@@ -15,7 +15,7 @@ OBS Studio screen capture and virtual camera; and a systematic debugging methodo
 After working through this chapter, screen sharing on Wayland should be as reliable as
 on X11.
 
-Cross-references: Ch 53 covers session environment setup and `exec-once` ordering; Ch 58
+Cross-references: Ch 53 covers session environment setup and `exec-once` ordering; Ch 56
 covers PipeWire audio configuration that shares the same daemon; Ch 64 covers remote
 desktop (RDP/VNC) as an alternative to WebRTC for internal use.
 
@@ -327,7 +327,7 @@ EOF
 
 # Google Chrome
 mkdir -p ~/.config/google-chrome
-cat >> ~/.config/chrome-flags.conf << 'EOF'
+cat >> ~/.config/google-chrome-flags.conf << 'EOF'
 --enable-webrtc-pipewire-capturer
 --ozone-platform=wayland
 --enable-features=UseOzonePlatform
@@ -390,9 +390,10 @@ yay -S vesktop-bin
 vesktop --ozone-platform=wayland --enable-webrtc-pipewire-capturer
 
 # Or set persistently:
-mkdir -p ~/.config/vesktop
-echo '--ozone-platform=wayland
---enable-webrtc-pipewire-capturer' >> ~/.config/vesktop/flags.conf
+cat > ~/.config/vesktop-flags.conf << 'EOF'
+--ozone-platform=wayland
+--enable-webrtc-pipewire-capturer
+EOF
 ```
 
 For the official Discord flatpak with Wayland screen share:

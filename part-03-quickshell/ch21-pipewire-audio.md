@@ -9,14 +9,14 @@ the moment the graph changes — no polling, no race conditions.
 
 This chapter covers everything from PipeWire's internal object model to complete, production-ready
 widgets: volume sliders, per-channel VU meters, device switchers, OSD overlays, and a microphone
-privacy indicator. All code in this chapter is copy-paste-ready and tested against Quickshell 0.1.x
+privacy indicator. All code in this chapter is copy-paste-ready and tested against Quickshell 0.1.x or later (tested through 0.2.x)
 with PipeWire 1.x and WirePlumber 0.5.x.
 
 **Prerequisites:** A running PipeWire session with WirePlumber as the session manager. Verify
 with `wpctl status`. If you still have PulseAudio running in compatibility mode, the ALSA and
 PulseAudio virtual nodes will appear in the graph and are handled identically.
 
-> See **Ch 8** for Quickshell module imports and build configuration.
+> See **Ch 15** for Quickshell module imports and build configuration.
 > See **Ch 53** for session startup ordering and ensuring PipeWire is ready before your shell launches.
 
 ---
@@ -525,7 +525,7 @@ variant creates one `PanelWindow` anchored to its screen. Only one OSD needs to 
 PipeWire signal — the simplest approach is to show all of them simultaneously when the default
 sink changes, since the user can see at most one at a time anyway.
 
-> See **Ch 14** for `PanelWindow` layer configuration and screen anchoring patterns.
+> See **Ch 17** for `PanelWindow` layer configuration and screen anchoring patterns.
 
 ---
 
