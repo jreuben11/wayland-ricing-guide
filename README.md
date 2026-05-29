@@ -13,17 +13,17 @@ and writing your own Wayland extensions.
 |------|-------|----------|
 | 0    | Getting Started | 0 |
 | I    | Wayland Foundations | 1–5, 63–65 |
-| II   | Compositor Landscape | 6–14, 66–68 |
+| II   | Compositor Landscape | 6–14, 66–68, 89 |
 | III  | Quickshell — Deep Dive | 15–25 |
 | IV   | The Ricing Stack | 26–33, 69–70, 72 |
-| V    | Theming & Aesthetics | 34–40 |
-| VI   | Advanced Topics | 41–45 |
+| V    | Theming & Aesthetics | 34–40, 87, 94 |
+| VI   | Advanced Topics | 41–45, 84–86, 88, 90, 92, 95–97 |
 | VII  | Writing for Wayland | 46–49, 73–74 |
 | VIII | Application Layer | 50–51, 57–59, 75–76 |
-| IX   | System Infrastructure | 52–56, 60–62, 71, 77–83 |
+| IX   | System Infrastructure | 52–56, 60–62, 71, 77–83, 91, 93, 98 |
 | —    | Appendices | A–E |
 
-**Total: 84 chapters + 5 appendices**
+**Total: 99 chapters + 8 appendices**
 
 ---
 
@@ -55,6 +55,7 @@ and writing your own Wayland extensions.
 - [Chapter 66](part-02-compositors/ch66-kde-plasma-6.md) — KDE Plasma 6 on Wayland
 - [Chapter 67](part-02-compositors/ch67-gnome-shell-wayland.md) — GNOME Shell on Wayland
 - [Chapter 68](part-02-compositors/ch68-cosmic-desktop.md) — COSMIC Desktop: System76's Rust DE
+- [Chapter 89](part-02-compositors/ch89-hyprland-plugins.md) — Hyprland Plugins and hyprpm
 
 ### Part III — Quickshell: The Modern Shell Framework
 - [Chapter 15](part-03-quickshell/ch15-quickshell-architecture.md) — Quickshell Architecture and Philosophy
@@ -90,6 +91,8 @@ and writing your own Wayland extensions.
 - [Chapter 38](part-05-theming/ch38-color-extraction.md) — pywal, matugen, and Automatic Color Extraction
 - [Chapter 39](part-05-theming/ch39-nix-home-manager.md) — Nix and Home Manager: Reproducible Rices
 - [Chapter 40](part-05-theming/ch40-stylix.md) — Stylix: Auto-Theming Everything from One Wallpaper
+- [Chapter 87](part-05-theming/ch87-font-rendering.md) — Font Rendering Deep Dive: fontconfig, Hinting, CJK
+- [Chapter 94](part-05-theming/ch94-color-management-icc.md) — Color Management and ICC Profiles
 
 ### Part VI — Advanced Topics
 - [Chapter 41](part-06-advanced/ch41-multi-monitor-hidpi.md) — Multi-Monitor, HiDPI, and Fractional Scaling
@@ -97,6 +100,15 @@ and writing your own Wayland extensions.
 - [Chapter 43](part-06-advanced/ch43-input-customization.md) — Input Customization: libinput, kanata, keyd, wev
 - [Chapter 44](part-06-advanced/ch44-accessibility.md) — Accessibility on Wayland: orca, at-spi2, zoom tools
 - [Chapter 45](part-06-advanced/ch45-debugging.md) — Debugging Wayland: WAYLAND_DEBUG, weston-info, wldbg
+- [Chapter 84](part-06-advanced/ch84-kvm-vm-wayland.md) — KVM/QEMU Virtual Machines for Wayland Development and Testing
+- [Chapter 85](part-06-advanced/ch85-containerization-wayland.md) — Containerization, Sandboxing, WSL2, and Headless Wayland
+- [Chapter 86](part-06-advanced/ch86-automation-testing.md) — Automation and Testing of Wayland Ricing Configs
+- [Chapter 88](part-06-advanced/ch88-hyprland-ipc-scripting.md) — Hyprland IPC Scripting
+- [Chapter 90](part-06-advanced/ch90-touchscreen-tablet.md) — Touchscreen and Drawing Tablet Support
+- [Chapter 92](part-06-advanced/ch92-compositor-shaders.md) — Custom GLSL Shaders in Compositors
+- [Chapter 95](part-06-advanced/ch95-gpu-monitoring-overclocking.md) — GPU Monitoring and Overclocking: lact, nvtop, radeontop
+- [Chapter 96](part-06-advanced/ch96-workspace-automation.md) — Workspace Automation: pyprland, Scratchpads, Persistent Layouts
+- [Chapter 97](part-06-advanced/ch97-wayland-mobile-embedded.md) — Wayland on Mobile and Embedded: Phosh, Sxmo, Weston Kiosk
 
 ### Part VII — Writing for Wayland
 - [Chapter 46](part-07-wayland-programming/ch46-writing-protocol-extensions.md) — Writing a Wayland Protocol Extension
@@ -132,6 +144,9 @@ and writing your own Wayland extensions.
 - [Chapter 81](part-09-system-infra/ch81-bluetooth.md) — Bluetooth Management: bluetui, blueman, bluetoothctl
 - [Chapter 82](part-09-system-infra/ch82-printing-scanning.md) — Printing and Scanning: CUPS, SANE, simple-scan
 - [Chapter 83](part-09-system-infra/ch83-package-manager-tui.md) — Package Manager TUI Tools: paru, pacseek, nh, Flatpak
+- [Chapter 91](part-09-system-infra/ch91-xdg-mime-default-apps.md) — XDG MIME Types and Default Applications
+- [Chapter 93](part-09-system-infra/ch93-dbus-essentials.md) — D-Bus Essentials for Wayland Power Users (+ Varlink)
+- [Chapter 98](part-09-system-infra/ch98-varlink.md) — Varlink: Modern IPC for System Services
 
 ### Appendices
 - [Appendix A](appendices/appendix-a-protocol-reference.md) — Protocol Quick Reference
@@ -139,43 +154,12 @@ and writing your own Wayland extensions.
 - [Appendix C](appendices/appendix-c-resources.md) — Resource Index and Links
 - [Appendix D](appendices/appendix-d-quickshell-api.md) — Quickshell API Quick Reference
 - [Appendix E](appendices/appendix-e-hyprland-cheatsheet.md) — Hyprland Configuration Quick Reference
+- [Appendix F](appendices/appendix-f-ai-mcp-tools.md) — AI, Claude, and MCP Tools for Wayland Ricing
+- [Appendix G](appendices/appendix-g-glossary.md) — Glossary of Terms
+- [Appendix H](appendices/appendix-h-tool-index.md) — CLI Tool and Command Index
+
+
 
 ---
 
-## Reading Paths
-
-**"I just want a good-looking desktop fast"**
-→ Ch 0 → Ch 8 (Hyprland) → Ch 53 → Ch 15, 23 → Ch 50, 51 → Ch 26–30 → Ch 34, 38
-
-**"I want to understand Wayland deeply"**
-→ Ch 1–5 → Ch 46–49
-
-**"Quickshell-first approach"**
-→ Ch 0 → Ch 1 (skim) → Ch 15–25 → Ch 34, 38, 59
-
-**"NixOS reproducible rice"**
-→ Ch 0 → Ch 8 → Ch 15, 23 → Ch 39–40 → Ch 52, 53
-
-**"Gaming setup"**
-→ Ch 0 → Ch 8 → Ch 26–30 → Ch 42, 52
-
-**"Remote worker / video calls"**
-→ Ch 0 → Ch 8 → Ch 52, 53, 61
-
-**"I just installed Omarchy / HyDE / ML4W"**
-→ Ch 62 → Ch 8, 15, 23 (understand what you have) → then anywhere
-
-**"Daily driver from scratch"**
-→ Ch 0 → Ch 8 → Ch 53, 54 → Ch 50, 51 → Ch 56 → Ch 52, 61 → Ch 15–25 → Ch 34–40
-
-**"Laptop user"**
-→ Ch 0 → Ch 8 → Ch 53 → Ch 78 (power) → Ch 60 (night light) → Ch 41 (HiDPI) → Ch 79 (IME if needed)
-
-**"CJK / non-Latin user"**
-→ Ch 0 → Ch 8 → Ch 53 → Ch 79 (Fcitx5/IBus) → Ch 50, 51 → Ch 34–38
-
-**"Security-conscious"**
-→ Ch 65 (security model) → Ch 1–3 (protocols) → Ch 8 → Ch 52, 53, 71
-
-**"KDE / GNOME user"**
-→ Ch 0 → Ch 66 (KDE) or Ch 67 (GNOME) → Ch 34–37 (theming) → Ch 52, 61
+&copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

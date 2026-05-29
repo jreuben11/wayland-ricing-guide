@@ -226,3 +226,8 @@ export FZF_DEFAULT_OPTS="
 - **delta**: beautiful git diffs — set in `~/.gitconfig`
 - **bottom/btm**: `htop` replacement with graphs
 - **yazi**: TUI file manager with image previews (Ch 50 Kitty protocol integration)
+
+
+---
+
+&copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

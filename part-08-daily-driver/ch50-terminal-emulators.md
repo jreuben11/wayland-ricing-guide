@@ -202,3 +202,8 @@ curl -s https://gist.githubusercontent.com/.../24bit.sh | bash
   - Hyprland: `windowrulev2 = opacity 0.9 0.9, class:^(kitty)$`
   - Hyprland blur: `decoration.blur.enabled = true`
 - The terminal must use a background with alpha < 1 for blur to show through
+
+
+---
+
+&copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

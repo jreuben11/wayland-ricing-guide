@@ -204,3 +204,8 @@ bind = , XF86MonBrightnessUp, exec, swayosd-client --brightness raise
 ```
 
 swayosd handles D-Bus signals and shows its own themed OSD popup.
+
+
+---
+
+&copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

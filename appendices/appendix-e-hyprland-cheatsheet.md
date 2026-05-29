@@ -226,10 +226,228 @@ hyprctl monitors [-j]
 hyprctl clients [-j]
 hyprctl workspaces [-j]
 hyprctl activewindow [-j]
+hyprctl activeworkspace [-j]
+hyprctl layers [-j]
+hyprctl devices [-j]
 hyprctl dispatch <dispatcher> [args]
+hyprctl --batch "dispatch ... ; dispatch ..."
 hyprctl keyword <key> <value>
 hyprctl reload
+hyprctl reload config-only
 hyprctl version
 hyprctl setcursor <theme> <size>
 hyprctl plugin load <path>
+hyprctl plugin unload <path>
+hyprctl plugin list
+hyprctl configerrors
+hyprctl rollinglog [--follow]
+hyprctl notify <icon> <ms> <color> <message>
+hyprctl dismissnotify [-1|n]
+hyprctl switchxkblayout <device> next|prev|<id>
+hyprctl output create <backend> [name]
+hyprctl output remove <name>
 ```
+
+---
+
+## All Dispatchers
+
+```conf
+# Window state
+killactive
+closewindow <address|class:X|title:X>
+togglefloating [address]
+fullscreen <0|1|2>          # 0=fullscreen, 1=maximize, 2=toggle fullscreen mode
+fakefullscreen
+pin
+togglespecialworkspace [name]
+setfloatingsize <w> <h>
+centerwindow [1]            # 1=respect monitor reserved area
+
+# Focus
+movefocus <l|r|u|d|mon:name>
+focuswindow <address|class:X|title:X>
+focusmonitor <name|id|rel>
+cyclenext [prev] [tiled|floating]
+swapnext [prev]
+focusurgentorlast
+
+# Moving windows
+movewindow <l|r|u|d|mon:name> [silent]
+moveactive <dx> <dy>
+swapwindow <l|r|u|d>
+movewindowpixel exact <x> <y>,<address|class:X>
+movetoworkspace <ws> [,window]
+movetoworkspacesilent <ws> [,window]
+alterzorder <top|bottom> [address]
+
+# Resizing
+resizeactive <dw> <dh>
+resizewindowpixel exact <w> <h>,<address|class:X>
+
+# Workspaces
+workspace <id|name|e+1|e-1|r+1|r-1|previous|special[:name]>
+renameworkspace <id> <name>
+openspecialworkspace [name]
+closespecialworkspace [name]
+
+# Layouts
+layoutmsg <message>         # sends message to current layout (e.g. "orientationcycle")
+togglegroup
+changegroupactive [b|f]
+lockgroups <lock|unlock|toggle>
+moveintogroup <l|r|u|d>
+moveoutofgroup
+
+# Monitors
+movecurrentworkspacetomonitor <mon>
+focusmonitor <mon>
+swapactiveworkspaces <mon1> <mon2>
+
+# System
+exec <command>
+execr <command>             # exec, guaranteed to run even if compositor just started
+pass <key>                  # pass the key to the focused window
+sendshortcut <mods> <key> [,window]
+global <plugin:functionname>
+submap <name|reset>
+type <string>
+mouse_moveabs <x> <y>
+```
+
+---
+
+## Workspace Rules
+
+```conf
+# workspace = id, rules...
+workspace = 1, default:true, persistent:true
+workspace = 2, monitor:HDMI-1, persistent:true
+workspace = special:magic, on-created-empty:kitty
+workspace = name:code, monitor:DP-1, layoutopt:orientation:left
+```
+
+| Rule | Description |
+|------|-------------|
+| `default:true` | This workspace opens by default on its monitor |
+| `persistent:true` | Workspace survives when all windows close |
+| `monitor:name` | Assign to a specific monitor |
+| `on-created-empty:cmd` | Launch command when workspace becomes empty |
+| `layoutopt:mfact:0.6` | Layout option override |
+| `gapsout:20` | Custom outer gaps for this workspace |
+| `bordersize:4` | Custom border for this workspace |
+
+---
+
+## Exec Rules
+
+```conf
+# execr = rules, command
+execr = [workspace 2 silent] firefox
+execr = [float; size 800 500; center] pavucontrol
+execr = [monitor DP-1; workspace name:code] kitty
+```
+
+Execr rules are like window rules pre-applied to the next launched window.
+
+---
+
+## Plugin Configuration
+
+```conf
+# After: hyprpm enable hyprexpo
+plugin:hyprexpo:columns = 3
+plugin:hyprexpo:gap_size = 5
+plugin:hyprexpo:bg_col = rgb(1e1e2e)
+
+# After: hyprpm enable hy3
+plugin:hy3:no_gaps_when_only = 1
+
+# After: hyprpm enable hyprtrails
+plugin:hyprtrails:color = rgba(89b4facc)
+
+# After: hyprpm enable hyprbars
+plugin:hyprbars:bar_height = 20
+plugin:hyprbars:bar_color = rgb(1e1e2e)
+```
+
+---
+
+## Submap (Modal Keybinds)
+
+```conf
+# Enter resize mode with SUPER+R
+bind = SUPER, R, submap, resize
+
+submap = resize
+binde = , h, resizeactive, -20 0
+binde = , l, resizeactive, 20 0
+binde = , k, resizeactive, 0 -20
+binde = , j, resizeactive, 0 20
+bind  = , escape, submap, reset
+bind  = , Return, submap, reset
+submap = reset
+```
+
+---
+
+## Source and Variable System
+
+```conf
+# Split config across files
+source = ~/.config/hypr/keybinds.conf
+source = ~/.config/hypr/windowrules.conf
+source = ~/.config/hypr/theme.conf
+
+# Variables (hyprlang)
+$terminal = kitty
+$browser  = firefox
+$menu     = fuzzel
+
+bind = SUPER, Return, exec, $terminal
+bind = SUPER, B, exec, $browser
+```
+
+---
+
+## Monitor Advanced
+
+```conf
+# Mirror monitors
+monitor = HDMI-1, preferred, auto, 1, mirror, DP-1
+
+# Disable a monitor
+monitor = HDMI-2, disable
+
+# 10-bit color
+monitor = DP-1, 3840x2160@144, 0x0, 1, bitdepth, 10
+
+# All transforms
+# transform: 0=normal, 1=90°, 2=180°, 3=270°, 4=flipped, 5=flipped+90°, 6=flipped+180°, 7=flipped+270°
+monitor = eDP-1, preferred, auto, 1.5, transform, 0
+```
+
+---
+
+## Debug and Development
+
+```conf
+debug {
+    overlay = false             # FPS overlay
+    damage_blink = false        # Flash damaged regions
+    disable_logs = false
+    enable_stdout_logs = false
+    damage_tracking = 2         # 0=none, 1=monitor, 2=full
+    watchdog_timeout = 5
+}
+
+# Useful one-liners:
+# hyprctl notify 0 3000 "rgb(89b4fa)" "Hello from shell"
+# WAYLAND_DEBUG=1 app 2>&1 | grep "wl_"
+# WLR_RENDERER=pixman Hyprland  # force software renderer
+```
+
+
+---
+
+&copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
