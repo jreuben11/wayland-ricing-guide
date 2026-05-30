@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [24.1 The Two Locking Use Cases](#241-the-two-locking-use-cases)
 - [24.2 Session Lock with WlSessionLock](#242-session-lock-with-wlsessionlock)
 - [24.3 PAM Authentication](#243-pam-authentication)
@@ -24,6 +25,24 @@ Wayland's security model fundamentally changed how lockscreens work compared to 
 Quickshell exposes this protocol through `WlSessionLock` and its companion `WlSessionLockSurface`, and provides PAM integration via `Quickshell.Services.Pam`. For the pre-login use case — where no session exists yet — Quickshell integrates with `greetd` through `Quickshell.Services.Greetd`. This chapter covers both paths in depth: building a hardened session lockscreen and building a full greetd login greeter.
 
 Cross-references: See Ch 18 for Quickshell IPC fundamentals (used for external lock triggers), Ch 22 for idle daemon integration, and Ch 53 for session startup configuration with greetd as the display manager.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

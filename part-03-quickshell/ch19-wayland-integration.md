@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [19.1 WlrLayershell and WlrLayer](#191-wlrlayershell-and-wlrlayer)
 - [19.2 ToplevelManager — Window List Access](#192-toplevelmanager-window-list-access)
 - [19.3 ScreencopyView — Screen Capture in QML](#193-screencopyview-screen-capture-in-qml)
@@ -25,6 +26,24 @@ Quickshell wraps these protocols into idiomatic QML types that fit naturally int
 This chapter covers the full surface area of `Quickshell.Wayland`: the layer shell for panel positioning, the toplevel manager for window lists, screencopy for GPU-accelerated capture, session locking, keyboard focus grabbing, and the edge cases introduced by XWayland. Each section pairs API documentation with complete, copy-paste-ready examples.
 
 **Prerequisites:** Chapters 17 (PanelWindow) and 18 (Quickshell core). For PAM integration with the lockscreen, see Chapter 24. For session startup and service ordering, see Chapter 53.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

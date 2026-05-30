@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [16.1 QML Basics](#161-qml-basics)
 - [16.2 Types and Properties](#162-types-and-properties)
 - [16.3 Reactive Bindings](#163-reactive-bindings)
@@ -41,6 +42,24 @@ you do not need to understand signals-and-slots at the C++ level, and you do not
 need prior Qt experience. Everything here is oriented toward reading and writing
 Quickshell configuration files. For the complete Quickshell environment setup
 refer to Ch 14, and for connecting QML objects to D-Bus services see Ch 21.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

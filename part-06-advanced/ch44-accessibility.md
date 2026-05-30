@@ -1,6 +1,8 @@
 # Chapter 44 — Accessibility on Wayland
 
-Wayland's accessibility story is a tale of two epochs: the X11 era, where a single `DISPLAY` variable gave every tool uniform access to pixels, keyboard events, and window geometry; and the Wayland era, where protocol isolation, per-compositor extensions, and D-Bus mediation have forced a rethink of how assistive technologies operate at the system level. This chapter documents the current state of accessibility on Wayland compositors — what works, what requires workarounds, and how to configure a fully accessible Wayland desktop from scratch.
+## Overview
+
+Wayland's accessibility story is a tale of two epochs: the X11 era, where a single `DISPLAY` variable gave every tool uniform access to pixels, keyboard events, and window geometry; and the Wayland era, where protocol isolation, per-compositor extensions, and D-Bus mediation have forced a rethink of how assistive technologies operate at the system level. This chapter documents the current state of accessibility on Wayland compositors — what works, what requires workarounds, and how to configure a fully accessible Wayland desktop from scratch. It surveys the AT-SPI2 D-Bus registry that underpins all Linux accessibility tooling, the Orca screen reader and speech-dispatcher pipeline, screen magnification options on compositors that lack a built-in magnifier, on-screen keyboards using the `zwp_virtual_keyboard_manager_v1` protocol, and color correction mechanisms including Hyprland's native CTM and KDE's color-blindness KWin effect.
 
 The audience is assumed to be comfortable with compositor configuration, D-Bus introspection, and compiling software from source when necessary. We cover GNOME, KDE Plasma, Sway, and Hyprland as representative targets, noting divergences where the compositor matters.
 

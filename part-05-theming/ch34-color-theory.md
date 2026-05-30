@@ -1,5 +1,7 @@
 # Chapter 34 — Color Theory for Desktop Ricing
 
+## Overview
+
 > "A rice is only as cohesive as its color story." — r/unixporn community ethos
 
 Color is the single most recognizable attribute of any desktop rice. Two setups with identical layouts but different palettes feel worlds apart. This chapter builds a rigorous understanding of color systems, palette mechanics, contrast engineering, and the practical toolchain for applying and maintaining a coherent color story across every layer of a Wayland desktop.

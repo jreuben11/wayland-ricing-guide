@@ -28,11 +28,9 @@
 
 ## Overview
 
-Hyprland exposes two Unix sockets: a command socket for queries and dispatches,
-and an event socket that streams real-time compositor events. Together they let
-you build workspace automation, window-focus hooks, per-workspace wallpapers,
-window pickers, and reactive status scripts entirely from shell or Python —
-no C++ plugin required.
+Hyprland exposes two Unix sockets: a command socket for queries and dispatches, and an event socket that streams real-time compositor events. Together they let you build workspace automation, window-focus hooks, per-workspace wallpapers, window pickers, and reactive status scripts entirely from shell or Python — no C++ plugin required. The `hyprctl` command-line tool is a thin wrapper around the command socket and is the primary interface for both interactive use and scripting. Because both sockets and `hyprctl` ship as part of Hyprland itself, no additional packages are needed beyond the compositor.
+
+> **Installation note:** `hyprctl` is bundled with Hyprland (`pacman -S hyprland`). No separate package is required for IPC scripting.
 
 ---
 

@@ -25,6 +25,10 @@
 
 ---
 
+> **No additional installation required.** Animation systems are built into Hyprland, Niri, and Wayfire. Install your compositor of choice (see Part II); no external animation tools are needed.
+
+---
+
 
 ## Overview
 

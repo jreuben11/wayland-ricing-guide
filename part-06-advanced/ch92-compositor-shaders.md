@@ -23,11 +23,9 @@
 
 ## Overview
 
-Wayland compositors with OpenGL renderers apply shaders when compositing
-windows and the desktop. Hyprland exposes a screen-shader hook; Wayfire ships
-several shader-based plugins. This lets you apply full-screen post-processing:
-color grading, CRT effects, blue-light filtering, vignette, and more — entirely
-at the compositor level, affecting every pixel on screen.
+Wayland compositors with OpenGL renderers apply shaders when compositing windows and the desktop. Hyprland exposes a screen-shader hook that accepts a custom GLSL fragment file; Wayfire ships several shader-based effect plugins out of the box. This lets you apply full-screen post-processing — color grading, CRT scanlines, blue-light filtering, vignette, and more — entirely at the compositor level, affecting every pixel on screen without touching individual applications. Because shaders run as part of the compositor's rendering pipeline, they are GPU-accelerated and fully resolution-independent. No external shader tooling is needed beyond a text editor: Hyprland reloads the shader file on `hyprctl reload` or via a `keyword` dispatch.
+
+> **Installation note:** Compositor shaders require only Hyprland (`pacman -S hyprland`) or Wayfire (`pacman -S wayfire`). No additional shader tools or packages are needed.
 
 ---
 

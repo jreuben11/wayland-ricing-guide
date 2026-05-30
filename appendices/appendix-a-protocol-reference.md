@@ -1,8 +1,30 @@
 # Appendix A — Protocol Quick Reference
 
-This appendix is the field guide you keep open while ricing. It covers every protocol that matters to a Wayland compositor user: the stable core, the standardized extensions, the wlroots ecosystem extras, and the Hyprland-specific additions. For each protocol group you will find a table, a prose explanation of what the protocol actually does and why it exists, and concrete shell commands or C/Python code snippets that demonstrate real usage. Cross-references point you back to the chapters where each protocol is discussed in full context.
+## Overview
 
-Understanding which protocol does what prevents the most common class of debugging mistakes: blaming the compositor when the real problem is a missing global, or patching your bar tool when the issue is actually a buffer negotiation failure. Read this appendix once carefully; return to it whenever you see a `wl_display_dispatch` error or a "protocol error, object not found" message in your log.
+This appendix is the field guide you keep open while ricing. It covers every protocol that matters to a Wayland compositor user: the stable core, the standardized extensions, the wlroots ecosystem extras, and the Hyprland-specific additions. For each protocol group you will find a table, a prose explanation of what the protocol actually does and why it exists, and concrete shell commands or C code snippets that demonstrate real usage. Cross-references point you back to the chapters where each protocol is discussed in full context. The appendix is organized in four layers — core Wayland, wayland-protocols extensions, wlr-protocols (wlroots ecosystem), and Hyprland-specific protocols — followed by sections on versioning, source locations, and error troubleshooting. Understanding which protocol does what prevents the most common class of debugging mistakes: blaming the compositor when the real problem is a missing global, or patching your bar tool when the issue is actually a buffer negotiation failure. Read this appendix once carefully; return to it whenever you see a `wl_display_dispatch` error or a "protocol error, object not found" message in your log.
+
+## Installation
+
+The protocols themselves are specifications — nothing to install to *read* this appendix. To *use* or *browse* the protocol XML files on your system:
+
+**Projects:** https://wayland.freedesktop.org · https://gitlab.freedesktop.org/wayland/wayland-protocols · https://gitlab.freedesktop.org/wlroots/wlr-protocols
+
+```bash
+# Arch Linux — protocol XML files land in /usr/share/wayland-protocols/
+sudo pacman -S wayland-protocols
+
+# Browse installed protocols
+ls /usr/share/wayland-protocols/stable/
+ls /usr/share/wayland-protocols/unstable/
+ls /usr/share/wayland-protocols/staging/
+
+# wayland-scanner: generate C bindings from XML
+sudo pacman -S wayland          # includes wayland-scanner
+
+# Nix
+nix-env -iA nixpkgs.wayland-protocols nixpkgs.wayland
+```
 
 ---
 

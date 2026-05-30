@@ -28,6 +28,22 @@ One of Wayland's strongest security improvements over X11 is that applications c
 
 ---
 
+## Installation
+
+**Project:** https://gitlab.freedesktop.org/wayland/wayland-protocols
+
+```bash
+# Arch Linux
+sudo pacman -S wayland-protocols   # xdg-activation-v1 protocol XML
+pip install pywayland              # Python Wayland bindings (for §138.5 examples)
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.wayland-protocols
+nix-env -iA nixpkgs.python3Packages.pywayland
+```
+
+---
+
 ## 138.1 The Problem: Focus Stealing on X11 vs Wayland
 
 ```

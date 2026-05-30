@@ -24,9 +24,29 @@
 
 
 ## Overview
-The terminal is the most-looked-at element in any rice. All major modern
-terminals are Wayland-native; the differences lie in GPU backend, font rendering,
-extensibility, and special protocol support.
+The terminal is the most-looked-at element in any rice. All major modern terminals are Wayland-native and use GPU-accelerated rendering, so raw performance differences between them are small. The real differentiators are config language (plain conf, TOML, INI, or Lua), graphics protocol support (Kitty graphics, Sixel, or iTerm2), and extensibility (kittens, Lua scripting, or none). Foot stands out as the only terminal designed exclusively for Wayland, while WezTerm offers the deepest scripting and Ghostty brings Zig-native speed. Choosing a terminal is largely a matter of which feature set and configuration model you prefer.
+
+## Installation
+
+**Kitty:** https://sw.kovidgoyal.net/kitty  
+**Alacritty:** https://alacritty.org  
+**Foot:** https://codeberg.org/dnkl/foot  
+**WezTerm:** https://wezfurlong.org/wezterm  
+**Ghostty:** https://ghostty.org
+
+```bash
+# Arch Linux
+sudo pacman -S kitty alacritty foot wezterm
+paru -S ghostty-bin     # AUR (or: sudo pacman -S ghostty if in extra)
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.kitty
+nix-env -iA nixpkgs.alacritty
+nix-env -iA nixpkgs.foot
+nix-env -iA nixpkgs.wezterm
+nix-env -iA nixpkgs.ghostty
+# home-manager: programs.kitty.enable = true; programs.alacritty.enable = true; etc.
+```
 
 ## 50.1 The Wayland Terminal Landscape
 - All terminals covered here use either OpenGL/Vulkan or Wayland SHM rendering

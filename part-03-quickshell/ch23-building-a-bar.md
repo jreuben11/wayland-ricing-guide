@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [23.1 Project Structure](#231-project-structure)
 - [23.2 The Shell Entry Point](#232-the-shell-entry-point)
 - [23.3 The Bar Container](#233-the-bar-container)
@@ -41,6 +42,24 @@ This chapter is an end-to-end tutorial for building a production-quality, multi-
 By the end you will have a bar that rivals Waybar in functionality but is written entirely in QML — composable, scriptable, and trivially extensible. The techniques here apply directly to any Quickshell panel you build. If you are new to Quickshell's window model, read Chapter 17 (PanelWindow and Layer Shell) first. For the IPC types used in the workspace and window-title modules, see Chapter 20 (Hyprland IPC). For the theming system, Chapter 26 (Theme Singletons) gives the full design.
 
 The finished bar is approximately 600 lines of QML across nine files. Every snippet in this chapter is copy-paste ready and has been tested against Quickshell 0.2.x on Hyprland 0.40+. Where platform assumptions matter they are called out explicitly.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

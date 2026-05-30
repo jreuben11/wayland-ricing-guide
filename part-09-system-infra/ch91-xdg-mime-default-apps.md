@@ -25,10 +25,23 @@
 
 ## Overview
 
-`xdg-open file.pdf` works by looking up MIME type → application association.
-On Wayland, the same mechanism drives portal file pickers, "open with" dialogs,
-and compositor app-id matching for window rules. This chapter explains the
-whole chain.
+`xdg-open file.pdf` works by looking up MIME type → application association. On Wayland, the same mechanism drives portal file pickers, "open with" dialogs, and compositor app-id matching for window rules. Associations are stored in `~/.config/mimeapps.list` and managed with `xdg-mime`; `.desktop` files declare which MIME types each application handles. The `handlr` tool provides a friendlier CLI alternative to `xdg-mime` with faster lookup and batch-setting support. This chapter explains the whole chain from MIME detection through portal integration.
+
+## Installation
+
+**xdg-utils:** https://freedesktop.org/wiki/Software/xdg-utils  
+**handlr:** https://github.com/nicohman/handlr
+
+```bash
+# Arch Linux
+sudo pacman -S xdg-utils
+paru -S handlr-regex      # AUR
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.xdg-utils
+nix-env -iA nixpkgs.handlr-regex
+# home-manager: xdg.enable = true; (enables mimeapps.list management)
+```
 
 ---
 

@@ -1,5 +1,23 @@
 # Appendix E — Hyprland Configuration Quick Reference
 
+## Overview
+
+Hyprland is a dynamic tiling Wayland compositor built on the wlroots library (via the Aquamarine rendering backend), known for its smooth animations, rich plugin system, and comprehensive IPC surface. This appendix is a concise syntax reference for every major configuration block — monitor setup, keybindings, window rules, layer rules, animations, decoration, layout options, input, and performance tuning — intended as a desk reference for users who are already familiar with Hyprland's concepts from Chapter 8 and need the exact keyword names and value formats without re-reading the full chapter. The `hyprctl` command reference and dispatcher listing cover all IPC operations you can trigger from scripts or keybinds, and the sections on workspace rules, submaps, and the source/variable system document the less commonly used but powerful configuration features. Return to Appendix A for the underlying Wayland protocol context, and to the Hyprland wiki at `https://wiki.hyprland.org` for the authoritative and up-to-date keyword reference.
+
+## Installation
+
+**Project:** https://github.com/hyprwm/Hyprland
+
+```bash
+# Arch Linux (official extra repo)
+sudo pacman -S hyprland
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.hyprland
+# or in home-manager:
+# wayland.windowManager.hyprland.enable = true;
+```
+
 ## Contents
 
 - [Monitor Configuration](#monitor-configuration)

@@ -46,6 +46,24 @@ This chapter dissects the Wayland wire protocol in depth. We start with the Unix
 
 All material here builds on Chapter 1's overview of the compositor architecture. The protocol extensions discussed in Chapter 3 (xdg-shell) and Chapter 3 (wlr-layer-shell) are implemented as layers on top of the foundations described here. See Chapter 53 for session startup and how the `WAYLAND_DISPLAY` socket path is established before any client connects.
 
+## Installation
+
+**Project:** https://wayland.freedesktop.org · https://gitlab.freedesktop.org/wayland/wayland-protocols
+
+```bash
+# Arch Linux — libwayland, scanner, and protocol XML files
+sudo pacman -S wayland wayland-protocols
+
+# Development headers (for writing clients in C)
+sudo pacman -S libwayland-dev  # or: wayland is sufficient on Arch
+
+# Debugging tools
+sudo pacman -S wayland-utils   # provides wayland-info
+
+# Nix
+nix-env -iA nixpkgs.wayland nixpkgs.wayland-protocols nixpkgs.wayland-utils
+```
+
 ---
 
 ## 2.1 The Unix Socket Transport

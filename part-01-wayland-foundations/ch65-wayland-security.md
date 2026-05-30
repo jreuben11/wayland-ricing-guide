@@ -70,6 +70,24 @@ compositor-mediated access, and per-resource permission gating.
 This chapter explains the threat model Wayland addresses, what the protocol
 actively prevents, where the remaining attack surface lies, and how to
 construct a hardened Wayland setup for a security-conscious power user.
+
+## Installation
+
+The core Wayland security model is implemented in the compositor — no separate package required. The optional sandboxing and hardening tools covered in this chapter are:
+
+**Projects:** https://github.com/containers/bubblewrap · https://flatpak.org · https://github.com/netblue30/firejail
+
+```bash
+# Arch Linux
+sudo pacman -S bubblewrap          # low-level sandboxing (bwrap)
+sudo pacman -S flatpak             # application sandboxing via portals
+sudo pacman -S xdg-desktop-portal  # portal backend (already a dependency of most DEs)
+paru -S firejail                   # higher-level sandbox profiles
+
+# Nix
+nix-env -iA nixpkgs.bubblewrap nixpkgs.flatpak nixpkgs.firejail
+# home-manager: services.flatpak.enable = true;
+```
 Understanding these mechanisms is essential before layering ricing customizations
 on top — misconfiguring a compositor, portal, or session locker can silently
 reopen vulnerabilities that Wayland is designed to close.

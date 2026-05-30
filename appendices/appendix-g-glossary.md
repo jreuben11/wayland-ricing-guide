@@ -1,6 +1,8 @@
 # Appendix G — Glossary of Terms
 
-Terms used throughout this book, alphabetically ordered.
+## Overview
+
+This glossary defines every technical term, acronym, protocol name, and tool name used throughout the book, organized alphabetically by letter for fast lookup. Each entry is a concise definition that establishes what the term means, why it matters in a Wayland ricing context, and which chapter covers it in depth — making this appendix equally useful as a first introduction to an unfamiliar concept and as a quick reminder when you encounter a term while reading. Coverage ranges from low-level kernel and GPU concepts (DRM, KMS, DMA-BUF, EGL) through Wayland protocol terminology (layer-shell, explicit sync, xdg-shell) to compositor-specific tools (hyprlock, hypridle, hyprpm), color and theming tools (matugen, pywal, Catppuccin, Stylix), and the broader desktop ecosystem (D-Bus, PipeWire, polkit, Flatpak). When a term has a closely related counterpart or common point of confusion, the entry notes it explicitly.
 
 ---
 

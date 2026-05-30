@@ -24,13 +24,26 @@
 
 ## Overview
 
-Terminal multiplexers are fixtures of nearly every developer rice. They provide session
-persistence, split panes, and named windows — and their status bars are a highly visible
-design surface. tmux with its status line and Zellij with its tab/status bars both
-support deep theming via configuration. This chapter covers both tools: achieving a
-coherent look that matches your terminal colorscheme, building powerline-style segments,
-using community plugin themes, and integrating with pywal/matugen for dynamic palette
-reloading.
+Terminal multiplexers are fixtures of nearly every developer rice. They provide session persistence, split panes, and named windows — and their status bars are a highly visible design surface. tmux with its status line and Zellij with its tab/status bars both support deep theming via configuration. This chapter covers both tools: achieving a coherent look that matches your terminal colorscheme, building powerline-style segments, using community plugin themes, and integrating with pywal/matugen for dynamic palette reloading. TPM (Tmux Plugin Manager) handles community theme plugins via git and a simple prefix-key install command.
+
+## Installation
+
+**tmux:** https://github.com/tmux/tmux  
+**zellij:** https://zellij.dev  
+**TPM (Tmux Plugin Manager):** https://github.com/tmux-plugins/tpm
+
+```bash
+# Arch Linux
+sudo pacman -S tmux zellij
+
+# TPM — git clone only (no package needed)
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.tmux
+nix-env -iA nixpkgs.zellij
+# home-manager: programs.tmux.enable = true; programs.zellij.enable = true;
+```
 
 ---
 

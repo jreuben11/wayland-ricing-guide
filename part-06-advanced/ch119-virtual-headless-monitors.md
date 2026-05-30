@@ -23,9 +23,27 @@
 
 ## Overview
 
-Virtual monitors — outputs that exist in the compositor but have no physical display connected — solve several real problems: a second "screen" for a remote desktop session, a persistent workspace when a laptop's external monitor is unplugged, an offscreen render target for OBS scene composition, or a stable layout for a headless CI compositor. Each compositor has its own mechanism for creating virtual outputs, and the `wlr-virtual-output-manager-unstable-v1` protocol provides a compositor-independent path for tools that need one.
+Virtual monitors — outputs that exist in the compositor but have no physical display connected — solve several real problems: a second "screen" for a remote desktop session, a persistent workspace when a laptop's external monitor is unplugged, an offscreen render target for OBS scene composition, or a stable layout for a headless CI compositor. Each compositor has its own mechanism for creating virtual outputs, and the `wlr-virtual-output-manager-unstable-v1` protocol provides a compositor-independent path for tools that need one. On Hyprland and Sway, virtual outputs can be created at runtime via IPC with no config change; the `wlr-randr` and `wdisplays` tools provide output inspection and management from the command line and GUI respectively. For purely headless operation (no physical display at all), the `vkms` kernel module creates a virtual DRM device that compositors can drive without real hardware.
 
 **Cross-references:** Ch 33 — kanshi and display configuration. Ch 80 — remote desktop (wayvnc + virtual output). Ch 41 — multi-monitor and HiDPI. Ch 85 — headless compositor for testing (`WLR_BACKENDS=headless`).
+
+## Installation
+
+**Project:** Virtual display support is built into wlroots-based compositors (Hyprland, Sway). The tools below provide output management and inspection.
+
+```bash
+# Arch Linux
+sudo pacman -S wlr-randr    # CLI output management (resolution, scale, transform)
+sudo pacman -S wdisplays    # GTK GUI for output configuration
+# Virtual DRM device (no package needed — built into the kernel):
+sudo modprobe vkms          # Virtual Kernel Mode Setting — enables headless compositor
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.wlr-randr
+nix-env -iA nixpkgs.wdisplays
+# home-manager: no canonical module — add to environment.systemPackages
+# vkms is a kernel module; enable via boot.kernelModules = [ "vkms" ];
+```
 
 ---
 

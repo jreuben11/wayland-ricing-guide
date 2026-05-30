@@ -16,9 +16,19 @@
 
 
 ## Overview
-A notification center (persistent sidebar showing notification history) is one
-of the most-requested Quickshell components. This chapter builds one end-to-end:
-popup toasts + dismissal + persistent history drawer.
+A notification center (persistent sidebar showing notification history) is one of the most-requested Quickshell components. This chapter builds one end-to-end: popup toasts with auto-dismiss timers, urgency-based styling, a persistent history drawer that slides in from the right edge, and a do-not-disturb mode that suppresses popups for non-critical notifications. All state is managed through a singleton `NotificationStore` that both the toast layer and the drawer read from.
+
+## Installation
+
+**Quickshell:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Nix (nixpkgs) — see the Quickshell documentation for the flake overlay
+# home-manager: programs.quickshell.enable = true;
+```
 
 ## Sections
 

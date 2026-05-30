@@ -1,8 +1,8 @@
 # Appendix C — Resource Index
 
-This appendix is a curated, annotated reference to every major resource, repository, tool, and community hub relevant to Wayland desktop customization. It is structured so you can navigate by what you need: official protocol documentation, compositor source trees, per-tool quick-references, community forums, and a cheat-sheet of commands you will run constantly while ricing. Every URL has been verified against the project's canonical hosting location. Where a project has moved or forked, the canonical location is listed.
+## Overview
 
-See Ch 1 for a conceptual overview of the Wayland protocol stack. See Ch 53 for session startup and environment variable injection. See Appendix A for the protocol extension taxonomy and Appendix B for the Quickshell/AGS widget API cheat-sheet.
+This appendix is a curated, annotated reference to every major resource, repository, tool, and community hub relevant to Wayland desktop customization. It is structured so you can navigate by what you need: official protocol documentation, compositor source trees, per-tool quick-references, community forums, and a cheat-sheet of commands you will run constantly while ricing. Every URL has been verified against the project's canonical hosting location; where a project has moved or forked, the canonical location is listed. The Tooling Reference section organizes ecosystem tools by functional category (wallpaper daemons, screen lockers, bars, notification daemons, launchers, screenshot tools, clipboard managers, monitor management, and color/theming), making it easy to compare alternatives at a glance. A Troubleshooting section at the end covers the six most common setup failures with diagnostic commands. See Ch 1 for a conceptual overview of the Wayland protocol stack, Ch 53 for session startup and environment variable injection, Appendix A for the protocol extension taxonomy, and Appendix D for the Quickshell API cheat-sheet.
 
 ---
 

@@ -24,6 +24,19 @@ Chapter 56 covers WirePlumber as a system service with standard configuration fi
 
 **Cross-references:** Ch 56 — PipeWire and WirePlumber setup. Ch 21 — PipeWire audio in Quickshell. Ch 114 — audio visualizers (PipeWire source selection).
 
+## Installation
+
+**WirePlumber:** https://pipewire.pages.freedesktop.org/wireplumber
+
+```bash
+# Arch Linux
+sudo pacman -S wireplumber
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.wireplumber
+# home-manager: services.pipewire.wireplumber.enable = true;
+```
+
 ---
 
 ## 120.1 WirePlumber Architecture

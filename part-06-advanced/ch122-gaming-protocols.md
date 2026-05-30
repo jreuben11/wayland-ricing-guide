@@ -36,9 +36,26 @@
 
 ## Overview
 
-Four Wayland protocols are critical for gaming but rarely documented outside compositor changelogs: **tearing-control-v1** (allow screen tearing for maximum frame rate), **relative-pointer-unstable-v1** (raw delta mouse input for FPS games), **pointer-constraints-unstable-v1** (lock or confine the cursor to a window), and **wp-presentation** (frame pacing feedback for vsync-aware renderers). This chapter explains what each protocol does, how compositors expose it, how game engines and runners use it, and how to enable, verify, and troubleshoot each.
+Four Wayland protocols are critical for gaming but rarely documented outside compositor changelogs: **tearing-control-v1** (allow screen tearing for maximum frame rate), **relative-pointer-unstable-v1** (raw delta mouse input for FPS games), **pointer-constraints-unstable-v1** (lock or confine the cursor to a window), and **wp-presentation** (frame pacing feedback for vsync-aware renderers). This chapter explains what each protocol does, how compositors expose it, how game engines and runners use it, and how to enable, verify, and troubleshoot each. gamescope — Valve's micro-compositor for gaming — wraps all four protocols internally and is the recommended deployment path for competitive gaming under any Wayland compositor. The protocols themselves are implemented in-compositor and require no additional packages, but gamescope and `libliftoff` need to be installed separately for advanced frame scheduling and hardware plane offloading.
 
 **Cross-references:** Ch 42 — gaming on Wayland overview (gamescope, VRR, HDR). Ch 43 — input customization. Ch 63 — GPU rendering stack (VRR, explicit sync).
+
+## Installation
+
+**Project:** gamescope — <https://github.com/ValveSoftware/gamescope>
+
+```bash
+# Arch Linux
+sudo pacman -S gamescope      # Valve's micro-compositor for gaming
+sudo pacman -S libliftoff     # DRM hardware plane scheduling library (used by gamescope)
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.gamescope
+# home-manager: programs.gamescope.enable = true;
+# libliftoff is a dependency of gamescope and pulled in automatically
+```
+
+> The four gaming protocols (`tearing-control-v1`, `relative-pointer-unstable-v1`, `pointer-constraints-unstable-v1`, `wp-presentation`) are built into compositors — no separate install needed.
 
 ---
 

@@ -33,10 +33,31 @@
 
 ## Overview
 
-Large language models and AI-powered tooling have become genuinely useful for
-ricing workflows — generating QML components, querying up-to-date library docs,
-finding dotfile patterns, and explaining protocol internals. This appendix
-covers the tools worth knowing.
+Large language models and AI-powered tooling have become genuinely useful for Wayland ricing workflows, covering tasks that previously required deep manual research: generating QML components, querying up-to-date library documentation through MCP servers, searching dotfile repositories for specific patterns, explaining protocol internals from wire traces, and producing color palettes from wallpaper images. This appendix surveys the tools and workflows worth knowing, organized into six areas: Claude Code with MCP servers (context7 for live docs, arxiv for research, GitHub for dotfile search), Claude Code prompt recipes for common ricing tasks, AI image generation for wallpapers (Stable Diffusion/ComfyUI, with pywal/matugen integration), AI-assisted color palette tools, AI support for protocol and Rust code work, and Quickshell-specific AI workflow patterns. The final section lists community AI resources including wallpaper-generation communities and AI-assisted theming projects.
+
+## Installation
+
+**Claude Code CLI:** https://claude.ai/code · https://github.com/anthropics/claude-code
+
+```bash
+# Install Claude Code (requires Node.js 18+)
+npm install -g @anthropic-ai/claude-code
+
+# Arch Linux — Node.js
+sudo pacman -S nodejs npm
+
+# Nix
+nix-env -iA nixpkgs.nodejs
+npm install -g @anthropic-ai/claude-code
+# Or: nix-env -iA nixpkgs.claude-code  (if packaged in nixpkgs)
+
+# ComfyUI (AI image generation, covered in §F.3)
+# git clone https://github.com/comfyanonymous/ComfyUI
+# pip install -r requirements.txt
+
+# Ollama (local LLM runtime)
+# Arch: paru -S ollama  |  Nix: nix-env -iA nixpkgs.ollama
+```
 
 ---
 

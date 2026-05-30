@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [21.1 PipeWire Architecture Primer](#211-pipewire-architecture-primer)
 - [21.2 PwNode — Audio Nodes](#212-pwnode-audio-nodes)
 - [21.3 Default Sink and Source](#213-default-sink-and-source)
@@ -35,6 +36,24 @@ PulseAudio virtual nodes will appear in the graph and are handled identically.
 
 > See **Ch 15** for Quickshell module imports and build configuration.
 > See **Ch 53** for session startup ordering and ensuring PipeWire is ready before your shell launches.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

@@ -48,6 +48,22 @@ sequencing of theme application see **Chapter 53**.
 
 ---
 
+## Installation
+
+**Projects:** https://github.com/dylanaraps/pywal · https://github.com/InioX/matugen
+
+```bash
+# Arch Linux
+paru -S python-pywal           # pywal (wal command)
+paru -S matugen-bin            # matugen — Material You extraction
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.pywal
+nix-env -iA nixpkgs.matugen
+```
+
+---
+
 ## 38.1 pywal — The Original
 
 pywal (simply `wal` on the command line) is a Python utility that runs a

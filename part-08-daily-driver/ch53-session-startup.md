@@ -37,6 +37,24 @@ This chapter covers Hyprland and Sway in depth, with notes on niri and river whe
 their approaches diverge. For display manager configuration, see Ch 54. For
 portal-specific debugging (screen share, file picker), see Ch 52.
 
+## Installation
+
+**dbus:** built into all major distributions; provided by the `dbus` package.  
+**systemd user session:** built into systemd — no separate install required.
+
+```bash
+# Arch Linux — dbus is already a dependency of the base system
+sudo pacman -S dbus          # if somehow missing
+
+# The exec-once tooling referenced in this chapter:
+sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland polkit-gnome \
+               pipewire wireplumber pipewire-pulse
+
+# Nix (nixpkgs) — dbus is part of the default NixOS/home-manager session
+nix-env -iA nixpkgs.dbus
+# home-manager: services.pipewire.enable = true; xdg.portal.enable = true;
+```
+
 ---
 
 ## 53.1 The Startup Problem

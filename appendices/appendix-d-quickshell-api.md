@@ -1,5 +1,23 @@
 # Appendix D — Quickshell API Quick Reference
 
+## Overview
+
+Quickshell is a QML/QtQuick-based Wayland shell framework that provides composable, stateful layer-shell widgets, deep compositor integrations, and service bindings for PipeWire, MPRIS, UPower, notifications, and system tray — all in a declarative reactive model. This appendix is a dense quick-reference covering every major import namespace with property tables, type signatures, and idiomatic code patterns, designed for developers who already have the conceptual foundations from Chapters 15–25 and need a fast lookup resource while building components. The reference covers the `Quickshell` core (ShellRoot, PanelWindow, Variants, SystemClock), all `Quickshell.Io` types (Process, FileView, Socket, IpcHandler), the Wayland and Hyprland integration modules, all service bindings, and a set of common reactive patterns for null-safety, polling, and computed properties. Quickshell's API evolves rapidly; when in doubt, use the context7 MCP server or the official docs at `https://quickshell.org/docs/` to verify the current API against what is shown here.
+
+## Installation
+
+**Project:** https://quickshell.org (source: https://git.outfoxxed.me/quickshell/quickshell)
+
+```bash
+# Arch Linux (AUR — not in official repos)
+paru -S quickshell-git    # or: paru -S quickshell
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.quickshell
+# or in home-manager:
+# programs.quickshell.enable = true;   # check AUR or nixpkgs for current availability
+```
+
 ## Contents
 
 - [Import Map](#import-map)

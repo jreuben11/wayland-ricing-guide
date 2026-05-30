@@ -35,6 +35,25 @@ Cross-reference: for session startup and environment variable injection, see Ch 
 
 ---
 
+## Installation
+
+**Project:** `WAYLAND_DEBUG` is a built-in environment variable provided by libwayland — no installation required. The additional inspection tools below need separate packages.
+
+```bash
+# Arch Linux
+sudo pacman -S weston          # provides weston-info (compositor-agnostic protocol inspector)
+sudo pacman -S wayland-utils   # provides wayland-info (alternative to weston-info)
+paru -S wldbg                  # AUR: interactive Wayland protocol debugger/proxy
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.weston        # weston-info
+nix-env -iA nixpkgs.wayland-utils # wayland-info
+nix-env -iA nixpkgs.wldbg         # wldbg
+# home-manager: no canonical module — install via environment.systemPackages
+```
+
+---
+
 ## 45.1 WAYLAND_DEBUG — Protocol Tracing
 
 `WAYLAND_DEBUG` is the most fundamental Wayland debugging tool. It instructs the client-side libwayland to print every protocol message it sends or receives to stderr. This gives you a complete trace of the Wayland wire protocol in human-readable form, which is invaluable when diagnosing protocol errors, unexpected object destruction sequences, or missing capability negotiations.

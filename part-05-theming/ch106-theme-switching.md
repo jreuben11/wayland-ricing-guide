@@ -26,6 +26,23 @@ chapter covers the architecture for multi-theme setups: per-theme directories,
 an atomic switch script, time-based auto-switching with systemd timers, and
 reactive Quickshell components that follow theme changes.
 
+## Installation
+
+Most tools used in this chapter are built into your existing compositor or desktop environment (`hyprctl`, `gsettings`, `systemctl`). The optional geolocation-aware switching requires:
+
+**Projects:** https://gitlab.freedesktop.org/geoclue/geoclue · https://github.com/nwg-piotr/nwg-look
+
+```bash
+# Arch Linux
+sudo pacman -S geoclue    # geolocation daemon for sunrise/sunset switching
+sudo pacman -S glib2      # provides gsettings (usually already installed)
+# hyprctl is bundled with: sudo pacman -S hyprland
+
+# Nix
+nix-env -iA nixpkgs.geoclue
+# home-manager: services.geoclue2.enable = true;
+```
+
 ---
 
 ## 106.1 Theme Directory Structure

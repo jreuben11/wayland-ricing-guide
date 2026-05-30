@@ -42,6 +42,28 @@ appear in Ch 15 (Sway keybindings), Ch 8 (Hyprland binds), and Ch 53 (session st
 
 ---
 
+## Installation
+
+**Projects:** https://codeberg.org/dnkl/fuzzel · https://github.com/lbonn/rofi · https://hg.sr.ht/~scoopta/wofi · https://github.com/Kirottu/anyrun · https://github.com/abenz1267/walker
+
+```bash
+# Arch Linux
+sudo pacman -S fuzzel          # fuzzel — fast minimal launcher
+sudo pacman -S wofi            # wofi — GTK3 launcher
+paru -S rofi-wayland           # rofi Wayland fork
+paru -S anyrun                 # Anyrun plugin launcher
+paru -S walker-bin             # walker GTK4 launcher
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.fuzzel
+nix-env -iA nixpkgs.rofi-wayland
+nix-env -iA nixpkgs.wofi
+# home-manager: programs.fuzzel.enable = true;
+# home-manager: programs.rofi.enable = true;
+```
+
+---
+
 ## 28.1 fuzzel — Fast and Minimal
 
 fuzzel is a Wayland-native application launcher written in C with no runtime dependencies beyond

@@ -24,6 +24,10 @@
 
 ---
 
+> **No additional installation required.** Window rules are built into Hyprland, Sway, River, Niri, and KWin. Install your compositor of choice (see Part II) and the rules are available immediately.
+
+---
+
 
 ## Overview
 

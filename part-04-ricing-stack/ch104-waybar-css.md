@@ -35,6 +35,23 @@ so the bar recolours automatically when your wallpaper changes.
 
 ---
 
+## Installation
+
+Waybar is installed as part of the ricing stack covered in **Chapter 26**. Refer to that chapter for
+full installation instructions. The CSS theming in this chapter requires no additional packages
+beyond a working Waybar installation.
+
+```bash
+# Arch Linux (see Ch 26 for full setup)
+sudo pacman -S waybar
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.waybar
+# home-manager: programs.waybar.enable = true;
+```
+
+---
+
 ## 104.1 How GTK CSS Applies to Waybar
 
 Waybar loads `~/.config/waybar/style.css` (or the path in `style` in

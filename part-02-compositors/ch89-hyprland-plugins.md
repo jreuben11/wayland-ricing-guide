@@ -29,10 +29,21 @@
 
 ## Overview
 
-Hyprland's plugin system lets C++ code hook directly into the compositor:
-intercept window events, override layout algorithms, add new dispatchers, and
-draw custom decorations. `hyprpm` is the package manager. This chapter covers
-installing plugins, using the most popular ones, and writing your own.
+Hyprland's plugin system lets C++ code hook directly into the compositor: intercept window events, override layout algorithms, add new dispatchers, and draw custom decorations. Plugins are compiled as shared libraries loaded at runtime and must be built against the exact Hyprland headers installed on your system, which makes the `hyprpm` plugin manager essential for keeping them in sync after compositor upgrades. This chapter covers installing and managing plugins with `hyprpm`, walks through the most popular community plugins (hy3, hyprscroller, hyprexpo, hyprbars), and guides you through writing and distributing your own plugin using the Hyprland C++ plugin API.
+
+## Installation
+
+**Project:** <https://github.com/hyprwm/Hyprland>
+
+```bash
+# Arch Linux
+sudo pacman -S hyprland
+# hyprpm ships as part of the hyprland package
+
+# Nix
+nix-env -iA nixpkgs.hyprland
+# home-manager: wayland.windowManager.hyprland.enable = true;
+```
 
 ---
 

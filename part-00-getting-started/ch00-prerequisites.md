@@ -20,8 +20,8 @@
 
 
 ## Overview
-Everything you need before chapter 1. Covers assumed knowledge, hardware
-requirements, initial OS setup, and how to verify you are running Wayland.
+
+This chapter covers everything you need to set up a functional Wayland environment before reading the rest of the guide. It establishes the assumed knowledge baseline, walks through hardware requirements and GPU-specific caveats, explains how to verify you are running a Wayland session rather than X11, and provides the essential first package sets for Arch and NixOS. Laptop buyers will find a hardware recommendation section evaluating GPU vendor choices and specific models for Wayland ricing. By the end you will have a running Wayland session, the correct environment variables, and a display manager or autologin configuration ready to go.
 
 ## Sections
 

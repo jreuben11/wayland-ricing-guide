@@ -1,7 +1,8 @@
 # Appendix H — CLI Tool and Command Index
 
-Alphabetical reference of every tool and command mentioned in this book,
-with a one-line description and the chapter(s) where it is covered in depth.
+## Overview
+
+This appendix is a comprehensive alphabetical index of every CLI tool, command, and utility mentioned anywhere in the book, providing a one-line description of each tool's purpose and a pointer to the chapter or chapters where it is covered in depth. Use it when you encounter an unfamiliar command in a code snippet and need a quick orientation before turning to the full chapter, or when you want to survey what tools exist for a particular task without reading multiple chapters. Each entry shows the exact binary name as you would type it in a terminal, a brief functional description, and the relevant chapter references. The Quick Reference section at the end groups all tools by functional category — compositor control, screenshots and recording, theming and color, system monitoring, audio, network, Bluetooth, dotfiles, testing and automation, and D-Bus/IPC — so you can identify all the alternatives for a given task at a glance.
 
 ---
 

@@ -2,7 +2,9 @@
 
 > *"Every frame is perfect."* — The Wayland design manifesto
 
-This chapter lays the conceptual groundwork for everything that follows in this book. Before you can rice a Wayland desktop effectively, you need to understand why Wayland was built the way it was, what problems it solves, and how the protocol machinery works beneath the compositor you will configure. Superficial knowledge leads to configurations that break mysteriously; architectural understanding lets you reason from first principles.
+## Overview
+
+This chapter lays the conceptual groundwork for everything that follows in this book. Before you can rice a Wayland desktop effectively, you need to understand why Wayland was built the way it was, what problems it solves, and how the protocol machinery works beneath the compositor you will configure. Superficial knowledge leads to configurations that break mysteriously; architectural understanding lets you reason from first principles. The chapter traces Wayland's origins as a response to X11's accumulated technical debt, covers the architecture's three-party model (client, compositor, kernel), and surveys the protocol namespaces and ricing-relevant extensions you will encounter throughout the rest of this guide.
 
 ---
 

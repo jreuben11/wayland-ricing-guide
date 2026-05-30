@@ -29,6 +29,24 @@ This chapter covers the full lifecycle of authoring a Quickshell C++ module: dir
 
 Cross-references: See Ch 53 for Quickshell session startup and IPC. See Ch 71 for QML fundamentals in Quickshell. See Ch 75 for wrapping Wayland protocols in C++. See Ch 80 for contributing modules upstream.
 
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux — Quickshell dev build and required build tools
+paru -S quickshell-git         # Quickshell (includes dev headers)
+sudo pacman -S cmake           # CMake build system
+sudo pacman -S qt6-base        # Qt6 base libraries (Core, Qml, etc.)
+
+# Nix — use a devShell or nix-shell with the required packages
+# nix-shell -p cmake qt6.qtbase quickshell
+```
+
+---
+
 ## When to Write a C++ Module
 
 The `Process` and `ShellService` QML types cover the majority of rice use-cases: reading stdout from scripts, polling files, launching daemons. C++ modules add value in a distinct set of situations:

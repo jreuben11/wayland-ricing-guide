@@ -30,6 +30,21 @@ Firefox exposes its entire UI as styleable XUL/HTML elements, accessible via `us
 
 ---
 
+## Installation
+
+**Project:** https://www.firefox.com
+
+```bash
+# Arch Linux
+sudo pacman -S firefox
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.firefox
+# home-manager: programs.firefox.enable = true;
+```
+
+---
+
 ## 129.1 Enabling userChrome.css
 
 Firefox disables legacy userChrome customization by default. Enable it once:

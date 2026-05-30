@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [18.1 Process — Running Commands](#181-process-running-commands)
 - [18.2 StdioCollector and SplitParser](#182-stdiocollector-and-splitparser)
 - [18.3 FileView — Reading Files](#183-fileview-reading-files)
@@ -26,6 +27,24 @@ The `Quickshell.Io` module is the primary interface between your Quickshell shel
 This chapter walks through every major type in the `Io` module with complete, copy-paste-ready examples. Each section builds on the previous: you will see how `Process` feeds into `StdioCollector`, how `StdioCollector` feeds into `JsonAdapter`, and how `IpcHandler` lets external scripts drive your running shell. Readers who are already comfortable with QML property bindings will find these APIs natural; newcomers should first read Chapter 14 (QML Fundamentals) before proceeding.
 
 Cross-references: Chapter 17 covers the Quickshell object lifecycle and `ShellRoot`. Chapter 19 covers the `Widgets` module. Chapter 20 covers Hyprland-specific IPC helpers built on top of these primitives. Chapter 53 covers session startup and service dependencies.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

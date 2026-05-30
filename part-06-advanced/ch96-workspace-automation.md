@@ -25,10 +25,22 @@
 
 ## Overview
 
-Beyond basic workspace switching, Hyprland's IPC and tools like pyprland enable
-sophisticated workspace behaviour: scratchpad terminals that slide in and out,
-expose-style overviews, per-workspace app pinning, and persistent layouts that
-survive across sessions.
+Beyond basic workspace switching, Hyprland's IPC and tools like pyprland enable sophisticated workspace behaviour: scratchpad terminals that slide in and out, expose-style overviews, per-workspace app pinning, and persistent layouts that survive across sessions. pyprland acts as a plugin host that listens on Hyprland's event socket and provides high-level features — scratchpads, monitor management, window exposure, and per-workspace wallpapers — through a simple TOML config file. Workspace automation scripts can also be written directly in shell or Python using the raw IPC socket, making the system highly composable. This chapter covers both approaches, from drop-in pyprland plugins to custom IPC-driven layout scripts.
+
+## Installation
+
+**Project:** <https://github.com/hyprland-community/pyprland>
+
+```bash
+# Arch Linux
+paru -S pyprland          # AUR package
+# or: pip install pyprland --user
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.pyprland
+# home-manager: programs.pyprland.enable = true;  (if module is available)
+# or add to environment.systemPackages = [ pkgs.pyprland ];
+```
 
 ---
 

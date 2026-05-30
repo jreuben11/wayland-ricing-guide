@@ -1,11 +1,8 @@
 # Chapter 14 — Choosing Your Compositor: Decision Framework
 
-This chapter provides a rigorous, opinionated framework for selecting a Wayland compositor that
-fits your hardware, workflow, and aesthetic goals. Rather than cataloguing every project that
-has ever called itself a compositor, the focus is on the compositors that have active communities,
-real ricing ecosystems, and meaningful differentiation. By the end of the chapter you will
-understand the trade-offs well enough to make a confident choice — and to migrate later without
-starting from scratch.
+## Overview
+
+This chapter provides a rigorous, opinionated framework for selecting a Wayland compositor that fits your hardware, workflow, and aesthetic goals. Rather than cataloguing every project that has ever called itself a compositor, the focus is on the compositors that have active communities, real ricing ecosystems, and meaningful differentiation. By the end of the chapter you will understand the trade-offs well enough to make a confident choice — and to migrate later without starting from scratch. The chapter covers five decision axes (workflow, hardware, aesthetics, config style, and community), a dedicated section on NVIDIA compatibility, a full comparison matrix of seven compositors, and concrete migration paths from common X11 setups.
 
 See Ch 15 for deep-dive Hyprland configuration, Ch 16 for Sway/i3-inspired tiling, Ch 22 for
 Niri scrollable workspaces, and Ch 53 for session startup and display manager integration.

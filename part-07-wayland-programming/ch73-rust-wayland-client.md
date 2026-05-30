@@ -22,6 +22,26 @@ The `wayland-client` crate provides safe Rust bindings to the Wayland client
 library. This chapter builds the same minimal window from Ch 4 (C), but in
 idiomatic Rust, showing why Rust is increasingly used for Wayland tooling.
 
+---
+
+## Installation
+
+**Project:** https://github.com/Smithay/wayland-rs
+
+```bash
+# Arch Linux — install the Rust toolchain
+sudo pacman -S rust             # rustc, cargo
+
+# Add wayland-client as a Cargo dependency (in Cargo.toml)
+# cargo add wayland-client wayland-protocols
+
+# Nix (nixpkgs) — Rust toolchain
+nix-env -iA nixpkgs.rustToolchain
+# Or in a devShell: pkgs.rustToolchain / pkgs.cargo
+```
+
+---
+
 ## Sections
 
 ### 73.1 The Rust Wayland Ecosystem

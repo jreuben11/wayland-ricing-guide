@@ -25,6 +25,22 @@ Multi-layout keyboard configuration is a daily need for anyone writing in more t
 
 **Cross-references:** Ch 43 — input customization (libinput, kanata, keyd). Ch 79 — IME with Fcitx5 and IBus (for CJK and complex scripts). Ch 26 — Waybar (layout indicator module).
 
+## Installation
+
+XKB is built into `libxkbcommon` (always present on Wayland). `localectl` and `busctl` are part of systemd. `fcitx5` requires a separate install for IME support.
+
+```bash
+# Arch Linux
+sudo pacman -S libxkbcommon   # XKB library (Wayland compositor dependency)
+# localectl is part of systemd-utils — already installed
+sudo pacman -S fcitx5         # only needed for CJK / IME input (§135.9)
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.libxkbcommon
+nix-env -iA nixpkgs.fcitx5
+# home-manager: i18n.inputMethod.enabled = "fcitx5";
+```
+
 ---
 
 ## 135.1 XKB Fundamentals

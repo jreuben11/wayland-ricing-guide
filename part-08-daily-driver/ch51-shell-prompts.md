@@ -26,9 +26,25 @@
 
 
 ## Overview
-The shell prompt is the second most-visible terminal element after the color
-scheme. This chapter covers shell choice, framework configuration, and the
-two dominant cross-shell prompt tools.
+The shell prompt is the second most-visible terminal element after the color scheme. Fish provides the best out-of-box interactive experience, while Zsh with a framework offers maximum extensibility and the largest plugin ecosystem. Starship and oh-my-posh are cross-shell prompt engines written in Rust and Go respectively, both rendering powerline-style segments with git status, language versions, and timing data. This chapter covers shell selection, framework setup, and deep configuration of both prompt tools.
+
+## Installation
+
+**Starship:** https://starship.rs  
+**oh-my-posh:** https://ohmyposh.dev  
+**Fish:** https://fishshell.com
+
+```bash
+# Arch Linux
+sudo pacman -S starship fish
+paru -S oh-my-posh-bin   # AUR
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.starship
+nix-env -iA nixpkgs.oh-my-posh
+nix-env -iA nixpkgs.fish
+# home-manager: programs.starship.enable = true; programs.fish.enable = true;
+```
 
 ## Sections
 

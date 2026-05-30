@@ -17,8 +17,24 @@
 
 
 ## Overview
-A rice without dotfile management is a rice you'll lose. This chapter covers
-the four dominant approaches to tracking, versioning, and sharing dotfiles.
+A rice without dotfile management is a rice you will eventually lose to a reinstall or misconfiguration. The four dominant approaches — GNU Stow, chezmoi, yadm, and bare git — range from zero-dependency simplicity to full templating with encrypted secrets. Stow works by creating a symlink farm from a mirrored directory structure, chezmoi adds Go-template variables and `age`-encrypted secrets, yadm wraps git with per-host alternates, and bare git needs no extra tools at all. Choosing the right tool depends on how many machines you manage, whether configs vary by host, and whether any dotfiles contain secrets.
+
+## Installation
+
+**stow:** https://www.gnu.org/software/stow  
+**chezmoi:** https://chezmoi.io  
+**yadm:** https://yadm.io
+
+```bash
+# Arch Linux
+sudo pacman -S stow chezmoi yadm
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.stow
+nix-env -iA nixpkgs.chezmoi
+nix-env -iA nixpkgs.yadm
+# home-manager: programs.chezmoi.enable = true; programs.yadm.enable = true;
+```
 
 ## Sections
 

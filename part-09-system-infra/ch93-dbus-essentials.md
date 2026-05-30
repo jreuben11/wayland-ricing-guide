@@ -27,13 +27,23 @@
 
 ## Overview
 
-D-Bus is the IPC backbone of a Linux desktop. Portals, notifications, MPRIS,
-Bluetooth, NetworkManager, polkit, and most other system services speak D-Bus.
-Understanding it lets you script any desktop service from the command line,
-build Quickshell components that talk to arbitrary D-Bus APIs, and debug silent
-failures in portal interactions.
+D-Bus is the IPC backbone of a Linux desktop. Portals, notifications, MPRIS, Bluetooth, NetworkManager, polkit, and most other system services speak D-Bus. Understanding it lets you script any desktop service from the command line, build Quickshell components that talk to arbitrary D-Bus APIs, and debug silent failures in portal interactions. The primary CLI tools are `busctl` (from systemd, the most ergonomic), `gdbus` (GNOME toolchain), and `dbus-monitor` (raw traffic inspection). Varlink (systemd's newer IPC mechanism for system-level services) is covered in §93.8.
 
-Varlink (systemd's newer IPC mechanism for system services) is covered in §93.8.
+## Installation
+
+All tools in this chapter are provided by packages already present on a standard Arch or NixOS install.
+
+```bash
+# Arch Linux
+sudo pacman -S dbus          # session daemon + dbus-update-activation-environment
+sudo pacman -S d-feet        # GUI D-Bus browser (optional)
+sudo pacman -S glib2         # provides gdbus
+# busctl is part of systemd (always present)
+
+# Nix (nixpkgs)
+nix-env -iA nixpkgs.dbus
+# busctl, gdbus, dbus-monitor are available in the default NixOS environment
+```
 
 ---
 

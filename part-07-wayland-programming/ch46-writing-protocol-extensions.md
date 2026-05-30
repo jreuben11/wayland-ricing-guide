@@ -1,8 +1,21 @@
 # Chapter 46 — Writing a Wayland Protocol Extension
 
-Wayland's extensibility model is one of its strongest architectural properties. Rather than baking every conceivable feature into the core protocol, Wayland separates the wire protocol layer from higher-level functionality, allowing compositors, toolkits, and applications to negotiate capabilities at runtime through protocol extensions. This chapter walks through the entire lifecycle of a custom Wayland protocol extension: design, XML authoring, code generation, client implementation, server implementation in wlroots, versioning strategy, and the path to upstreaming. By the end you will have a working blur-level protocol that a custom compositor can implement and a client application can consume.
+## Overview
 
-The mechanisms described here are the same ones used to build `xdg-shell`, `wlr-layer-shell`, `ext-idle-notify-v1`, and Hyprland's private protocols. Understanding them gives you full control over the compositor-client contract. See Ch 43 for the Wayland object model and Ch 44 for the wlroots compositor infrastructure that server-side code builds upon.
+Wayland's extensibility model is one of its strongest architectural properties. Rather than baking every conceivable feature into the core protocol, Wayland separates the wire protocol layer from higher-level functionality, allowing compositors, toolkits, and applications to negotiate capabilities at runtime through protocol extensions. This chapter walks through the entire lifecycle of a custom Wayland protocol extension: design, XML authoring, code generation, client implementation, server implementation in wlroots, versioning strategy, and the path to upstreaming. By the end you will have a working blur-level protocol that a custom compositor can implement and a client application can consume. The mechanisms described here are the same ones used to build `xdg-shell`, `wlr-layer-shell`, `ext-idle-notify-v1`, and Hyprland's private protocols — understanding them gives you full control over the compositor-client contract.
+
+## Installation
+
+**Project:** <https://gitlab.freedesktop.org/wayland/wayland>
+
+```bash
+# Arch Linux
+sudo pacman -S wayland wayland-protocols
+# wayland-scanner is included in the wayland package
+
+# Nix
+nix-env -iA nixpkgs.wayland nixpkgs.wayland-protocols
+```
 
 ---
 

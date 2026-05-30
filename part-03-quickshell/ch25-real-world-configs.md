@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [25.1 end_4/dots-hyprland](#251-end4dots-hyprland)
 - [25.2 outfoxxed's Configurations](#252-outfoxxeds-configurations)
 - [25.3 ekremx25/quickshell — Multi-Compositor Configuration](#253-ekremx25quickshell-multi-compositor-configuration)
@@ -41,6 +42,24 @@ Prerequisites: you should be comfortable with basic Quickshell shell roots and t
 `ShellRoot`/`PanelWindow` lifecycle from Chapters 20–22. A working Hyprland or Niri installation
 is assumed for the compositor-specific examples. See Chapter 53 for session startup integration,
 and Chapter 18 for IPC foundations that several patterns here depend upon.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

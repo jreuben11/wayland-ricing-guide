@@ -40,6 +40,19 @@ are bridged, and the concrete steps you can take to fix the most common problems
 have a clear mental model of where XWayland sits in the display stack and the tools to debug it when
 something goes wrong.
 
+## Installation
+
+**Project:** <https://gitlab.freedesktop.org/xorg/xserver>
+
+```bash
+# Arch Linux
+sudo pacman -S xorg-xwayland
+
+# Nix
+nix-env -iA nixpkgs.xwayland
+# home-manager: programs.xwayland.enable = true;
+```
+
 ---
 
 ## 64.1 What XWayland Is

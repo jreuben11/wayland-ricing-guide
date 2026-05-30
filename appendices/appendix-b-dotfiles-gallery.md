@@ -1,10 +1,8 @@
 # Appendix B — Dotfiles Repository Gallery
 
-This appendix is a curated, annotated reference library of real-world Wayland rices. Each entry documents what the configuration does, why it's worth studying, and what techniques you can extract for your own work. This is not a "top ten" popularity contest — these repositories were selected because they demonstrate distinct architectural choices, offer high code quality, or solve specific problems in novel ways.
+## Overview
 
-Studying other people's dotfiles is one of the fastest ways to level up your ricing skills. But raw browsing without a reading strategy wastes time. Use the **Annotated Dotfile Reading Guide** at the end of this appendix before diving into any repository.
-
-Cross-references: See **Chapter 4** for Hyprland compositor fundamentals, **Chapter 12** for Waybar configuration deep-dives, **Chapter 18** for Quickshell architecture, **Chapter 29** for NixOS flake patterns, and **Chapter 35** for color theming pipelines.
+This appendix is a curated, annotated reference library of real-world Wayland rices, organized by compositor and configuration stack. Each entry documents what the configuration does, why it is worth studying, and which concrete techniques you can extract for your own work — this is not a popularity contest but a selection of repositories that demonstrate distinct architectural choices, high code quality, or novel solutions to hard ricing problems. Coverage spans Quickshell+Hyprland setups, Waybar-based configurations, Sway rices, NixOS flake-based reproducible environments, and the emerging Niri ecosystem. At the end you will find an Annotated Dotfile Reading Guide with a five-step methodology for approaching any unfamiliar rice without wasting time copying things you do not understand. Use the **Annotated Dotfile Reading Guide** at the end of this appendix before diving into any repository. Cross-references: See **Chapter 4** for Hyprland compositor fundamentals, **Chapter 12** for Waybar configuration deep-dives, **Chapter 18** for Quickshell architecture, **Chapter 29** for NixOS flake patterns, and **Chapter 35** for color theming pipelines.
 
 ---
 

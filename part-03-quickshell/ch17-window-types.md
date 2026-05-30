@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [17.1 PanelWindow — The Ricing Workhorse](#171-panelwindow-the-ricing-workhorse)
   - [17.1.1 Layer Property Values](#1711-layer-property-values)
   - [17.1.2 Keyboard Focus Modes](#1712-keyboard-focus-modes)
@@ -29,6 +30,24 @@ Quickshell's window system is built on a direct mapping to Wayland protocols. Wh
 This chapter covers the three window types you will use in almost every Quickshell project: `PanelWindow`, `FloatingWindow`, and popup surfaces. It also covers multi-monitor management, visibility control, Z-ordering, and a complete worked example combining multiple window types. By the end, you will be able to construct a full desktop shell: status bar, sidebar panel, notification popups, and an optional overlay lockscreen — each using the correct Wayland surface role.
 
 Cross-references: For session startup and autoloading shell components, see Chapter 53. For theming and visual styling applied to these windows, see Chapter 22. For IPC between window components, see Chapter 31.
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

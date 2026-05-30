@@ -3,6 +3,7 @@
 ## Contents
 
 - [Overview](#overview)
+- [Installation](#installation)
 - [20.1 Quickshell.Hyprland Module Overview](#201-quickshellhyprland-module-overview)
 - [20.2 HyprlandMonitor](#202-hyprlandmonitor)
 - [20.3 HyprlandWorkspace](#203-hyprlandworkspace)
@@ -36,6 +37,24 @@ bar that you can drop into any Quickshell config.
 Cross-references: For the Quickshell component model and `PanelWindow` positioning, see Ch 15. For
 IPC-driven launch commands and session startup, see Ch 53. For styling the workspace buttons produced
 here, see Ch 29 (theme engine integration).
+
+---
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 ---
 

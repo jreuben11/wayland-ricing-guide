@@ -1,10 +1,24 @@
 # Chapter 15 — Quickshell Architecture and Philosophy
 
-Quickshell represents the current state of the art in Wayland desktop shell development. Written
-by outfoxxed, it emerged around 2024 as a response to the limitations of every prior shell
-framework. This chapter provides the deep architectural understanding you need before writing a
-single line of QML — how the engine works, why design decisions were made the way they were, and
-what the complete module ecosystem looks like. Subsequent chapters build on this foundation.
+## Overview
+
+Quickshell is a QML-based Wayland shell framework written by outfoxxed that emerged around 2024 as a direct response to the limitations of every prior shell tool — eww, AGS/Astal, and Waybar. Unlike bar programs that expose a fixed set of modules, Quickshell gives you a full reactive UI framework backed by the Qt6 engine: you describe your desktop shell in QML, a declarative language with live property bindings, and Quickshell handles the Wayland protocol plumbing, multi-monitor management, and hot reload. It targets power users and ricers who want the expressiveness of a full UI toolkit without writing C++ — anyone comfortable with JavaScript-flavoured configuration languages will feel at home. The project ships first-class integrations for Hyprland, Sway/i3, PipeWire, UPower, MPRIS, and the D-Bus notification spec, along with a comprehensive LSP via `qmlls` that enables autocomplete and type checking in any LSP-enabled editor. This chapter provides the deep architectural understanding you need before writing a single line of QML — how the engine works, why design decisions were made the way they were, and what the complete module ecosystem looks like.
+
+## Installation
+
+**Project:** https://quickshell.outfoxxed.me
+
+```bash
+# Arch Linux (AUR)
+paru -S quickshell-git
+
+# Runtime dependencies
+sudo pacman -S qt6-wayland qt6-declarative
+
+# Nix flake (add to flake.nix inputs)
+# inputs.quickshell.url = "github:outfoxxed/quickshell";
+# packages = [ inputs.quickshell.packages.${system}.default ];
+```
 
 > **See also:** Ch 16 for your first working shell, Ch 17 for multi-monitor layouts, Ch 53 for
 > session startup integration, Ch 54 for systemd service unit wrappers.
@@ -13,6 +27,8 @@ what the complete module ecosystem looks like. Subsequent chapters build on this
 
 ## Contents
 
+- [Overview](#overview)
+- [Installation](#installation)
 - [15.1 The Shell Framework Landscape](#151-the-shell-framework-landscape)
 - [15.2 Why Quickshell Wins for Serious Ricing](#152-why-quickshell-wins-for-serious-ricing)
 - [15.3 Architecture Deep Dive](#153-architecture-deep-dive)
