@@ -1,5 +1,48 @@
 # Chapter 57 — Editor Theming: Neovim, VS Code, Helix, Emacs
 
+## Contents
+
+- [Overview](#overview)
+- [57.1 Neovim — The Ricing Editor of Choice](#571-neovim-the-ricing-editor-of-choice)
+  - [Installing a Colorscheme with lazy.nvim](#installing-a-colorscheme-with-lazynvim)
+  - [Status Line: lualine.nvim](#status-line-lualinenvim)
+  - [File Icons: nvim-web-devicons](#file-icons-nvim-web-devicons)
+  - [Dashboard: alpha-nvim](#dashboard-alpha-nvim)
+  - [Indent Guides: indent-blankline.nvim](#indent-guides-indent-blanklinenvim)
+  - [pywal / matugen Integration](#pywal-matugen-integration)
+- [57.2 VS Code Theming](#572-vs-code-theming)
+  - [Installing Color Themes](#installing-color-themes)
+  - [Complete settings.json for a Catppuccin Rice](#complete-settingsjson-for-a-catppuccin-rice)
+  - [Wayland Launch Flags](#wayland-launch-flags)
+  - [Transparent VS Code on Wayland](#transparent-vs-code-on-wayland)
+- [57.3 Helix — The Modern Modal Editor](#573-helix-the-modern-modal-editor)
+  - [Basic Configuration](#basic-configuration)
+  - [Built-in Theme Catalog](#built-in-theme-catalog)
+  - [Writing a Custom Helix Theme](#writing-a-custom-helix-theme)
+- [57.4 Emacs Theming](#574-emacs-theming)
+  - [DOOM Emacs Theming](#doom-emacs-theming)
+  - [Catppuccin for Vanilla Emacs](#catppuccin-for-vanilla-emacs)
+  - [DOOM Modeline](#doom-modeline)
+- [57.5 Transparent Editors](#575-transparent-editors)
+- [57.6 Consistent Palette Across Tools](#576-consistent-palette-across-tools)
+- [57.7 Font Rendering in Editors](#577-font-rendering-in-editors)
+- [Troubleshooting](#troubleshooting)
+  - [Neovim: colorscheme not applied / flickering on startup](#neovim-colorscheme-not-applied-flickering-on-startup)
+  - [Neovim: Nerd Font icons missing (boxes or question marks)](#neovim-nerd-font-icons-missing-boxes-or-question-marks)
+  - [VS Code: blurry text on HiDPI / fractional scaling](#vs-code-blurry-text-on-hidpi-fractional-scaling)
+  - [VS Code: window opacity rule has no effect](#vs-code-window-opacity-rule-has-no-effect)
+  - [Helix: custom theme not recognized](#helix-custom-theme-not-recognized)
+  - [Emacs GUI: alpha-background not working on Wayland](#emacs-gui-alpha-background-not-working-on-wayland)
+  - [Inconsistent background colors between terminal and editor](#inconsistent-background-colors-between-terminal-and-editor)
+- [57.10 Authoring a Custom Neovim Colorscheme](#5710-authoring-a-custom-neovim-colorscheme)
+  - [Option A: Raw vim.api.nvim_set_hl()](#option-a-raw-vimapinvimsethl)
+  - [Option B: lush.nvim — HSL-based DSL](#option-b-lushnvim-hsl-based-dsl)
+  - [Testing highlight groups](#testing-highlight-groups)
+  - [Exporting to base16 format](#exporting-to-base16-format)
+
+---
+
+
 ## Overview
 
 The editor is the single largest surface area in most developer rices. A beautiful,

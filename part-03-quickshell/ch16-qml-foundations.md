@@ -1,5 +1,23 @@
 # Chapter 16 — QML Foundations for Quickshell
 
+## Contents
+
+- [Overview](#overview)
+- [16.1 QML Basics](#161-qml-basics)
+- [16.2 Types and Properties](#162-types-and-properties)
+- [16.3 Reactive Bindings](#163-reactive-bindings)
+- [16.4 Signals and Signal Handlers](#164-signals-and-signal-handlers)
+- [16.5 JavaScript in QML](#165-javascript-in-qml)
+- [16.6 Components and Instantiation](#166-components-and-instantiation)
+- [16.7 Singletons](#167-singletons)
+- [16.8 Quickshell-Specific QML Patterns](#168-quickshell-specific-qml-patterns)
+- [16.9 Debugging QML](#169-debugging-qml)
+- [Troubleshooting](#troubleshooting)
+- [Cross-References](#cross-references)
+
+---
+
+
 ## Overview
 
 You don't need Qt or mobile development experience to use Quickshell, but

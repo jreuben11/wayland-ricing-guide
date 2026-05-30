@@ -1,5 +1,45 @@
 # Chapter 109 — Idle Management: hypridle, swayidle, DPMS, and the Idle-Inhibit Protocol
 
+## Contents
+
+- [Overview](#overview)
+- [109.1 The Protocol Stack](#1091-the-protocol-stack)
+  - [ext-idle-notify-v1 (2023+, compositor-independent)](#ext-idle-notify-v1-2023-compositor-independent)
+  - [org_kde_kwin_idle (legacy)](#orgkdekwinidle-legacy)
+  - [idle-inhibit-unstable-v1](#idle-inhibit-unstable-v1)
+- [109.2 hypridle (Hyprland)](#1092-hypridle-hyprland)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Session Startup](#session-startup)
+- [109.3 swayidle (wlroots compositors: Sway, River, labwc, niri)](#1093-swayidle-wlroots-compositors-sway-river-labwc-niri)
+  - [Installation](#installation)
+  - [Basic Configuration](#basic-configuration)
+  - [As a Sway exec](#as-a-sway-exec)
+  - [River / labwc / niri](#river-labwc-niri)
+- [109.4 DPMS Control](#1094-dpms-control)
+  - [Compositor-specific commands](#compositor-specific-commands)
+  - [wlopm](#wlopm)
+- [109.5 The Idle-Inhibit Protocol in Detail](#1095-the-idle-inhibit-protocol-in-detail)
+  - [How Inhibitors Work](#how-inhibitors-work)
+  - [Testing Inhibitors](#testing-inhibitors)
+  - [Programmatic Inhibitor (Python, for scripts)](#programmatic-inhibitor-python-for-scripts)
+- [109.6 Inhibitors for Non-Compliant Apps](#1096-inhibitors-for-non-compliant-apps)
+  - [xdg-screensaver Shim](#xdg-screensaver-shim)
+  - [systemd-inhibit](#systemd-inhibit)
+  - [Fullscreen Detection Script](#fullscreen-detection-script)
+- [109.7 logind vs. Idle Daemon: Avoiding Conflicts](#1097-logind-vs-idle-daemon-avoiding-conflicts)
+- [109.8 Quickshell Integration](#1098-quickshell-integration)
+- [109.9 Troubleshooting](#1099-troubleshooting)
+  - [Screen locks but DPMS doesn't turn off](#screen-locks-but-dpms-doesnt-turn-off)
+  - [Screen never locks on battery](#screen-never-locks-on-battery)
+  - [Suspend fires but screen is not locked on resume](#suspend-fires-but-screen-is-not-locked-on-resume)
+  - [hypridle not starting](#hypridle-not-starting)
+  - [Inhibitors not working for a specific app](#inhibitors-not-working-for-a-specific-app)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Idle management on Wayland is the system that decides what happens when you stop touching your keyboard and mouse: dim the screen after 60 seconds, lock after 5 minutes, suspend after 15. Getting it right is one of the first things a new rice needs and one of the first things that breaks when you upgrade. Getting it wrong means either your screen never sleeps (draining a laptop battery) or your screen locks mid-presentation during a video call.

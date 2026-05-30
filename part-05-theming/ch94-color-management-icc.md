@@ -1,5 +1,43 @@
 # Chapter 94 — Color Management and ICC Profiles
 
+## Contents
+
+- [Overview](#overview)
+- [94.1 Why It Matters for Ricing](#941-why-it-matters-for-ricing)
+- [94.2 Color Concepts](#942-color-concepts)
+- [94.3 colord — The Color Management Daemon](#943-colord-the-color-management-daemon)
+  - [Assigning a profile manually](#assigning-a-profile-manually)
+- [94.4 Applying ICC Profiles on Wayland](#944-applying-icc-profiles-on-wayland)
+  - [xcalib (applies gamma/LUT from ICC)](#xcalib-applies-gammalut-from-icc)
+  - [dispwin (ArgyllCMS, more complete)](#dispwin-argyllcms-more-complete)
+  - [Apply at session start](#apply-at-session-start)
+- [94.5 Display Calibration with DisplayCAL](#945-display-calibration-with-displaycal)
+  - [Calibration workflow](#calibration-workflow)
+  - [ArgyllCMS CLI (no GUI)](#argyllcms-cli-no-gui)
+- [94.6 ICC Profiles for Common Scenarios](#946-icc-profiles-for-common-scenarios)
+  - [sRGB clamp for wide-gamut displays](#srgb-clamp-for-wide-gamut-displays)
+  - [NightColor / night light vs. ICC](#nightcolor-night-light-vs-icc)
+- [94.7 HDR Color Management](#947-hdr-color-management)
+  - [KDE Plasma HDR setup](#kde-plasma-hdr-setup)
+  - [Hyprland HDR (preview)](#hyprland-hdr-preview)
+- [94.8 Color Profiles for Applications](#948-color-profiles-for-applications)
+  - [Firefox](#firefox)
+  - [GIMP](#gimp)
+  - [Krita](#krita)
+- [94.9 Checking Display Gamut](#949-checking-display-gamut)
+- [94.10 HDR Step-by-Step: KDE Plasma 6](#9410-hdr-step-by-step-kde-plasma-6)
+  - [Prerequisites](#prerequisites)
+  - [Enable in KDE Plasma](#enable-in-kde-plasma)
+  - [Verify HDR Metadata Transmission](#verify-hdr-metadata-transmission)
+  - [SDR Application Tonemapping](#sdr-application-tonemapping)
+  - [Testing with an HDR Video](#testing-with-an-hdr-video)
+- [94.11 Per-Monitor ICC Profiles (Dual Monitor Setup)](#9411-per-monitor-icc-profiles-dual-monitor-setup)
+  - [Per-Monitor via dispwin (direct DRM gamma)](#per-monitor-via-dispwin-direct-drm-gamma)
+  - [Night Light + ICC Coexistence](#night-light-icc-coexistence)
+
+---
+
+
 ## Overview
 
 Color management ensures that what you see on screen matches the intent of the

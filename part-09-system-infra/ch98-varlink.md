@@ -1,5 +1,38 @@
 # Chapter 98 — Varlink: Modern IPC for System Services
 
+## Contents
+
+- [Overview](#overview)
+- [98.1 Why Varlink Exists](#981-why-varlink-exists)
+- [98.2 Architecture](#982-architecture)
+  - [Wire format](#wire-format)
+- [98.3 Varlink IDL](#983-varlink-idl)
+  - [Basic interface structure](#basic-interface-structure)
+  - [Type system](#type-system)
+  - [Struct definitions](#struct-definitions)
+  - [Error definitions](#error-definitions)
+- [98.4 varlinkctl — The CLI Client](#984-varlinkctl-the-cli-client)
+  - [Older approach: varlink-tool](#older-approach-varlink-tool)
+- [98.5 The `io.systemd.*` Service Catalogue](#985-the-iosystemd-service-catalogue)
+  - [io.systemd.Resolve (systemd-resolved)](#iosystemdresolve-systemd-resolved)
+  - [io.systemd.Journal (systemd-journald)](#iosystemdjournal-systemd-journald)
+  - [io.systemd.Network (systemd-networkd)](#iosystemdnetwork-systemd-networkd)
+  - [io.systemd.UserDatabase (systemd-userdbd)](#iosystemduserdatabase-systemd-userdbd)
+  - [io.systemd.MachineRegistry (systemd-machined)](#iosystemdmachineregistry-systemd-machined)
+  - [io.systemd.oom (systemd-oomd)](#iosystemdoom-systemd-oomd)
+- [98.6 Writing a Varlink Service](#986-writing-a-varlink-service)
+  - [Shell / bash client (scripting)](#shell-bash-client-scripting)
+  - [Python client](#python-client)
+  - [Rust service (using the `varlink` crate)](#rust-service-using-the-varlink-crate)
+  - [Go service](#go-service)
+- [98.7 Socket Activation with systemd](#987-socket-activation-with-systemd)
+- [98.8 Varlink vs D-Bus Decision Guide](#988-varlink-vs-d-bus-decision-guide)
+- [98.9 Monitoring Varlink Traffic](#989-monitoring-varlink-traffic)
+- [98.10 Varlink in the Ricing Context](#9810-varlink-in-the-ricing-context)
+
+---
+
+
 ## Overview
 
 Varlink is a typed, interface-oriented IPC protocol developed alongside systemd.

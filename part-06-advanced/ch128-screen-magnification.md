@@ -1,5 +1,23 @@
 # Chapter 128 — Screen Magnification on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [128.1 Hyprland: cursor:zoom_factor](#1281-hyprland-cursorzoomfactor)
+  - [Configuration](#configuration)
+  - [Runtime Control via Keybinds](#runtime-control-via-keybinds)
+  - [Zoom Script](#zoom-script)
+- [128.2 magnus: Floating Magnifier Window](#1282-magnus-floating-magnifier-window)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Limitations](#limitations)
+- [128.3 Sway: No Built-in Zoom](#1283-sway-no-built-in-zoom)
+- [128.4 GNOME: Built-in Universal Access Zoom](#1284-gnome-built-in-universal-access-zoom)
+- [128.5 Accessibility vs. Ricing Zoom](#1285-accessibility-vs-ricing-zoom)
+
+---
+
+
 ## Overview
 
 Screen magnification on Wayland lacks a single universal solution — unlike X11's `xmag` or GNOME's built-in zoom, each compositor has a different approach. This chapter covers the main options: Hyprland's cursor zoom, Sway's magnification workarounds, the standalone `magnus` tool, and the accessibility-grade magnification via `at-spi2` for GNOME.

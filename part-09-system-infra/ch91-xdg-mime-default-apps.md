@@ -1,5 +1,28 @@
 # Chapter 91 — XDG MIME Types and Default Applications
 
+## Contents
+
+- [Overview](#overview)
+- [91.1 The MIME Type System](#911-the-mime-type-system)
+- [91.2 mimeapps.list — Application Associations](#912-mimeappslist-application-associations)
+  - [File locations (checked in order)](#file-locations-checked-in-order)
+  - [Format](#format)
+- [91.3 xdg-mime — Setting Defaults](#913-xdg-mime-setting-defaults)
+  - [Setting defaults for an application's supported types](#setting-defaults-for-an-applications-supported-types)
+- [91.4 xdg-open](#914-xdg-open)
+  - [Debugging xdg-open](#debugging-xdg-open)
+- [91.5 .desktop Files and App-IDs](#915-desktop-files-and-app-ids)
+  - [Minimal .desktop file](#minimal-desktop-file)
+  - [App-ID on Wayland](#app-id-on-wayland)
+  - [Custom .desktop entries](#custom-desktop-entries)
+- [91.6 update-desktop-database](#916-update-desktop-database)
+- [91.7 Common Default App Configuration](#917-common-default-app-configuration)
+  - [Minimal complete mimeapps.list](#minimal-complete-mimeappslist)
+- [91.8 Portal Integration](#918-portal-integration)
+
+---
+
+
 ## Overview
 
 `xdg-open file.pdf` works by looking up MIME type → application association.

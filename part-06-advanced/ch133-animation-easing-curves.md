@@ -1,5 +1,31 @@
 # Chapter 133 — Animation Easing Curves and Visual Tuning
 
+## Contents
+
+- [Overview](#overview)
+- [133.1 Bezier Curve Fundamentals](#1331-bezier-curve-fundamentals)
+- [133.2 Hyprland Animation System](#1332-hyprland-animation-system)
+  - [Core Config](#core-config)
+  - [Speed Units](#speed-units)
+  - [Animation Types Reference](#animation-types-reference)
+  - [Window Animation Styles](#window-animation-styles)
+  - [Workspace Animation Styles](#workspace-animation-styles)
+  - [Per-Window Animation Override](#per-window-animation-override)
+- [133.3 Bezier Presets by Aesthetic](#1333-bezier-presets-by-aesthetic)
+  - [Tokyo Night — Gentle, Organic](#tokyo-night-gentle-organic)
+  - [Cyberpunk Neon — Snappy, Aggressive](#cyberpunk-neon-snappy-aggressive)
+  - [Tron / Digital — Minimal, Precise](#tron-digital-minimal-precise)
+  - [Synthwave / Retro — Bouncy, Fun](#synthwave-retro-bouncy-fun)
+  - [Nord / Minimal — Subtle, Clean](#nord-minimal-subtle-clean)
+- [133.4 Niri: Spring Animations](#1334-niri-spring-animations)
+- [133.5 Wayfire Animation Plugins](#1335-wayfire-animation-plugins)
+- [133.6 Frame Rate Alignment](#1336-frame-rate-alignment)
+- [133.7 Disabling Animations (Performance Mode)](#1337-disabling-animations-performance-mode)
+- [133.8 Animation Debugging](#1338-animation-debugging)
+
+---
+
+
 ## Overview
 
 Animation easing is the difference between a rice that feels alive and one that feels mechanical. A bezier curve controls how a property changes over time — it can make a window open with a gentle bounce, a workspace switch feel instant but smooth, or a border glow pulse in sync with an aesthetic. This chapter covers bezier curve fundamentals, the Hyprland animation system in depth, Niri's spring model, Wayfire's animation plugins, and a reference table of curves tuned to common ricing aesthetics.

@@ -1,5 +1,30 @@
 # Chapter 131 — Per-Window Rules: Cross-Compositor Deep Dive
 
+## Contents
+
+- [Overview](#overview)
+- [131.1 How Compositors Match Windows](#1311-how-compositors-match-windows)
+- [131.2 Hyprland: windowrulev2](#1312-hyprland-windowrulev2)
+  - [Match Criteria](#match-criteria)
+  - [Actions Reference](#actions-reference)
+  - [Layer Rules (for bars, overlays)](#layer-rules-for-bars-overlays)
+- [131.3 Sway: for_window](#1313-sway-forwindow)
+- [131.4 River: Rule-Add](#1314-river-rule-add)
+- [131.5 Niri: window-rules](#1315-niri-window-rules)
+- [131.6 KWin Rules](#1316-kwin-rules)
+- [131.7 Common Recipes](#1317-common-recipes)
+  - [Float all system dialogs](#float-all-system-dialogs)
+  - [Firefox Picture-in-Picture](#firefox-picture-in-picture)
+  - [Steam — float launcher, tile games](#steam-float-launcher-tile-games)
+  - [Dropdown terminal (scratchpad)](#dropdown-terminal-scratchpad)
+  - [Media players — float and idle inhibit](#media-players-float-and-idle-inhibit)
+  - [OBS on secondary monitor](#obs-on-secondary-monitor)
+  - [Prevent focus stealing](#prevent-focus-stealing)
+- [131.8 Debugging Window Rules](#1318-debugging-window-rules)
+
+---
+
+
 ## Overview
 
 Window rules are the backbone of a functional rice: they ensure media players float, PiP windows stay pinned, game launchers don't steal focus, and terminals open on the right workspace. Every compositor has its own syntax, but the concepts map 1:1. This chapter provides the complete rule reference for Hyprland, Sway, River, Niri, and KWin, followed by a recipe library of cross-compositor patterns.

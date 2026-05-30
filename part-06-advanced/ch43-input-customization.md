@@ -1,5 +1,54 @@
 # Chapter 43 — Input Customization: libinput, kanata, keyd, wev
 
+## Contents
+
+- [Overview](#overview)
+- [43.1 libinput Configuration](#431-libinput-configuration)
+  - [Key libinput Settings Reference](#key-libinput-settings-reference)
+  - [Hyprland libinput Config](#hyprland-libinput-config)
+  - [Sway libinput Config](#sway-libinput-config)
+  - [niri libinput Config](#niri-libinput-config)
+- [43.2 wev — Input Event Inspector](#432-wev-input-event-inspector)
+  - [Reading wev Output](#reading-wev-output)
+  - [Using wev to Diagnose Remapping Issues](#using-wev-to-diagnose-remapping-issues)
+- [43.3 kanata — Powerful Cross-Platform Remapper](#433-kanata-powerful-cross-platform-remapper)
+  - [kanata Configuration Syntax](#kanata-configuration-syntax)
+  - [Advanced kanata Features](#advanced-kanata-features)
+  - [Running kanata as a systemd Service](#running-kanata-as-a-systemd-service)
+- [43.4 keyd — System-Level Key Remapper](#434-keyd-system-level-key-remapper)
+  - [keyd Configuration](#keyd-configuration)
+  - [keyd with Per-Device Config](#keyd-with-per-device-config)
+- [43.5 xremap — Application-Aware Remapper](#435-xremap-application-aware-remapper)
+  - [xremap Configuration](#xremap-configuration)
+- [43.6 Keyboard Layouts with XKB](#436-keyboard-layouts-with-xkb)
+  - [Setting Layout in Hyprland](#setting-layout-in-hyprland)
+  - [Setting Layout in Sway](#setting-layout-in-sway)
+  - [Custom XKB Layout](#custom-xkb-layout)
+  - [Compose Key and ~/.XCompose](#compose-key-and-xcompose)
+- [43.7 Wacom Tablet Configuration](#437-wacom-tablet-configuration)
+  - [OpenTabletDriver Installation](#opentabletdriver-installation)
+  - [OpenTabletDriver CLI Configuration](#opentabletdriver-cli-configuration)
+  - [libinput Tablet Calibration (without OpenTabletDriver)](#libinput-tablet-calibration-without-opentabletdriver)
+- [43.8 Mouse Button Remapping](#438-mouse-button-remapping)
+  - [Hyprland Mouse Button Binds](#hyprland-mouse-button-binds)
+  - [Sway Mouse Button Binds](#sway-mouse-button-binds)
+  - [evdev Button Remapping with evdev-remap](#evdev-button-remapping-with-evdev-remap)
+  - [kanata for Mouse Buttons](#kanata-for-mouse-buttons)
+- [43.9 Input Device Debugging with libinput Debug Tools](#439-input-device-debugging-with-libinput-debug-tools)
+  - [Checking libinput Version and Feature Support](#checking-libinput-version-and-feature-support)
+- [43.10 Gaming Input: Raw Input and High-Precision Mice](#4310-gaming-input-raw-input-and-high-precision-mice)
+  - [Hyprland Game Mode](#hyprland-game-mode)
+- [Troubleshooting](#troubleshooting)
+  - [kanata: "Permission denied" on /dev/input/](#kanata-permission-denied-on-devinput)
+  - [keyd: Service Fails to Start](#keyd-service-fails-to-start)
+  - [Compositor Ignores libinput Settings](#compositor-ignores-libinput-settings)
+  - [wev Shows No Events for Specific Keys](#wev-shows-no-events-for-specific-keys)
+  - [XKB Options Not Applied](#xkb-options-not-applied)
+  - [OpenTabletDriver Not Detecting Tablet](#opentabletdriver-not-detecting-tablet)
+
+---
+
+
 ## Overview
 
 Wayland input handling is architecturally cleaner than X11's. Every compositor

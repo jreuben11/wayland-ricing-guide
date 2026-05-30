@@ -1,5 +1,31 @@
 # Chapter 5 — wlroots: The Compositor Building Blocks
 
+## Contents
+
+- [Overview](#overview)
+- [5.1 wlroots Philosophy](#51-wlroots-philosophy)
+- [5.2 Architecture Overview](#52-architecture-overview)
+- [5.3 Backends](#53-backends)
+- [5.4 Protocol Implementations in wlroots](#54-protocol-implementations-in-wlroots)
+- [5.5 The Scene Graph API](#55-the-scene-graph-api)
+- [5.6 Input Handling in wlroots](#56-input-handling-in-wlroots)
+- [5.7 wlroots vs. Smithay (Rust)](#57-wlroots-vs-smithay-rust)
+- [5.8 Getting Started: Building a Minimal Compositor](#58-getting-started-building-a-minimal-compositor)
+  - [Building wlroots from source](#building-wlroots-from-source)
+  - [Running tinywl](#running-tinywl)
+  - [Reading the source](#reading-the-source)
+  - [Checking protocol support at runtime](#checking-protocol-support-at-runtime)
+- [Troubleshooting](#troubleshooting)
+  - [Compositor fails to start with "failed to open DRM device"](#compositor-fails-to-start-with-failed-to-open-drm-device)
+  - [Cursor is invisible or corrupted](#cursor-is-invisible-or-corrupted)
+  - [Screen is black, no output rendered](#screen-is-black-no-output-rendered)
+  - [Application uses wrong scale factor](#application-uses-wrong-scale-factor)
+  - [XWayland windows do not appear](#xwayland-windows-do-not-appear)
+  - [Debugging wlroots internals](#debugging-wlroots-internals)
+
+---
+
+
 ## Overview
 
 wlroots is a modular C library that provides the low-level building blocks required

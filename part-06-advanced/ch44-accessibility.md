@@ -6,6 +6,22 @@ The audience is assumed to be comfortable with compositor configuration, D-Bus i
 
 ---
 
+## Contents
+
+- [44.1 Accessibility Architecture on Wayland](#441-accessibility-architecture-on-wayland)
+- [44.2 Orca Screen Reader](#442-orca-screen-reader)
+- [44.3 Screen Magnification](#443-screen-magnification)
+- [44.4 On-Screen Keyboard](#444-on-screen-keyboard)
+- [44.5 High Contrast and Visual Accessibility](#445-high-contrast-and-visual-accessibility)
+- [44.6 Color Blindness Accommodations](#446-color-blindness-accommodations)
+- [44.7 Focus and Navigation Accessibility](#447-focus-and-navigation-accessibility)
+- [44.8 Status and Roadmap (2025–2026)](#448-status-and-roadmap-2025-2026)
+- [44.9 Sticky Keys and Input Accessibility](#449-sticky-keys-and-input-accessibility)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## 44.1 Accessibility Architecture on Wayland
 
 The foundation of Linux desktop accessibility is AT-SPI2 (Assistive Technology Service Provider Interface version 2), the D-Bus-based successor to CORBA-era AT-SPI. Every GTK4, Qt6, and Electron application exposes an accessibility tree over D-Bus at the well-known bus name `org.a11y.Bus`. Screen readers, automation tools, and testing frameworks query this bus to navigate UI hierarchies, read widget labels, and synthesize input events without direct X11 access.

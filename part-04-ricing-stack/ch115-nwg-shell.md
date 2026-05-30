@@ -1,5 +1,25 @@
 # Chapter 115 — The nwg-shell Ecosystem
 
+## Contents
+
+- [Overview](#overview)
+- [115.1 Component Overview](#1151-component-overview)
+- [115.2 Installation](#1152-installation)
+- [115.3 nwg-panel](#1153-nwg-panel)
+  - [Basic Configuration](#basic-configuration)
+  - [Module Configuration](#module-configuration)
+  - [CSS Theming](#css-theming)
+  - [Starting nwg-panel](#starting-nwg-panel)
+- [115.4 nwg-dock](#1154-nwg-dock)
+- [115.5 nwg-drawer](#1155-nwg-drawer)
+- [115.6 nwg-look](#1156-nwg-look)
+- [115.7 nwg-displays](#1157-nwg-displays)
+- [115.8 nwg-hello (greetd greeter)](#1158-nwg-hello-greetd-greeter)
+- [115.9 When to Choose nwg-shell](#1159-when-to-choose-nwg-shell)
+
+---
+
+
 ## Overview
 
 nwg-shell is a collection of GTK-based Wayland tools authored by Piotr Miller (nwg-piotr), designed to give wlroots compositors (Sway, Hyprland, River, labwc) a cohesive application layer without depending on a full desktop environment. Where Waybar provides a single bar and Quickshell provides a QML runtime, nwg-shell provides an opinionated but configurable suite: a bar, a dock, a full-screen app drawer, a display management GUI, a GTK settings manager, a screen locker, and a login greeter.

@@ -1,5 +1,54 @@
 # Chapter 107 — Building a Wayland Compositor with Qt/qtwayland
 
+## Contents
+
+- [Overview](#overview)
+- [107.1 qtwayland Architecture](#1071-qtwayland-architecture)
+- [107.2 Project Setup](#1072-project-setup)
+  - [Package Installation](#package-installation)
+  - [CMakeLists.txt](#cmakeliststxt)
+  - [Verifying the Wayland Socket](#verifying-the-wayland-socket)
+- [107.3 QML-First: Minimal Working Compositor](#1073-qml-first-minimal-working-compositor)
+  - [`main.cpp` (launcher)](#maincpp-launcher)
+  - [`qml/main.qml`](#qmlmainqml)
+- [107.4 C++ Core Layer](#1074-c-core-layer)
+  - [`compositor.h`](#compositorh)
+  - [`compositor.cpp`](#compositorcpp)
+  - [`main.cpp` (C++ path)](#maincpp-c-path)
+- [107.5 XDG Shell: Toplevels, Popups, and Positioners](#1075-xdg-shell-toplevels-popups-and-positioners)
+  - [Toplevel State Machine](#toplevel-state-machine)
+  - [Popups and Positioner](#popups-and-positioner)
+- [107.6 Input Handling](#1076-input-handling)
+  - [Keyboard Focus](#keyboard-focus)
+  - [Pointer Events](#pointer-events)
+  - [Touch Input](#touch-input)
+  - [Drag-and-Drop](#drag-and-drop)
+- [107.7 Multi-Output and HiDPI](#1077-multi-output-and-hidpi)
+  - [Multiple Outputs](#multiple-outputs)
+  - [Scale Factor and Buffer Transform](#scale-factor-and-buffer-transform)
+  - [Output Transforms](#output-transforms)
+- [107.8 Layer-Shell (wlr-layer-shell-v1)](#1078-layer-shell-wlr-layer-shell-v1)
+  - [IVI Application Shell (Automotive/Embedded)](#ivi-application-shell-automotiveembedded)
+- [107.9 Custom Protocol Extensions](#1079-custom-protocol-extensions)
+  - [Step 1: Protocol XML](#step-1-protocol-xml)
+  - [Step 2: CMake Integration](#step-2-cmake-integration)
+  - [Step 3: C++ Implementation](#step-3-c-implementation)
+  - [Step 4: Use in QML](#step-4-use-in-qml)
+- [107.10 Rendering Architecture](#10710-rendering-architecture)
+  - [Qt Quick Scene Graph (default)](#qt-quick-scene-graph-default)
+  - [Custom OpenGL Renderer (C++ path)](#custom-opengl-renderer-c-path)
+  - [Explicit Synchronization (Qt 6.5+)](#explicit-synchronization-qt-65)
+- [107.11 XWayland Integration](#10711-xwayland-integration)
+- [107.12 Testing and Debugging](#10712-testing-and-debugging)
+  - [Test Backend (Headless)](#test-backend-headless)
+  - [Wayland Debug Logging](#wayland-debug-logging)
+  - [Common Issues](#common-issues)
+- [107.13 Comparison: Qt vs. wlroots vs. Smithay](#10713-comparison-qt-vs-wlroots-vs-smithay)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Qt ships its own first-class Wayland compositor framework: the `QtWayland.Compositor` module, implemented in the [qtwayland](https://github.com/qt/qtwayland) repository. Unlike wlroots (Ch 47) or Smithay (Ch 48), which are low-level libraries that give you maximum protocol control at the cost of substantial boilerplate, qtwayland's compositor module lets you build a complete, interactive compositor in QML — the same declarative language used for Quickshell shell scripting (Ch 15–25). C++ extensions drop in alongside QML using the same plugin architecture.

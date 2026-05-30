@@ -6,6 +6,41 @@ See Ch 1 for a conceptual overview of the Wayland protocol stack. See Ch 53 for 
 
 ---
 
+## Contents
+
+- [Official Documentation](#official-documentation)
+- [Key Repositories](#key-repositories)
+- [Tooling Reference](#tooling-reference)
+  - [Wallpaper Daemons](#wallpaper-daemons)
+  - [Screen Lockers](#screen-lockers)
+  - [Status Bars](#status-bars)
+  - [Notification Daemons](#notification-daemons)
+  - [Launchers](#launchers)
+  - [Screenshot and Recording](#screenshot-and-recording)
+  - [Clipboard Management](#clipboard-management)
+  - [Monitor Management](#monitor-management)
+  - [Color and Theming](#color-and-theming)
+- [Learning Resources](#learning-resources)
+- [Useful Commands Cheat Sheet](#useful-commands-cheat-sheet)
+  - [Environment Verification](#environment-verification)
+  - [Protocol Debug Tracing](#protocol-debug-tracing)
+  - [Compositor Inspection (Hyprland)](#compositor-inspection-hyprland)
+  - [Compositor Inspection (Sway)](#compositor-inspection-sway)
+  - [Wallpaper and Color Workflow](#wallpaper-and-color-workflow)
+  - [Screenshot Pipeline](#screenshot-pipeline)
+  - [Clipboard Operations](#clipboard-operations)
+  - [Monitor Hotplug and Scaling](#monitor-hotplug-and-scaling)
+- [Troubleshooting](#troubleshooting)
+  - [Application Runs Under XWayland Instead of Native Wayland](#application-runs-under-xwayland-instead-of-native-wayland)
+  - [`wl-copy` / `wl-paste` Returns Empty](#wl-copy-wl-paste-returns-empty)
+  - [`grim` Fails with "no outputs"](#grim-fails-with-no-outputs)
+  - [`kanshi` Profile Not Switching on Hotplug](#kanshi-profile-not-switching-on-hotplug)
+  - [Waybar Modules Showing "N/A" or Not Updating](#waybar-modules-showing-na-or-not-updating)
+  - [`swww` Daemon Not Starting](#swww-daemon-not-starting)
+
+---
+
+
 ## Official Documentation
 
 The authoritative sources below are the primary references for understanding the protocol, compositor APIs, and the major shell ecosystems. When in doubt, always prefer these over third-party tutorials, which frequently lag behind protocol changes by six months or more.

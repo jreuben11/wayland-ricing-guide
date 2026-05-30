@@ -1,5 +1,24 @@
 # Chapter 47 — Building a Minimal Compositor with wlroots (C)
 
+## Contents
+
+- [Overview](#overview)
+- [47.1 Project Setup](#471-project-setup)
+- [47.2 Core Structures](#472-core-structures)
+- [47.3 Initialization](#473-initialization)
+- [47.4 Output Handling](#474-output-handling)
+- [47.5 The XDG Shell: Window Management](#475-the-xdg-shell-window-management)
+- [47.6 Input: Cursor and Keyboard](#476-input-cursor-and-keyboard)
+- [47.7 Adding Tiling Layout](#477-adding-tiling-layout)
+- [47.8 Layer Shell for Bars and Widgets](#478-layer-shell-for-bars-and-widgets)
+- [47.9 The Render Loop](#479-the-render-loop)
+- [47.10 Protocol Compliance and Debugging](#4710-protocol-compliance-and-debugging)
+- [47.11 Study Resources](#4711-study-resources)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Building a Wayland compositor from scratch is one of the most technically demanding tasks in the Linux desktop ecosystem. Unlike X11 window managers, which could hook into an existing server, a Wayland compositor must simultaneously implement the display server, the window manager, and the compositing engine. The wlroots library exists to make this tractable: it abstracts away DRM/KMS, libinput, EGL, Vulkan, and dozens of Wayland protocol extensions into a coherent, well-documented API that you can build on top of in a few thousand lines of C.

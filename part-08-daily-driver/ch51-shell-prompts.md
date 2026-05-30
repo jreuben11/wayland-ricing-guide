@@ -1,5 +1,30 @@
 # Chapter 51 — Shell Configuration and Prompts: Fish, Zsh, Starship, oh-my-posh
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [51.1 Shell Choice for Ricing](#511-shell-choice-for-ricing)
+  - [51.2 Zsh Setup](#512-zsh-setup)
+  - [51.3 Fish Setup](#513-fish-setup)
+  - [51.4 Starship — The Cross-Shell Prompt](#514-starship-the-cross-shell-prompt)
+  - [51.5 oh-my-posh — Windows-Origin Cross-Shell Prompt](#515-oh-my-posh-windows-origin-cross-shell-prompt)
+  - [51.6 Prompt Design Principles](#516-prompt-design-principles)
+  - [51.7 Directory Jumping: zoxide](#517-directory-jumping-zoxide)
+  - [51.8 fzf — Fuzzy Finder Integration](#518-fzf-fuzzy-finder-integration)
+  - [51.9 Shell Tools That Complete the Rice](#519-shell-tools-that-complete-the-rice)
+- [51.7 Advanced Starship Configuration](#517-advanced-starship-configuration)
+  - [Right-side prompt (right_format)](#right-side-prompt-rightformat)
+  - [Custom modules](#custom-modules)
+  - [Transient prompt](#transient-prompt)
+  - [Continuation prompt](#continuation-prompt)
+- [51.8 Advanced oh-my-posh Configuration](#518-advanced-oh-my-posh-configuration)
+  - [Conditional segments](#conditional-segments)
+  - [Transient prompt in oh-my-posh](#transient-prompt-in-oh-my-posh)
+
+---
+
+
 ## Overview
 The shell prompt is the second most-visible terminal element after the color
 scheme. This chapter covers shell choice, framework configuration, and the

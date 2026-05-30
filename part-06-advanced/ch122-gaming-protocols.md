@@ -1,5 +1,39 @@
 # Chapter 122 — Gaming Protocols: Tearing, Pointer Lock, and Frame Pacing
 
+## Contents
+
+- [Overview](#overview)
+- [122.1 tearing-control-v1](#1221-tearing-control-v1)
+  - [What It Does](#what-it-does)
+  - [Enabling in Hyprland](#enabling-in-hyprland)
+  - [Enabling in Sway](#enabling-in-sway)
+  - [Verifying Tearing Is Active](#verifying-tearing-is-active)
+  - [Tearing vs. VRR](#tearing-vs-vrr)
+- [122.2 relative-pointer-unstable-v1](#1222-relative-pointer-unstable-v1)
+  - [What It Does](#what-it-does)
+  - [Game Engine Support](#game-engine-support)
+  - [Enabling in Games](#enabling-in-games)
+  - [Mouse Acceleration Interaction](#mouse-acceleration-interaction)
+- [122.3 pointer-constraints-unstable-v1](#1223-pointer-constraints-unstable-v1)
+  - [What It Does](#what-it-does)
+  - [Verifying Lock Is Working](#verifying-lock-is-working)
+  - [Forcing Native Wayland for Games](#forcing-native-wayland-for-games)
+  - [Compositor-side: Pointer Lock Behavior](#compositor-side-pointer-lock-behavior)
+- [122.4 wp-presentation (Presentation Time)](#1224-wp-presentation-presentation-time)
+  - [What It Does](#what-it-does)
+  - [For Game Developers](#for-game-developers)
+  - [Compositor Support](#compositor-support)
+- [122.5 gamescope for Gaming (Protocol Summary)](#1225-gamescope-for-gaming-protocol-summary)
+- [122.6 Per-Game Configuration Recipe](#1226-per-game-configuration-recipe)
+- [122.7 Troubleshooting](#1227-troubleshooting)
+  - [Mouse feels floaty / accelerated in game](#mouse-feels-floaty-accelerated-in-game)
+  - [Game sees cursor on screen (pointer not locked)](#game-sees-cursor-on-screen-pointer-not-locked)
+  - [Tearing only happens on some monitors](#tearing-only-happens-on-some-monitors)
+  - [No improvement in input latency after enabling tearing](#no-improvement-in-input-latency-after-enabling-tearing)
+
+---
+
+
 ## Overview
 
 Four Wayland protocols are critical for gaming but rarely documented outside compositor changelogs: **tearing-control-v1** (allow screen tearing for maximum frame rate), **relative-pointer-unstable-v1** (raw delta mouse input for FPS games), **pointer-constraints-unstable-v1** (lock or confine the cursor to a window), and **wp-presentation** (frame pacing feedback for vsync-aware renderers). This chapter explains what each protocol does, how compositors expose it, how game engines and runners use it, and how to enable, verify, and troubleshoot each.

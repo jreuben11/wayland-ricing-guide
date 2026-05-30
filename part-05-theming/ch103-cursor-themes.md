@@ -1,5 +1,37 @@
 # Chapter 103 — Cursor Theme Creation: xcursor and hyprcursor
 
+## Contents
+
+- [Overview](#overview)
+- [103.1 Cursor Theme Formats](#1031-cursor-theme-formats)
+- [103.2 xcursor Format](#1032-xcursor-format)
+  - [Directory structure](#directory-structure)
+  - [cursor.theme](#cursortheme)
+  - [xcursor binary format](#xcursor-binary-format)
+- [103.3 Creating xcursor with xcursorgen](#1033-creating-xcursor-with-xcursorgen)
+  - [Prerequisites](#prerequisites)
+  - [Source SVG → PNG → xcursor](#source-svg-png-xcursor)
+  - [Creating symlinks for cursor name aliases](#creating-symlinks-for-cursor-name-aliases)
+- [103.4 Automation Script](#1034-automation-script)
+- [103.5 hyprcursor Format](#1035-hyprcursor-format)
+  - [Directory structure](#directory-structure)
+  - [manifest.hl](#manifesthl)
+  - [meta.hl (per cursor)](#metahl-per-cursor)
+  - [SVG requirements](#svg-requirements)
+- [103.6 hyprcursor-util — Conversion and Packaging](#1036-hyprcursor-util-conversion-and-packaging)
+- [103.7 Installing and Applying](#1037-installing-and-applying)
+  - [System-wide](#system-wide)
+  - [User-local](#user-local)
+  - [Hyprland config](#hyprland-config)
+  - [GTK / GNOME settings](#gtk-gnome-settings)
+  - [Home Manager (NixOS)](#home-manager-nixos)
+- [103.8 Essential Cursor Shapes](#1038-essential-cursor-shapes)
+- [103.9 Colouring Existing Themes with resvg / inkscape](#1039-colouring-existing-themes-with-resvg-inkscape)
+- [103.10 Troubleshooting](#10310-troubleshooting)
+
+---
+
+
 ## Overview
 
 The cursor is one of the first things visible on your desktop. Most rices pick

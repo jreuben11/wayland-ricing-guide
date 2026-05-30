@@ -1,5 +1,33 @@
 # Appendix E — Hyprland Configuration Quick Reference
 
+## Contents
+
+- [Monitor Configuration](#monitor-configuration)
+- [Common Keybind Patterns](#common-keybind-patterns)
+- [Essential Dispatchers](#essential-dispatchers)
+- [Window Rules v2](#window-rules-v2)
+- [Layer Rules](#layer-rules)
+- [Animations](#animations)
+- [Decoration](#decoration)
+- [General Layout](#general-layout)
+- [Dwindle Layout](#dwindle-layout)
+- [Master Layout](#master-layout)
+- [Input](#input)
+- [Misc Performance](#misc-performance)
+- [Environment Variables (in hyprland.conf)](#environment-variables-in-hyprlandconf)
+- [hyprctl Reference](#hyprctl-reference)
+- [All Dispatchers](#all-dispatchers)
+- [Workspace Rules](#workspace-rules)
+- [Exec Rules](#exec-rules)
+- [Plugin Configuration](#plugin-configuration)
+- [Submap (Modal Keybinds)](#submap-modal-keybinds)
+- [Source and Variable System](#source-and-variable-system)
+- [Monitor Advanced](#monitor-advanced)
+- [Debug and Development](#debug-and-development)
+
+---
+
+
 ## Monitor Configuration
 ```conf
 monitor = NAME,WIDTHxHEIGHT@HZ,XxY,SCALE

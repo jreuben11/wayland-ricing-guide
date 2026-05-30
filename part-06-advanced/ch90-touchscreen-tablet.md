@@ -1,5 +1,28 @@
 # Chapter 90 — Touchscreen and Drawing Tablet Support
 
+## Contents
+
+- [Overview](#overview)
+- [90.1 Touchscreen Gestures in Hyprland](#901-touchscreen-gestures-in-hyprland)
+  - [Touchscreen-specific input device config](#touchscreen-specific-input-device-config)
+- [90.2 Touchscreen in Sway](#902-touchscreen-in-sway)
+  - [libinput-gestures (touchpad/touchscreen gesture daemon)](#libinput-gestures-touchpadtouchscreen-gesture-daemon)
+- [90.3 Drawing Tablets](#903-drawing-tablets)
+  - [Wacom tablets (libwacom + kernel driver)](#wacom-tablets-libwacom-kernel-driver)
+  - [OpenTabletDriver — universal tablet driver](#opentabletdriver-universal-tablet-driver)
+- [90.4 On-Screen Keyboards](#904-on-screen-keyboards)
+  - [squeekboard (GNOME/GTK, phone-oriented)](#squeekboard-gnomegtk-phone-oriented)
+  - [wvkbd — wlroots on-screen keyboard](#wvkbd-wlroots-on-screen-keyboard)
+  - [Layer-shell positioning for wvkbd](#layer-shell-positioning-for-wvkbd)
+- [90.5 Tablet Mode (Laptop/Convertible)](#905-tablet-mode-laptopconvertible)
+  - [Detection](#detection)
+  - [Auto-switch script for Hyprland](#auto-switch-script-for-hyprland)
+  - [iio-sensor-proxy for auto-rotate](#iio-sensor-proxy-for-auto-rotate)
+- [90.6 Touch Input Debugging](#906-touch-input-debugging)
+
+---
+
+
 ## Overview
 
 Wayland handles touch and stylus input through libinput, with compositors

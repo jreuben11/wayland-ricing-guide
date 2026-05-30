@@ -1,5 +1,25 @@
 # Chapter 40 — Stylix: Auto-Theming Everything from One Wallpaper
 
+## Contents
+
+- [Overview](#overview)
+- [40.1 What Stylix Does](#401-what-stylix-does)
+- [40.2 Installation and Flake Integration](#402-installation-and-flake-integration)
+- [40.3 Basic Configuration](#403-basic-configuration)
+- [40.4 Supported Applications: Enabling and Disabling Targets](#404-supported-applications-enabling-and-disabling-targets)
+- [40.5 Qt and GTK via Stylix](#405-qt-and-gtk-via-stylix)
+- [40.6 Font Management via Stylix](#406-font-management-via-stylix)
+- [40.7 Custom Templates: Theming Unsupported Applications](#407-custom-templates-theming-unsupported-applications)
+- [40.8 Polarity and Scheme Selection](#408-polarity-and-scheme-selection)
+- [40.9 Stylix + Quickshell Integration](#409-stylix-quickshell-integration)
+- [40.10 Opacity Configuration](#4010-opacity-configuration)
+- [40.11 Workflow: From Wallpaper to Complete Rice](#4011-workflow-from-wallpaper-to-complete-rice)
+- [40.12 Selective Overrides within Styled Applications](#4012-selective-overrides-within-styled-applications)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Stylix is a NixOS/Home Manager module that generates and applies a consistent color theme across

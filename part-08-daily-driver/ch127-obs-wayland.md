@@ -1,5 +1,34 @@
 # Chapter 127 — OBS Studio on Wayland: Deep Setup Guide
 
+## Contents
+
+- [Overview](#overview)
+- [127.1 Installation](#1271-installation)
+- [127.2 Running OBS on Wayland](#1272-running-obs-on-wayland)
+- [127.3 PipeWire Screen Capture Source](#1273-pipewire-screen-capture-source)
+  - [Adding the Source](#adding-the-source)
+  - [Troubleshooting the Portal](#troubleshooting-the-portal)
+  - [obs-pipewire: Alternative Capture Plugin](#obs-pipewire-alternative-capture-plugin)
+- [127.4 Audio Configuration](#1274-audio-configuration)
+- [127.5 Virtual Camera (v4l2loopback)](#1275-virtual-camera-v4l2loopback)
+  - [Setup](#setup)
+  - [Using the Virtual Camera](#using-the-virtual-camera)
+  - [udev Rule for Non-root Access (Flatpak)](#udev-rule-for-non-root-access-flatpak)
+- [127.6 Performance Profiling and Settings](#1276-performance-profiling-and-settings)
+  - [Encoder Selection](#encoder-selection)
+  - [CPU Usage Reduction](#cpu-usage-reduction)
+  - [Frame Drop Debugging](#frame-drop-debugging)
+- [127.7 Scene for Desktop Showcase (Rice Screenshot)](#1277-scene-for-desktop-showcase-rice-screenshot)
+  - [Adding Filters](#adding-filters)
+- [127.8 Streaming Configuration](#1278-streaming-configuration)
+- [127.9 Troubleshooting](#1279-troubleshooting)
+  - [Black screen in Screen Capture source](#black-screen-in-screen-capture-source)
+  - [OBS crashes on startup with Wayland](#obs-crashes-on-startup-with-wayland)
+  - [Virtual camera not appearing in browsers](#virtual-camera-not-appearing-in-browsers)
+
+---
+
+
 ## Overview
 
 OBS Studio runs natively on Wayland (Qt Wayland backend) and captures screen content via PipeWire's screencopy protocol, making it fully functional without XWayland for recording and streaming. The path from a default OBS install to a fully configured Wayland recording setup requires three configuration layers: the Qt platform backend, the PipeWire screen capture source, and (optionally) a virtual camera via `v4l2loopback`. This chapter covers all three, plus performance profiling, the obs-pipewire plugin, and a scene configuration for showcasing a riced desktop.

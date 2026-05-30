@@ -1,5 +1,28 @@
 # Chapter 95 — GPU Monitoring and Overclocking
 
+## Contents
+
+- [Overview](#overview)
+- [95.1 nvtop — Universal GPU Monitor](#951-nvtop-universal-gpu-monitor)
+- [95.2 radeontop — AMD-Specific Terminal Monitor](#952-radeontop-amd-specific-terminal-monitor)
+- [95.3 intel_gpu_top — Intel GPU Monitor](#953-intelgputop-intel-gpu-monitor)
+- [95.4 lact — Linux AMD Control Tool (Wayland GUI)](#954-lact-linux-amd-control-tool-wayland-gui)
+  - [lact features](#lact-features)
+  - [Fan curve configuration (lact)](#fan-curve-configuration-lact)
+  - [CLI-level control (bypassing lact GUI)](#cli-level-control-bypassing-lact-gui)
+- [95.5 corectrl — Qt AMD/Intel Control](#955-corectrl-qt-amdintel-control)
+- [95.6 GPU Status in the Status Bar](#956-gpu-status-in-the-status-bar)
+  - [Quickshell module (reading from sysfs)](#quickshell-module-reading-from-sysfs)
+  - [AMD sysfs paths](#amd-sysfs-paths)
+  - [NVIDIA sysfs / nvidia-smi](#nvidia-sysfs-nvidia-smi)
+  - [Waybar custom GPU module](#waybar-custom-gpu-module)
+- [95.7 AMD Overclocking via sysfs (without lact)](#957-amd-overclocking-via-sysfs-without-lact)
+  - [AMD voltage offset (RDNA 2/3 undervolting)](#amd-voltage-offset-rdna-23-undervolting)
+- [95.8 Persist Overclocking at Boot](#958-persist-overclocking-at-boot)
+
+---
+
+
 ## Overview
 
 GPU monitoring gives you real-time performance data (temperature, clock speeds,

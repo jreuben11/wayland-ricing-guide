@@ -1,5 +1,42 @@
 # Chapter 77 — Plymouth Boot Splash: Themed Boot Screens
 
+## Contents
+
+- [Overview](#overview)
+- [77.1 How Plymouth Works](#771-how-plymouth-works)
+- [77.2 Installation](#772-installation)
+  - [Arch Linux](#arch-linux)
+  - [Debian / Ubuntu](#debian-ubuntu)
+  - [Fedora / RHEL](#fedora-rhel)
+  - [Kernel Parameters](#kernel-parameters)
+- [77.3 Selecting and Previewing a Theme](#773-selecting-and-previewing-a-theme)
+- [77.4 Popular Plymouth Themes](#774-popular-plymouth-themes)
+  - [Catppuccin Plymouth](#catppuccin-plymouth)
+  - [BGRT (OEM Logo)](#bgrt-oem-logo)
+  - [Spinner](#spinner)
+  - [NixOS via Stylix](#nixos-via-stylix)
+- [77.5 Writing a Custom Plymouth Theme](#775-writing-a-custom-plymouth-theme)
+  - [Theme Metadata File](#theme-metadata-file)
+  - [Animation Script](#animation-script)
+  - [Generating Assets with ImageMagick](#generating-assets-with-imagemagick)
+  - [Installing and Activating the Custom Theme](#installing-and-activating-the-custom-theme)
+- [77.6 LUKS Encryption Prompt Theming](#776-luks-encryption-prompt-theming)
+- [77.7 Smooth Transition to the Login Manager](#777-smooth-transition-to-the-login-manager)
+- [77.8 Multi-Resolution and HiDPI Support](#778-multi-resolution-and-hidpi-support)
+- [77.9 Plymouth on Encrypted Root with TPM2 Unlocking](#779-plymouth-on-encrypted-root-with-tpm2-unlocking)
+- [Troubleshooting](#troubleshooting)
+  - [Plymouth Does Not Appear](#plymouth-does-not-appear)
+  - [Black Screen Instead of Splash](#black-screen-instead-of-splash)
+  - [Kernel Text Scrolls Over Plymouth](#kernel-text-scrolls-over-plymouth)
+  - [Plymouth Shows But DM Flashes / Blank Before Login](#plymouth-shows-but-dm-flashes-blank-before-login)
+  - [LUKS Passphrase Prompt Not Themed](#luks-passphrase-prompt-not-themed)
+  - [Plymouth Debug Log](#plymouth-debug-log)
+  - [Theme Not Taking Effect After Set](#theme-not-taking-effect-after-set)
+  - [Testing Without Reboot](#testing-without-reboot)
+
+---
+
+
 ## Overview
 
 Plymouth handles the graphical boot screen — the loading animation between GRUB and your login manager.

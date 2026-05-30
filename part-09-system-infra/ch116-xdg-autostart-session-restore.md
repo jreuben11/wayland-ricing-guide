@@ -1,5 +1,23 @@
 # Chapter 116 — XDG Autostart and Session Restore
 
+## Contents
+
+- [Overview](#overview)
+- [116.1 XDG Autostart](#1161-xdg-autostart)
+  - [The Spec](#the-spec)
+  - [Writing an Autostart Entry](#writing-an-autostart-entry)
+  - [systemd-xdg-autostart-generator](#systemd-xdg-autostart-generator)
+  - [Difference from exec-once](#difference-from-exec-once)
+- [116.2 Session Restore](#1162-session-restore)
+  - [Hyprland: Workspace Persistence via IPC](#hyprland-workspace-persistence-via-ipc)
+  - [Hyprland: pyprland save-layout](#hyprland-pyprland-save-layout)
+  - [Sway: sway-session / i3-resurrect](#sway-sway-session-i3-resurrect)
+  - [Minimal Approach: Window Rules as "Restore"](#minimal-approach-window-rules-as-restore)
+  - [Niri: Native Session Restore](#niri-native-session-restore)
+
+---
+
+
 ## Overview
 
 Two related problems: how do you start applications automatically when your Wayland session begins, and how do you restore your window layout after a reboot? The first is solved by **XDG autostart** — a freedesktop.org spec for `.desktop` files in `~/.config/autostart/` that are launched by a compliant session manager. The second requires compositor-specific state saving, usually via IPC scripting. Both are commonly confused with `exec-once` in hyprland.conf or `exec` in sway config, which are simpler but less interoperable.

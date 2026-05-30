@@ -1,5 +1,26 @@
 # Chapter 92 — Custom GLSL Shaders in Compositors
 
+## Contents
+
+- [Overview](#overview)
+- [92.1 Hyprland Screen Shaders](#921-hyprland-screen-shaders)
+  - [Enabling a screen shader](#enabling-a-screen-shader)
+- [92.2 Shader Interface](#922-shader-interface)
+- [92.3 Practical Shaders](#923-practical-shaders)
+  - [Blue light / warm filter](#blue-light-warm-filter)
+  - [Invert colors](#invert-colors)
+  - [Grayscale](#grayscale)
+  - [Vignette](#vignette)
+  - [CRT scanlines](#crt-scanlines)
+  - [Color grading (Catppuccin warm tint)](#color-grading-catppuccin-warm-tint)
+  - [Contrast and saturation boost](#contrast-and-saturation-boost)
+- [92.4 Toggling Shaders via Script](#924-toggling-shaders-via-script)
+- [92.5 Wayfire Shader Plugin](#925-wayfire-shader-plugin)
+- [92.6 Performance Notes](#926-performance-notes)
+
+---
+
+
 ## Overview
 
 Wayland compositors with OpenGL renderers apply shaders when compositing

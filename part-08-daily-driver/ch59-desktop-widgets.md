@@ -1,5 +1,48 @@
 # Chapter 59 — Desktop Widgets, Overview Effects, and Conky Equivalents
 
+## Contents
+
+- [Overview](#overview)
+- [59.1 Layer Shell Widgets vs. True Desktop Widgets](#591-layer-shell-widgets-vs-true-desktop-widgets)
+- [59.2 Quickshell Desktop Widgets](#592-quickshell-desktop-widgets)
+  - [Installation](#installation)
+  - [Desktop Clock](#desktop-clock)
+  - [System Monitor Widget](#system-monitor-widget)
+  - [Calendar Widget](#calendar-widget)
+- [59.3 conky on Wayland](#593-conky-on-wayland)
+  - [Installation](#installation)
+  - [Minimal Wayland Config](#minimal-wayland-config)
+  - [System Information Template](#system-information-template)
+  - [Limitations of conky on Wayland](#limitations-of-conky-on-wayland)
+- [59.4 Workspace Overview / Expose Effects](#594-workspace-overview-expose-effects)
+  - [Hyprland hyprexpo Plugin](#hyprland-hyprexpo-plugin)
+  - [KWin Overview Effect](#kwin-overview-effect)
+  - [Quickshell Custom Overview (wlroots Compositors)](#quickshell-custom-overview-wlroots-compositors)
+- [59.5 Window Switcher (Alt+Tab)](#595-window-switcher-alttab)
+  - [Hyprland Built-in Cycling](#hyprland-built-in-cycling)
+  - [hyprswitch](#hyprswitch)
+  - [Quickshell Window Switcher](#quickshell-window-switcher)
+- [59.6 Desktop Icon Grid](#596-desktop-icon-grid)
+  - [PCManFM Desktop on Wayland](#pcmanfm-desktop-on-wayland)
+  - [Quickshell Icon Grid](#quickshell-icon-grid)
+- [59.7 Animated and Shader Wallpapers](#597-animated-and-shader-wallpapers)
+  - [GLSL Shader Wallpapers via Quickshell](#glsl-shader-wallpapers-via-quickshell)
+  - [mpvpaper (Video Wallpaper)](#mpvpaper-video-wallpaper)
+- [59.8 Notification Toasts as Desktop Widgets](#598-notification-toasts-as-desktop-widgets)
+  - [Persistent Corner Notifications](#persistent-corner-notifications)
+  - [Urgency-Based Layer Selection](#urgency-based-layer-selection)
+- [59.9 Comparison Table: Widget Toolkits](#599-comparison-table-widget-toolkits)
+- [Troubleshooting](#troubleshooting)
+  - [Widget not appearing on screen](#widget-not-appearing-on-screen)
+  - [Widget appears but is not transparent](#widget-appears-but-is-not-transparent)
+  - [conky shows nothing on Wayland](#conky-shows-nothing-on-wayland)
+  - [hyprexpo plugin not loading](#hyprexpo-plugin-not-loading)
+  - [Quickshell QML import errors](#quickshell-qml-import-errors)
+  - [High CPU usage from ShaderEffect](#high-cpu-usage-from-shadereffect)
+
+---
+
+
 ## Overview
 
 Desktop widgets — clocks, system monitors, calendars, and network meters rendered

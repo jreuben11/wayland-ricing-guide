@@ -1,5 +1,24 @@
 # Chapter 18 — Core Modules: Io, DBusMenu, Singletons
 
+## Contents
+
+- [Overview](#overview)
+- [18.1 Process — Running Commands](#181-process-running-commands)
+- [18.2 StdioCollector and SplitParser](#182-stdiocollector-and-splitparser)
+- [18.3 FileView — Reading Files](#183-fileview-reading-files)
+- [18.4 Socket and SocketServer](#184-socket-and-socketserver)
+- [18.5 IpcHandler — Calling Into Quickshell from Scripts](#185-ipchandler-calling-into-quickshell-from-scripts)
+- [18.6 JsonAdapter — Reactive JSON Parsing](#186-jsonadapter-reactive-json-parsing)
+- [18.7 DBusMenu — System Tray Menus](#187-dbusmenu-system-tray-menus)
+- [18.8 SystemClock and ElapsedTimer](#188-systemclock-and-elapsedtimer)
+- [18.9 ObjectModel and ObjectRepeater](#189-objectmodel-and-objectrepeater)
+- [18.10 Putting It All Together — A Working Bar Module](#1810-putting-it-all-together-a-working-bar-module)
+- [Troubleshooting](#troubleshooting)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 The `Quickshell.Io` module is the primary interface between your Quickshell shell and the rest of the Linux system. It covers spawning external processes, reading files reactively, communicating over Unix sockets, parsing JSON, and integrating with D-Bus. Understanding these building blocks is essential before you can build anything non-trivial: a clock widget, a workspaces bar, a system tray, or a notification daemon all depend on one or more of these mechanisms.

@@ -1,5 +1,22 @@
 # Chapter 4 — libwayland Programming: Writing Wayland Clients in C
 
+## Contents
+
+- [Overview](#overview)
+- [4.1 Setting Up the Build Environment](#41-setting-up-the-build-environment)
+- [4.2 Connecting to the Compositor](#42-connecting-to-the-compositor)
+- [4.3 The Registry Dance](#43-the-registry-dance)
+- [4.4 Creating a Surface and Window](#44-creating-a-surface-and-window)
+- [4.5 Shared Memory Rendering with wl_shm](#45-shared-memory-rendering-with-wlshm)
+- [4.6 Input Handling](#46-input-handling)
+- [4.7 Using the Layer Shell (wlr-layer-shell)](#47-using-the-layer-shell-wlr-layer-shell)
+- [4.8 Building a Minimal Status Bar in C](#48-building-a-minimal-status-bar-in-c)
+- [Troubleshooting](#troubleshooting)
+- [Code Repository](#code-repository)
+
+---
+
+
 ## Overview
 
 This chapter provides a hands-on, from-scratch guide to writing Wayland clients using

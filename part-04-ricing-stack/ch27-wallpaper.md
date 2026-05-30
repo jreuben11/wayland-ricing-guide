@@ -1,5 +1,21 @@
 # Chapter 27 — Wallpaper Management: swww, hyprpaper, swaybg, mpvpaper
 
+## Contents
+
+- [Overview](#overview)
+- [27.1 swww — The Transition King](#271-swww-the-transition-king)
+- [27.2 hyprpaper — Hyprland-Native](#272-hyprpaper-hyprland-native)
+- [27.3 swaybg — Simple and Reliable](#273-swaybg-simple-and-reliable)
+- [27.4 wpaperd — Timed Wallpaper Cycling](#274-wpaperd-timed-wallpaper-cycling)
+- [27.5 mpvpaper — Video Wallpapers](#275-mpvpaper-video-wallpapers)
+- [27.6 Quickshell Wallpaper (via ScreencopyView or Image)](#276-quickshell-wallpaper-via-screencopyview-or-image)
+- [27.7 Wallpaper Automation Scripts](#277-wallpaper-automation-scripts)
+- [27.8 Wallpaper Sources and Management](#278-wallpaper-sources-and-management)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Wallpaper tools on Wayland use the `wlr-layer-shell` protocol to place images and video on the

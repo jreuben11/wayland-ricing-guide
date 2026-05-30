@@ -1,5 +1,61 @@
 # Chapter 33 — Display Configuration: kanshi, wdisplays, wlr-randr, shikane
 
+## Contents
+
+- [Overview](#overview)
+- [33.1 wlr-output-management Protocol](#331-wlr-output-management-protocol)
+- [33.2 kanshi — Profile-Based Auto-Configuration](#332-kanshi-profile-based-auto-configuration)
+  - [Installation](#installation)
+  - [Configuration File Format](#configuration-file-format)
+  - [Running kanshi as a Systemd User Service](#running-kanshi-as-a-systemd-user-service)
+  - [Reloading and Switching Profiles Manually](#reloading-and-switching-profiles-manually)
+  - [exec Directive: Running Commands After Profile Switch](#exec-directive-running-commands-after-profile-switch)
+- [33.3 wdisplays — GUI Configuration](#333-wdisplays-gui-configuration)
+  - [Installation](#installation)
+  - [Workflow](#workflow)
+  - [Limitations](#limitations)
+- [33.4 wlr-randr — xrandr for Wayland](#334-wlr-randr-xrandr-for-wayland)
+  - [Installation](#installation)
+  - [Common Commands](#common-commands)
+  - [Scripting Example: Presentation Mode Toggle](#scripting-example-presentation-mode-toggle)
+- [33.5 shikane — Advanced Profile Manager](#335-shikane-advanced-profile-manager)
+  - [Key Differences from kanshi](#key-differences-from-kanshi)
+  - [Installation](#installation)
+  - [Configuration Example](#configuration-example)
+  - [Running shikane](#running-shikane)
+- [33.6 Fractional Scaling](#336-fractional-scaling)
+  - [Protocol Mechanics](#protocol-mechanics)
+  - [Enabling in kanshi / wlr-randr](#enabling-in-kanshi-wlr-randr)
+  - [Compositor-Specific Notes](#compositor-specific-notes)
+  - [Cursor Scaling](#cursor-scaling)
+  - [Known Fractional Scaling Issues](#known-fractional-scaling-issues)
+- [33.7 Rotation and Transform](#337-rotation-and-transform)
+  - [Transform Values](#transform-values)
+  - [Applying Rotation](#applying-rotation)
+  - [Touchscreen Coordinate Mapping with Rotation](#touchscreen-coordinate-mapping-with-rotation)
+- [33.8 Variable Refresh Rate (VRR / Adaptive Sync)](#338-variable-refresh-rate-vrr-adaptive-sync)
+  - [Enabling VRR by Compositor](#enabling-vrr-by-compositor)
+  - [Compositor VRR Support Matrix (2025/2026)](#compositor-vrr-support-matrix-20252026)
+  - [VRR Caveats](#vrr-caveats)
+- [33.9 HDR Status (2025/2026)](#339-hdr-status-20252026)
+  - [Current State by Compositor](#current-state-by-compositor)
+  - [KDE Plasma HDR Setup](#kde-plasma-hdr-setup)
+  - [Hyprland Experimental HDR](#hyprland-experimental-hdr)
+  - [wp-color-management-v1 Protocol Basics](#wp-color-management-v1-protocol-basics)
+- [33.10 Multi-Monitor Layout Planning](#3310-multi-monitor-layout-planning)
+  - [Layout Calculation Example](#layout-calculation-example)
+- [Troubleshooting](#troubleshooting)
+  - [kanshi Profile Not Matching](#kanshi-profile-not-matching)
+  - [wlr-randr: "compositor does not support wlr-output-management"](#wlr-randr-compositor-does-not-support-wlr-output-management)
+  - [Fractional Scaling: Blurry Applications](#fractional-scaling-blurry-applications)
+  - [Monitor Detected but Black Screen](#monitor-detected-but-black-screen)
+  - [VRR Causing Screen Flickering](#vrr-causing-screen-flickering)
+  - [Rotation Not Persisting After Reboot](#rotation-not-persisting-after-reboot)
+- [Cross-References](#cross-references)
+
+---
+
+
 ## Overview
 
 Multi-monitor configuration on Wayland is fundamentally different from the X11 era. Under X11, `xrandr` directly manipulated the display server's state by issuing RandR protocol requests. Under Wayland, the compositor owns exclusive control of output configuration — clients can only request changes through standardized protocols. The primary protocol for this is `wlr-output-management`, originally pioneered by the wlroots compositor library and now widely adopted.

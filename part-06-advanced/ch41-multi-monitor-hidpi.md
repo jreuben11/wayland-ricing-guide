@@ -1,5 +1,23 @@
 # Chapter 41 — Multi-Monitor, HiDPI, and Fractional Scaling
 
+## Contents
+
+- [Overview](#overview)
+- [41.1 Wayland's Per-Output Model](#411-waylands-per-output-model)
+- [41.2 Integer Scaling (1x, 2x, 3x)](#412-integer-scaling-1x-2x-3x)
+- [41.3 Fractional Scaling](#413-fractional-scaling)
+- [41.4 XWayland Fractional Scaling](#414-xwayland-fractional-scaling)
+- [41.5 Mixed DPI Multi-Monitor Setup](#415-mixed-dpi-multi-monitor-setup)
+- [41.6 Refresh Rate Management](#416-refresh-rate-management)
+- [41.7 Monitor Arrangement and Transforms](#417-monitor-arrangement-and-transforms)
+- [41.8 Waybar / Quickshell Multi-Monitor](#418-waybar-quickshell-multi-monitor)
+- [41.9 Screen Layout in Practice](#419-screen-layout-in-practice)
+- [41.10 Color Management and HDR (Emerging)](#4110-color-management-and-hdr-emerging)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Multi-monitor setups on Wayland represent one of the protocol's genuine architectural improvements over X11. Rather than treating all connected displays as a single logical screen (the X11 model), Wayland exposes each physical output as an independent object with its own resolution, refresh rate, position, scale factor, and transform. This clean per-output model eliminates entire categories of X11 bugs — gamma ramps, per-output color management, and per-output scaling all work without global hacks.

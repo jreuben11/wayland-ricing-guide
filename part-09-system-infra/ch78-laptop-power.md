@@ -1,5 +1,24 @@
 # Chapter 78 — Laptop Power Management: tlp, auto-cpufreq, power-profiles-daemon
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [78.1 Power Management Stack](#781-power-management-stack)
+  - [78.2 power-profiles-daemon (Recommended)](#782-power-profiles-daemon-recommended)
+  - [78.3 tlp — Fine-Grained Battery Tuning](#783-tlp-fine-grained-battery-tuning)
+  - [78.4 auto-cpufreq — Automatic CPU Frequency Scaling](#784-auto-cpufreq-automatic-cpu-frequency-scaling)
+  - [78.5 Suspend and Hibernate](#785-suspend-and-hibernate)
+  - [78.6 Hyprland-Specific Power Settings](#786-hyprland-specific-power-settings)
+  - [78.7 Backlight Control](#787-backlight-control)
+  - [78.8 Battery Status in Quickshell / Status Bars](#788-battery-status-in-quickshell-status-bars)
+  - [78.9 Thermal Management](#789-thermal-management)
+  - [78.10 Putting It All Together: Example Battery Profile Script](#7810-putting-it-all-together-example-battery-profile-script)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Wayland compositors — especially those with always-on animations — can drain laptop

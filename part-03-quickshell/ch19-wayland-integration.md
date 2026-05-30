@@ -1,5 +1,21 @@
 # Chapter 19 — Wayland Integration: Layer Shell, ToplevelManager, ScreenCopy
 
+## Contents
+
+- [Overview](#overview)
+- [19.1 WlrLayershell and WlrLayer](#191-wlrlayershell-and-wlrlayer)
+- [19.2 ToplevelManager — Window List Access](#192-toplevelmanager-window-list-access)
+- [19.3 ScreencopyView — Screen Capture in QML](#193-screencopyview-screen-capture-in-qml)
+- [19.4 WlSessionLock — Building a Lockscreen](#194-wlsessionlock-building-a-lockscreen)
+- [19.5 WlrKeyboardFocus — Grabbing Keyboard Input for Layer Surfaces](#195-wlrkeyboardfocus-grabbing-keyboard-input-for-layer-surfaces)
+- [19.6 Handling Wayland Events — Outputs, Capabilities, and Hot Plug](#196-handling-wayland-events-outputs-capabilities-and-hot-plug)
+- [19.7 XWayland Considerations](#197-xwayland-considerations)
+- [19.8 Compositor-Specific Extensions](#198-compositor-specific-extensions)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 The `Quickshell.Wayland` module is the bridge between your QML shell components and the underlying Wayland compositor protocols. Unlike X11, where a single global root window and EWMH atoms provided a chaotic but functional IPC mechanism, Wayland enforces strict protocol boundaries. Every capability — window listing, screen capture, session locking, keyboard grabs — requires explicit protocol support from the compositor and explicit opt-in from the client.

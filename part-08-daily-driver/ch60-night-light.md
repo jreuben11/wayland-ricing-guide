@@ -1,5 +1,52 @@
 # Chapter 60 — Night Light and Color Temperature: wlsunset, gammastep, hyprsunset
 
+## Contents
+
+- [Overview](#overview)
+- [The Wayland Gamma Control Protocol](#the-wayland-gamma-control-protocol)
+  - [Protocol Landscape](#protocol-landscape)
+  - [How Gamma Curves Work](#how-gamma-curves-work)
+- [wlsunset — Location-Based Automatic Dimming](#wlsunset-location-based-automatic-dimming)
+  - [Overview and Installation](#overview-and-installation)
+  - [Basic Usage](#basic-usage)
+  - [Autostart Integration](#autostart-integration)
+  - [Automatic Location via GeoClue2](#automatic-location-via-geoclue2)
+- [gammastep — Redshift for Wayland](#gammastep-redshift-for-wayland)
+  - [Overview](#overview)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Autostart](#autostart)
+  - [One-Shot Manual Override](#one-shot-manual-override)
+- [hyprsunset — Hyprland-Native](#hyprsunset-hyprland-native)
+  - [Overview](#overview)
+  - [Installation](#installation)
+  - [Basic Usage and Configuration](#basic-usage-and-configuration)
+  - [Hyprctl Runtime Control](#hyprctl-runtime-control)
+- [Manual Gamma Adjustment](#manual-gamma-adjustment)
+  - [wlr-randr and wl-gammarelay](#wlr-randr-and-wl-gammarelay)
+  - [gammastep One-Shot (Recommended for Scripting)](#gammastep-one-shot-recommended-for-scripting)
+- [Temperature Reference](#temperature-reference)
+  - [Kelvin Scale and Use Cases](#kelvin-scale-and-use-cases)
+  - [Choosing Your Temperatures](#choosing-your-temperatures)
+- [Integration with Status Bars](#integration-with-status-bars)
+  - [Waybar Integration](#waybar-integration)
+  - [Quickshell Night Light Widget](#quickshell-night-light-widget)
+- [Integration with Idle Daemon](#integration-with-idle-daemon)
+  - [hypridle Temperature Ramping](#hypridle-temperature-ramping)
+  - [swayidle Integration (Sway / river)](#swayidle-integration-sway-river)
+- [HDR and Color Temperature Compatibility](#hdr-and-color-temperature-compatibility)
+  - [Current Limitations](#current-limitations)
+  - [KWin Built-In Night Light](#kwin-built-in-night-light)
+- [Troubleshooting](#troubleshooting)
+  - [Daemon Starts but Screen Does Not Change](#daemon-starts-but-screen-does-not-change)
+  - [Tool Runs but Temperature Does Not Transition](#tool-runs-but-temperature-does-not-transition)
+  - [gammastep Crashes at Startup](#gammastep-crashes-at-startup)
+  - [Temperature Resets to 6500K Unexpectedly](#temperature-resets-to-6500k-unexpectedly)
+  - [XWayland Applications Show Incorrect Colors](#xwayland-applications-show-incorrect-colors)
+
+---
+
+
 ## Overview
 
 Reducing blue light in the evening is one of the most impactful ergonomic tweaks available to a power user. Extended exposure to high-color-temperature light (5500K–6500K) in the hours before sleep suppresses melatonin production and disrupts circadian rhythms. On X11, tools like Redshift and f.lux solved this problem by adjusting the display gamma curves through the X RANDR extension. On Wayland, the equivalent protocol is `zwlr-gamma-control-unstable-v1`, a wlroots extension that gives privileged clients direct access to per-output gamma LUTs.

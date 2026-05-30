@@ -1,5 +1,54 @@
 # Chapter 112 — Aesthetic Ricing: From Palette to Pixel
 
+## Contents
+
+- [Overview](#overview)
+- [112.1 The Seven Layers of a Rice](#1121-the-seven-layers-of-a-rice)
+- [112.2 The General Method](#1122-the-general-method)
+  - [Step 1: Define the Anchor Emotion](#step-1-define-the-anchor-emotion)
+  - [Step 2: Build a Palette in base16](#step-2-build-a-palette-in-base16)
+  - [Step 3: Select a Wallpaper](#step-3-select-a-wallpaper)
+  - [Step 4: Apply in Layer Order](#step-4-apply-in-layer-order)
+  - [Step 5: Validate Consistency](#step-5-validate-consistency)
+- [112.3 Case Study: Tokyo Night](#1123-case-study-tokyo-night)
+  - [Identity](#identity)
+  - [112.3.1 Palette Definition](#11231-palette-definition)
+  - [112.3.2 Wallpaper](#11232-wallpaper)
+  - [112.3.3 Hyprland Configuration](#11233-hyprland-configuration)
+  - [112.3.4 Terminal (Kitty)](#11234-terminal-kitty)
+  - [112.3.5 Waybar](#11235-waybar)
+  - [112.3.6 Toolkit Themes](#11236-toolkit-themes)
+  - [112.3.7 Font Stack](#11237-font-stack)
+- [112.4 Case Study: Cyberpunk Neon](#1124-case-study-cyberpunk-neon)
+  - [Identity](#identity)
+  - [112.4.1 Palette Definition](#11241-palette-definition)
+  - [112.4.2 Wallpaper](#11242-wallpaper)
+  - [112.4.3 Hyprland Configuration](#11243-hyprland-configuration)
+  - [112.4.4 Terminal (Alacritty)](#11244-terminal-alacritty)
+  - [112.4.5 Waybar with Glow Effects](#11245-waybar-with-glow-effects)
+  - [112.4.6 GTK Theme](#11246-gtk-theme)
+  - [112.4.7 Font Stack](#11247-font-stack)
+- [112.5 Case Study: Tron / Synthwave](#1125-case-study-tron-synthwave)
+  - [Identity](#identity)
+  - [112.5.1 Palette Definition](#11251-palette-definition)
+  - [112.5.2 Wallpaper](#11252-wallpaper)
+  - [112.5.3 Hyprland Configuration](#11253-hyprland-configuration)
+  - [112.5.4 Scanline Shader](#11254-scanline-shader)
+  - [112.5.5 Terminal (Foot)](#11255-terminal-foot)
+  - [112.5.6 Waybar](#11256-waybar)
+  - [112.5.7 Font Stack](#11257-font-stack)
+  - [112.5.8 Icon Theme](#11258-icon-theme)
+- [112.6 Cross-Aesthetic Techniques](#1126-cross-aesthetic-techniques)
+  - [Enforcing Palette Consistency with tinty](#enforcing-palette-consistency-with-tinty)
+  - [Opacity Recommendations by Aesthetic](#opacity-recommendations-by-aesthetic)
+  - [Animation Speed by Aesthetic](#animation-speed-by-aesthetic)
+  - [Adapting Existing Themes](#adapting-existing-themes)
+- [112.7 Consistency Checklist](#1127-consistency-checklist)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 A rice is built in layers. You can pick a wallpaper, adjust terminal colors, and call it done — or you can build a fully coherent *aesthetic*: every surface, border, glyph, shadow, and animation tuned to express a single visual idea. The difference between a finished rice and an assembled one is that a finished rice was designed top-down from an aesthetic intent, not assembled bottom-up from whatever themes were available.

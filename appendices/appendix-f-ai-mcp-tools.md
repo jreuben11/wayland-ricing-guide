@@ -1,5 +1,36 @@
 # Appendix F — AI, Claude, and MCP Tools for Wayland Ricing
 
+## Contents
+
+- [Overview](#overview)
+- [F.1 Claude Code + MCP Servers](#f1-claude-code-mcp-servers)
+  - [context7 — Live Library Documentation](#context7-live-library-documentation)
+  - [arxiv MCP — Research Papers](#arxiv-mcp-research-papers)
+  - [GitHub MCP — Dotfile and Config Search](#github-mcp-dotfile-and-config-search)
+- [F.2 Claude Code for Ricing Tasks](#f2-claude-code-for-ricing-tasks)
+  - [QML Generation](#qml-generation)
+  - [Hyprland Config Debugging](#hyprland-config-debugging)
+  - [Config Translation](#config-translation)
+  - [Theme Generation](#theme-generation)
+  - [Script Generation](#script-generation)
+- [F.3 AI Wallpaper Generation](#f3-ai-wallpaper-generation)
+  - [Local (Ollama + Stable Diffusion)](#local-ollama-stable-diffusion)
+  - [ComfyUI (recommended for scripting)](#comfyui-recommended-for-scripting)
+  - [Integration with pywal / matugen](#integration-with-pywal-matugen)
+- [F.4 AI-Assisted Color Palette Tools](#f4-ai-assisted-color-palette-tools)
+  - [pastel + Claude](#pastel-claude)
+  - [matugen templates](#matugen-templates)
+- [F.5 AI Tools for Protocol and Code Work](#f5-ai-tools-for-protocol-and-code-work)
+  - [Writing Wayland Protocol Extensions](#writing-wayland-protocol-extensions)
+  - [Debugging with WAYLAND_DEBUG](#debugging-with-waylanddebug)
+  - [Rust Wayland Client Code](#rust-wayland-client-code)
+- [F.6 Quickshell-Specific AI Workflow](#f6-quickshell-specific-ai-workflow)
+  - [Prompt template for Quickshell component generation](#prompt-template-for-quickshell-component-generation)
+- [F.7 Relevant Community AI Resources](#f7-relevant-community-ai-resources)
+
+---
+
+
 ## Overview
 
 Large language models and AI-powered tooling have become genuinely useful for

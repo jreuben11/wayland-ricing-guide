@@ -1,5 +1,25 @@
 # Chapter 28 — Application Launchers: fuzzel, rofi, wofi, Anyrun, walker, tofi
 
+## Contents
+
+- [Overview](#overview)
+- [28.1 fuzzel — Fast and Minimal](#281-fuzzel-fast-and-minimal)
+- [28.2 rofi (Wayland fork) — The Feature-Complete Option](#282-rofi-wayland-fork-the-feature-complete-option)
+- [28.3 wofi — GTK Wayland Launcher](#283-wofi-gtk-wayland-launcher)
+- [28.4 tofi — Minimal dmenu Replacement](#284-tofi-minimal-dmenu-replacement)
+- [28.5 Anyrun — CSS-Customizable Plugin Launcher](#285-anyrun-css-customizable-plugin-launcher)
+- [28.6 walker — GTK4 Launcher](#286-walker-gtk4-launcher)
+- [28.7 bemenu — Dynamic Menu Library](#287-bemenu-dynamic-menu-library)
+- [28.8 Launcher Comparison Table](#288-launcher-comparison-table)
+- [28.9 Power Menu Patterns](#289-power-menu-patterns)
+- [28.10 Clipboard and Emoji Pickers](#2810-clipboard-and-emoji-pickers)
+- [28.11 Quickshell App Launcher](#2811-quickshell-app-launcher)
+- [28.12 Session Startup Integration](#2812-session-startup-integration)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Application launchers are one of the most visible components of a riced desktop. On Wayland, they

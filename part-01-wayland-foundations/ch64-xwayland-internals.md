@@ -4,6 +4,26 @@
 > Ch 58 (HiDPI and fractional scaling), Ch 71 (Clipboard management), Ch 79 (Window rules deep dive),
 > Ch 82 (Security model and sandboxing).
 
+## Contents
+
+- [Overview](#overview)
+- [64.1 What XWayland Is](#641-what-xwayland-is)
+- [64.2 Rootless XWayland](#642-rootless-xwayland)
+- [64.3 How the Compositor Launches XWayland](#643-how-the-compositor-launches-xwayland)
+- [64.4 The WM_CLASS / app_id Mapping](#644-the-wmclass-appid-mapping)
+- [64.5 Clipboard Between X11 and Wayland](#645-clipboard-between-x11-and-wayland)
+- [64.6 DPI and Scaling in XWayland](#646-dpi-and-scaling-in-xwayland)
+- [64.7 Input in XWayland](#647-input-in-xwayland)
+- [64.8 Security Model and Threat Surface](#648-security-model-and-threat-surface)
+- [64.9 Identifying X11 vs Wayland Windows](#649-identifying-x11-vs-wayland-windows)
+- [64.10 XWayland and GPU Acceleration](#6410-xwayland-and-gpu-acceleration)
+- [64.11 Forcing Applications to Use Native Wayland](#6411-forcing-applications-to-use-native-wayland)
+- [64.12 Disabling XWayland](#6412-disabling-xwayland)
+- [64.13 Troubleshooting](#6413-troubleshooting)
+
+---
+
+
 ## Overview
 
 XWayland is a compatibility layer that allows X11 applications to run inside a Wayland session without

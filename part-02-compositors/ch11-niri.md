@@ -1,5 +1,50 @@
 # Chapter 11 — Niri: The Scrollable Workspace Pioneer
 
+## Contents
+
+- [Overview](#overview)
+- [11.1 The Scrollable Layout Concept](#111-the-scrollable-layout-concept)
+  - [Conceptual Comparison](#conceptual-comparison)
+- [11.2 Installation](#112-installation)
+  - [From Source (Cargo)](#from-source-cargo)
+  - [Distribution Packages](#distribution-packages)
+  - [NixOS Flake](#nixos-flake)
+  - [Launching Niri](#launching-niri)
+- [11.3 Configuration: KDL Format](#113-configuration-kdl-format)
+  - [Complete Minimal Configuration](#complete-minimal-configuration)
+- [11.4 Keybindings (`binds` Block)](#114-keybindings-binds-block)
+- [11.5 Layout Deep Dive](#115-layout-deep-dive)
+  - [Column Widths](#column-widths)
+  - [Stacking Windows in a Column](#stacking-windows-in-a-column)
+  - [Workspaces](#workspaces)
+- [11.6 Window Rules (`window-rule`)](#116-window-rules-window-rule)
+- [11.7 Animations and Visual Polish](#117-animations-and-visual-polish)
+  - [Spring Parameters](#spring-parameters)
+  - [Available Easing Curves](#available-easing-curves)
+- [11.8 Niri IPC (`niri msg`)](#118-niri-ipc-niri-msg)
+  - [Querying State](#querying-state)
+  - [Dispatching Actions](#dispatching-actions)
+  - [Scripting Example: Focus-or-Launch](#scripting-example-focus-or-launch)
+- [11.9 Niri Ecosystem Integration](#119-niri-ecosystem-integration)
+  - [Waybar](#waybar)
+  - [Quickshell](#quickshell)
+  - [swww (Wallpaper)](#swww-wallpaper)
+  - [Screen Locking with swaylock / hyprlock](#screen-locking-with-swaylock-hyprlock)
+  - [XWayland Support](#xwayland-support)
+- [11.10 Niri's Current Limitations (2025 Status)](#1110-niris-current-limitations-2025-status)
+- [11.11 Niri vs. Hyprland: When Scrollable Wins](#1111-niri-vs-hyprland-when-scrollable-wins)
+- [Troubleshooting](#troubleshooting)
+  - [Niri fails to start: "No seat available"](#niri-fails-to-start-no-seat-available)
+  - [Blank screen / GPU issue](#blank-screen-gpu-issue)
+  - [Waybar niri modules not updating](#waybar-niri-modules-not-updating)
+  - [XWayland apps not working](#xwayland-apps-not-working)
+  - [Config reload fails silently](#config-reload-fails-silently)
+  - [Focus ring / border not visible](#focus-ring-border-not-visible)
+  - [High CPU usage with animations](#high-cpu-usage-with-animations)
+
+---
+
+
 ## Overview
 
 Niri is a Wayland compositor built on Smithay (not wlroots) that implements a

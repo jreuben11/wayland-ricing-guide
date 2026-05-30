@@ -1,5 +1,30 @@
 # Chapter 118 — Flatpak on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [118.1 Socket Permissions](#1181-socket-permissions)
+- [118.2 Portal Setup](#1182-portal-setup)
+- [118.3 Forcing Wayland Backend in Specific Apps](#1183-forcing-wayland-backend-in-specific-apps)
+  - [Electron Apps (Discord, Slack, VS Code, Obsidian)](#electron-apps-discord-slack-vs-code-obsidian)
+  - [GTK Apps](#gtk-apps)
+  - [Qt Apps](#qt-apps)
+  - [Firefox](#firefox)
+- [118.4 Flatseal: GUI Permission Manager](#1184-flatseal-gui-permission-manager)
+- [118.5 GTK Theme Access](#1185-gtk-theme-access)
+  - [Option A: Grant filesystem access to themes](#option-a-grant-filesystem-access-to-themes)
+  - [Option B: Install themes as Flatpak extensions](#option-b-install-themes-as-flatpak-extensions)
+  - [Option C: Use `~/.config/gtk-3.0/` (already accessible)](#option-c-use-configgtk-30-already-accessible)
+- [118.6 Wayland App Compatibility Table](#1186-wayland-app-compatibility-table)
+- [118.7 Troubleshooting](#1187-troubleshooting)
+  - [App appears on XWayland despite override](#app-appears-on-xwayland-despite-override)
+  - [File picker opens an X11 dialog](#file-picker-opens-an-x11-dialog)
+  - [App crashes on startup with Wayland](#app-crashes-on-startup-with-wayland)
+  - [Screen sharing not working from Flatpak](#screen-sharing-not-working-from-flatpak)
+
+---
+
+
 ## Overview
 
 Flatpak packages most major Linux applications — Firefox, Brave, Obsidian, Spotify, Discord, LibreOffice, GIMP, Inkscape, Steam, VLC — in sandboxed containers that run on any distribution. On Wayland, Flatpak apps work correctly when configured properly, but many ship with X11 as default or require explicit portal setup. Misconfigured Flatpak apps either silently fall back to XWayland, fail to render, or show theming inconsistencies because their sandbox cannot reach your GTK theme files.

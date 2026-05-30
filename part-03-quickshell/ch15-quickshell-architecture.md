@@ -11,6 +11,30 @@ what the complete module ecosystem looks like. Subsequent chapters build on this
 
 ---
 
+## Contents
+
+- [15.1 The Shell Framework Landscape](#151-the-shell-framework-landscape)
+- [15.2 Why Quickshell Wins for Serious Ricing](#152-why-quickshell-wins-for-serious-ricing)
+- [15.3 Architecture Deep Dive](#153-architecture-deep-dive)
+- [15.4 The Config Directory Layout](#154-the-config-directory-layout)
+- [15.5 Module Namespace Map](#155-module-namespace-map)
+- [15.6 Installation and Building](#156-installation-and-building)
+  - [Distribution Packages](#distribution-packages)
+  - [NixOS Flake](#nixos-flake)
+  - [Building from Source](#building-from-source)
+  - [Runtime Dependencies](#runtime-dependencies)
+- [15.7 The QML Language in 5 Minutes](#157-the-qml-language-in-5-minutes)
+- [15.8 Community and Resources](#158-community-and-resources)
+- [15.9 Troubleshooting](#159-troubleshooting)
+  - [Quickshell fails to start: "Could not connect to display"](#quickshell-fails-to-start-could-not-connect-to-display)
+  - [Module not found: "Quickshell.Hyprland"](#module-not-found-quickshellhyprland)
+  - [Hot reload triggers but UI does not update](#hot-reload-triggers-but-ui-does-not-update)
+  - [PipeWire service not working](#pipewire-service-not-working)
+  - [Shell crash on Hyprland IPC event](#shell-crash-on-hyprland-ipc-event)
+
+---
+
+
 ## 15.1 The Shell Framework Landscape
 
 A "shell framework" is not the same thing as a bar program or a widget toolkit. A bar program

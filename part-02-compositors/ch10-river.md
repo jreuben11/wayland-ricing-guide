@@ -1,5 +1,62 @@
 # Chapter 10 — River: Tag-Based Minimalism
 
+## Contents
+
+- [Overview](#overview)
+- [10.1 Philosophy: The River Way](#101-philosophy-the-river-way)
+- [10.2 Installation and Setup](#102-installation-and-setup)
+  - [Building from Source](#building-from-source)
+  - [Verify the Installation](#verify-the-installation)
+  - [The Init Script](#the-init-script)
+  - [Starting River](#starting-river)
+- [10.3 The Tag System](#103-the-tag-system)
+  - [Tags as Bit-Flags](#tags-as-bit-flags)
+  - [Assigning and Focusing Tags](#assigning-and-focusing-tags)
+  - [Keybindings for a Full Tag Workflow](#keybindings-for-a-full-tag-workflow)
+  - [Comparison: River Tags vs. i3/Sway Workspaces](#comparison-river-tags-vs-i3sway-workspaces)
+- [10.4 Configuration via `riverctl`](#104-configuration-via-riverctl)
+  - [Keybindings](#keybindings)
+  - [Pointer Bindings (Mouse)](#pointer-bindings-mouse)
+  - [Keyboard Repeat and XKB](#keyboard-repeat-and-xkb)
+  - [Input Configuration (libinput)](#input-configuration-libinput)
+  - [Window Rules](#window-rules)
+  - [Output Configuration](#output-configuration)
+- [10.5 Layout Generators](#105-layout-generators)
+  - [rivertile: The Built-In Generator](#rivertile-the-built-in-generator)
+  - [External Layout Generators](#external-layout-generators)
+  - [Writing a Custom Layout Generator](#writing-a-custom-layout-generator)
+- [10.6 Scripting River](#106-scripting-river)
+  - [Status Bar Integration via Wayland Protocol](#status-bar-integration-via-wayland-protocol)
+  - [Waybar River Module](#waybar-river-module)
+  - [yambar River Module](#yambar-river-module)
+  - [Event-Driven Scripting with `riverctl`](#event-driven-scripting-with-riverctl)
+  - [Modal Keybindings](#modal-keybindings)
+- [10.7 A Complete Init Script](#107-a-complete-init-script)
+- [--- Appearance ---](#appearance)
+- [--- Keyboard ---](#keyboard)
+- [--- Input ---](#input)
+- [--- Core keybindings ---](#core-keybindings)
+- [--- Pointer bindings ---](#pointer-bindings)
+- [--- Tags 1-9 ---](#tags-1-9)
+- [--- Window rules ---](#window-rules)
+- [--- Layout ---](#layout)
+- [--- Autostart ---](#autostart)
+- [10.8 River in 2025/2026](#108-river-in-20252026)
+  - [Stability and Feature Completeness](#stability-and-feature-completeness)
+  - [Community Size vs. Hyprland/Sway](#community-size-vs-hyprlandsway)
+  - [Use Cases Where River Shines](#use-cases-where-river-shines)
+- [Troubleshooting](#troubleshooting)
+  - [River starts but the screen is black and nothing responds](#river-starts-but-the-screen-is-black-and-nothing-responds)
+  - [`riverctl` commands fail with "no compositor running"](#riverctl-commands-fail-with-no-compositor-running)
+  - [Layout generator does not appear / windows not tiled](#layout-generator-does-not-appear-windows-not-tiled)
+  - [Tags seem to behave unexpectedly — windows disappear](#tags-seem-to-behave-unexpectedly-windows-disappear)
+  - [High CPU from a layout generator](#high-cpu-from-a-layout-generator)
+  - [Waybar River module shows all tags grey / no status](#waybar-river-module-shows-all-tags-grey-no-status)
+  - [XWayland apps do not appear (when using xwayland-satellite)](#xwayland-apps-do-not-appear-when-using-xwayland-satellite)
+
+---
+
+
 ## Overview
 
 River is a dynamic Wayland compositor written in Zig that embodies the Unix philosophy more

@@ -1,5 +1,33 @@
 # Chapter 26 — Bars and Panels: Waybar, eww, AGS/Astal
 
+## Contents
+
+- [Overview](#overview)
+- [26.1 Waybar — The Workhorse Bar](#261-waybar-the-workhorse-bar)
+  - [26.1.1 Custom Modules](#2611-custom-modules)
+- [26.2 Waybar CSS Theming](#262-waybar-css-theming)
+- [26.3 eww — Elkowar's Wacky Widgets](#263-eww-elkowars-wacky-widgets)
+  - [26.3.1 Yuck Fundamentals](#2631-yuck-fundamentals)
+- [26.4 AGS / Astal — TypeScript Widgets](#264-ags-astal-typescript-widgets)
+  - [26.4.1 A Minimal Astal Bar in TypeScript](#2641-a-minimal-astal-bar-in-typescript)
+  - [26.4.2 Astal Libraries Reference](#2642-astal-libraries-reference)
+- [26.5 Choosing Your Bar Framework in 2025/2026](#265-choosing-your-bar-framework-in-20252026)
+- [26.6 Integrating Bars with Compositor Startup](#266-integrating-bars-with-compositor-startup)
+  - [26.6.1 Launching from Hyprland](#2661-launching-from-hyprland)
+  - [26.6.2 systemd User Session (for compositor-agnostic setups)](#2662-systemd-user-session-for-compositor-agnostic-setups)
+- [Troubleshooting](#troubleshooting)
+- [26.10 Advanced Waybar Custom Modules](#2610-advanced-waybar-custom-modules)
+  - [return-type = "json" full schema](#return-type-json-full-schema)
+  - [Complete JSON module example: GPU monitor](#complete-json-module-example-gpu-monitor)
+  - [format-alt toggle (click to switch display)](#format-alt-toggle-click-to-switch-display)
+  - [Scroll handlers](#scroll-handlers)
+  - [Signal-driven refresh pattern](#signal-driven-refresh-pattern)
+  - [Multi-line tooltip with Pango markup](#multi-line-tooltip-with-pango-markup)
+  - [CSS class switching by state](#css-class-switching-by-state)
+
+---
+
+
 ## Overview
 
 The status bar is one of the most visible components of any Linux desktop rice. It surfaces

@@ -1,5 +1,23 @@
 # Chapter 62 — Opinionated Rice Bootstraps: Omarchy, ML4W, HyDE, CachyOS
 
+## Contents
+
+- [Overview](#overview)
+- [62.1 What These Projects Are](#621-what-these-projects-are)
+- [62.2 Omarchy — DHH's Developer Desktop](#622-omarchy-dhhs-developer-desktop)
+- [62.3 ML4W — My Linux For Work](#623-ml4w-my-linux-for-work)
+- [62.4 HyDE — Hyprland Desktop Environment](#624-hyde-hyprland-desktop-environment)
+- [62.5 CachyOS — Optimized Arch with Hyprland ISO](#625-cachyos-optimized-arch-with-hyprland-iso)
+- [62.6 EndeavourOS with Hyprland Community Edition](#626-endeavouros-with-hyprland-community-edition)
+- [62.7 Comparison](#627-comparison)
+- [62.8 Learning from Opinionated Setups](#628-learning-from-opinionated-setups)
+- [62.9 Customizing From a Base](#629-customizing-from-a-base)
+- [62.10 The Philosophical Divide](#6210-the-philosophical-divide)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Several projects bundle a complete, opinionated Arch + Hyprland setup that you

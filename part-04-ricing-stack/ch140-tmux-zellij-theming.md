@@ -1,5 +1,27 @@
 # Chapter 140 — tmux and Zellij Theming
 
+## Contents
+
+- [Overview](#overview)
+- [140.1 tmux Status Line Fundamentals](#1401-tmux-status-line-fundamentals)
+  - [Enabling True Color](#enabling-true-color)
+  - [Basic Status Line Structure](#basic-status-line-structure)
+  - [Pane Borders](#pane-borders)
+  - [Mode Colors (copy mode selection)](#mode-colors-copy-mode-selection)
+- [140.2 Full Tokyo Night Theme (Manual)](#1402-full-tokyo-night-theme-manual)
+- [140.3 TPM and Community Theme Plugins](#1403-tpm-and-community-theme-plugins)
+- [140.4 Powerline Separators Reference](#1404-powerline-separators-reference)
+- [140.5 pywal Integration for tmux](#1405-pywal-integration-for-tmux)
+- [140.6 Zellij Theming Overview](#1406-zellij-theming-overview)
+  - [Built-in Theme Names](#built-in-theme-names)
+  - [Cyberpunk Neon Theme](#cyberpunk-neon-theme)
+- [140.7 Zellij Layout Files](#1407-zellij-layout-files)
+- [140.8 Zellij UI Options](#1408-zellij-ui-options)
+- [140.9 Matching Multiplexer to Terminal Colorscheme](#1409-matching-multiplexer-to-terminal-colorscheme)
+
+---
+
+
 ## Overview
 
 Terminal multiplexers are fixtures of nearly every developer rice. They provide session

@@ -1,5 +1,29 @@
 # Chapter 100 — AGS / Astal: TypeScript Shell Framework
 
+## Contents
+
+- [Overview](#overview)
+- [100.1 Architecture](#1001-architecture)
+- [100.2 Installation](#1002-installation)
+- [100.3 Project Structure](#1003-project-structure)
+- [100.4 Entry Point — `app.ts`](#1004-entry-point-appts)
+- [100.5 Creating Windows — Layer Shell](#1005-creating-windows-layer-shell)
+- [100.6 Reactive Variables](#1006-reactive-variables)
+  - [bind()](#bind)
+- [100.7 Hyprland Module](#1007-hyprland-module)
+  - [Hyprland IPC dispatch](#hyprland-ipc-dispatch)
+- [100.8 Audio — WirePlumber Module](#1008-audio-wireplumber-module)
+- [100.9 Notifications](#1009-notifications)
+- [100.10 System Tray](#10010-system-tray)
+- [100.11 Battery](#10011-battery)
+- [100.12 Network](#10012-network)
+- [100.13 Complete Minimal Bar](#10013-complete-minimal-bar)
+- [100.14 Styling](#10014-styling)
+- [100.15 AGS vs Quickshell](#10015-ags-vs-quickshell)
+
+---
+
+
 ## Overview
 
 Astal (formerly AGS — Aylur's Gtk Shell) is a Wayland shell framework built on

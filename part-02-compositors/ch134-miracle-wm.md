@@ -1,5 +1,32 @@
 # Chapter 134 — Miracle-WM: Ubuntu's Tiling Wayland Compositor
 
+## Contents
+
+- [Overview](#overview)
+- [134.1 What is Miracle-WM?](#1341-what-is-miracle-wm)
+  - [Why it exists](#why-it-exists)
+- [134.2 Installation](#1342-installation)
+  - [Snap (recommended on Ubuntu)](#snap-recommended-on-ubuntu)
+  - [PPA (Ubuntu 24.04+)](#ppa-ubuntu-2404)
+  - [Arch AUR](#arch-aur)
+  - [From Source](#from-source)
+- [134.3 Starting Miracle-WM](#1343-starting-miracle-wm)
+- [134.4 Configuration](#1344-configuration)
+  - [Custom Keybindings](#custom-keybindings)
+- [134.5 Status Bar Integration](#1345-status-bar-integration)
+  - [waybar (recommended)](#waybar-recommended)
+  - [i3status-rust](#i3status-rust)
+- [134.6 Layout Model](#1346-layout-model)
+- [134.7 Output Configuration](#1347-output-configuration)
+- [134.8 Comparison: Miracle-WM vs Sway vs Hyprland](#1348-comparison-miracle-wm-vs-sway-vs-hyprland)
+  - [When to choose Miracle-WM](#when-to-choose-miracle-wm)
+  - [When to choose Sway instead](#when-to-choose-sway-instead)
+- [134.9 Known Limitations (2025)](#1349-known-limitations-2025)
+- [134.10 Troubleshooting](#13410-troubleshooting)
+
+---
+
+
 ## Overview
 
 Miracle-WM is a tiling Wayland compositor built on Mir (the display server library maintained by Canonical) and designed to bring i3-compatible tiling to the Ubuntu ecosystem. Unlike wlroots-based compositors (Sway, Hyprland, River), it uses Mir as its compositor backend, giving it first-class Ubuntu/Snap support while maintaining i3-style keybinding conventions. This chapter covers installation, configuration, keybinding layout, status bar integration, and a comparison to Sway — the most natural point of reference.

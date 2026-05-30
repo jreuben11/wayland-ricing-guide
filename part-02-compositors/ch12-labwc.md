@@ -1,5 +1,44 @@
 # Chapter 12 — labwc: The OpenBox Successor
 
+## Contents
+
+- [Overview](#overview)
+- [12.1 Design Goals](#121-design-goals)
+- [12.2 Installation and Setup](#122-installation-and-setup)
+  - [Distribution packages](#distribution-packages)
+  - [Building from source](#building-from-source)
+  - [Starting labwc directly (TTY)](#starting-labwc-directly-tty)
+  - [Session configuration for display managers](#session-configuration-for-display-managers)
+  - [The autostart file](#the-autostart-file)
+  - [The environment file](#the-environment-file)
+- [12.3 Configuration](#123-configuration)
+  - [rc.xml structure](#rcxml-structure)
+  - [menu.xml](#menuxml)
+- [12.4 Theming labwc](#124-theming-labwc)
+  - [Installing themes](#installing-themes)
+  - [GTK theme integration](#gtk-theme-integration)
+  - [Qt theme integration](#qt-theme-integration)
+- [12.5 Building a Complete Desktop with labwc](#125-building-a-complete-desktop-with-labwc)
+  - [Component stack](#component-stack)
+  - [sfwbar configuration example](#sfwbar-configuration-example)
+  - [waybar configuration for labwc](#waybar-configuration-for-labwc)
+  - [Full LXQt-on-Wayland setup](#full-lxqt-on-wayland-setup)
+- [12.6 labwc vs. Other Stacking Compositors](#126-labwc-vs-other-stacking-compositors)
+- [12.7 labwc in 2025/2026](#127-labwc-in-20252026)
+  - [Feature completeness status (2025)](#feature-completeness-status-2025)
+  - [LXQt project adoption](#lxqt-project-adoption)
+  - [Community and distribution support](#community-and-distribution-support)
+- [12.8 Troubleshooting](#128-troubleshooting)
+  - [labwc fails to start on TTY](#labwc-fails-to-start-on-tty)
+  - [Applications not rendering on Wayland (falling back to XWayland)](#applications-not-rendering-on-wayland-falling-back-to-xwayland)
+  - [Keyboard shortcuts not working](#keyboard-shortcuts-not-working)
+  - [Blank screen after labwc starts (no autostart output)](#blank-screen-after-labwc-starts-no-autostart-output)
+  - [Screen tearing or poor performance](#screen-tearing-or-poor-performance)
+  - [HiDPI scaling](#hidpi-scaling)
+
+---
+
+
 ## Overview
 
 labwc is a stacking Wayland compositor inspired by OpenBox, designed for traditional

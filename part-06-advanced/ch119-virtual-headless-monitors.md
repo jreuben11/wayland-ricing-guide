@@ -1,5 +1,26 @@
 # Chapter 119 — Virtual and Headless Monitors
 
+## Contents
+
+- [Overview](#overview)
+- [119.1 Use Cases](#1191-use-cases)
+- [119.2 Hyprland Virtual Monitors](#1192-hyprland-virtual-monitors)
+  - [Defining a Persistent Virtual Monitor](#defining-a-persistent-virtual-monitor)
+  - [Creating a Virtual Monitor at Runtime](#creating-a-virtual-monitor-at-runtime)
+  - [Mirror Mode](#mirror-mode)
+- [119.3 Sway Virtual Outputs](#1193-sway-virtual-outputs)
+- [119.4 wlr-virtual-output-manager Protocol](#1194-wlr-virtual-output-manager-protocol)
+- [119.5 Virtual Output for Remote Desktop (wayvnc)](#1195-virtual-output-for-remote-desktop-wayvnc)
+- [119.6 Headless Compositor (No Physical Display)](#1196-headless-compositor-no-physical-display)
+- [119.7 Persistent Layout on Monitor Unplug](#1197-persistent-layout-on-monitor-unplug)
+- [119.8 Troubleshooting](#1198-troubleshooting)
+  - [`hyprctl output create headless` returns error](#hyprctl-output-create-headless-returns-error)
+  - [Virtual output appears but no windows move to it](#virtual-output-appears-but-no-windows-move-to-it)
+  - [wayvnc shows blank screen](#wayvnc-shows-blank-screen)
+
+---
+
+
 ## Overview
 
 Virtual monitors — outputs that exist in the compositor but have no physical display connected — solve several real problems: a second "screen" for a remote desktop session, a persistent workspace when a laptop's external monitor is unplugged, an offscreen render target for OBS scene composition, or a stable layout for a headless CI compositor. Each compositor has its own mechanism for creating virtual outputs, and the `wlr-virtual-output-manager-unstable-v1` protocol provides a compositor-independent path for tools that need one.

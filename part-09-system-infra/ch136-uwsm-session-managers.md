@@ -1,5 +1,25 @@
 # Chapter 136 — UWSM and Wayland Session Managers
 
+## Contents
+
+- [Overview](#overview)
+- [136.1 The Problem with Plain Compositor Launch](#1361-the-problem-with-plain-compositor-launch)
+- [136.2 UWSM: Universal Wayland Session Manager](#1362-uwsm-universal-wayland-session-manager)
+  - [Installation](#installation)
+  - [Starting a Compositor with UWSM](#starting-a-compositor-with-uwsm)
+  - [Display Manager Integration](#display-manager-integration)
+  - [Compositor .desktop Entry](#compositor-desktop-entry)
+  - [Environment Export](#environment-export)
+  - [Stopping and Restarting](#stopping-and-restarting)
+- [136.3 dbus-run-session](#1363-dbus-run-session)
+- [136.4 systemd-run for Compositor Launch](#1364-systemd-run-for-compositor-launch)
+- [136.5 Comparison: Session Management Approaches](#1365-comparison-session-management-approaches)
+- [136.6 Waybar and Other Services as Systemd Units](#1366-waybar-and-other-services-as-systemd-units)
+- [136.7 Autostart File for Non-UWSM Compositors](#1367-autostart-file-for-non-uwsm-compositors)
+
+---
+
+
 ## Overview
 
 Starting a Wayland compositor correctly is more complex than running a single binary. Environment variables must reach D-Bus and systemd user services, the compositor must be a proper systemd unit so that child services can depend on it, and the session must survive compositor restarts without orphaning processes. The Universal Wayland Session Manager (UWSM) solves all of this in a compositor-agnostic way. This chapter covers UWSM, the `dbus-run-session` pattern, `systemd-run` for compositors, and a comparison to the `exec-once` + manual `import-environment` approach covered in Chapter 53.

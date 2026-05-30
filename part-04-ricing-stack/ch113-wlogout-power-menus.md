@@ -1,5 +1,21 @@
 # Chapter 113 — wlogout and Power Menus
 
+## Contents
+
+- [Overview](#overview)
+- [113.1 Installation](#1131-installation)
+- [113.2 Layout File](#1132-layout-file)
+- [113.3 CSS Styling](#1133-css-styling)
+  - [Minimal dark style](#minimal-dark-style)
+  - [Cyberpunk neon style](#cyberpunk-neon-style)
+- [113.4 Command-Line Flags](#1134-command-line-flags)
+- [113.5 Compositor Keybinding](#1135-compositor-keybinding)
+- [113.6 Quickshell Power Menu Alternative](#1136-quickshell-power-menu-alternative)
+- [113.7 Troubleshooting](#1137-troubleshooting)
+
+---
+
+
 ## Overview
 
 A power menu is the overlay that appears when you press a session-end keybind and presents buttons for shutdown, reboot, lock, suspend, logout, and hibernate. On X11, tools like `rofi -show p` or standalone utilities handled this. On Wayland the canonical solution is **wlogout**: a layer-shell application that renders a fullscreen or panel-style grid of styled buttons, each mapped to a system command.

@@ -1,5 +1,31 @@
 # Chapter 88 — Hyprland IPC Scripting
 
+## Contents
+
+- [Overview](#overview)
+- [88.1 Socket Locations](#881-socket-locations)
+- [88.2 Querying via hyprctl](#882-querying-via-hyprctl)
+  - [jq patterns for common queries](#jq-patterns-for-common-queries)
+- [88.3 Dispatching Actions](#883-dispatching-actions)
+  - [Targeting specific windows](#targeting-specific-windows)
+- [88.4 The Event Socket — Real-Time Automation](#884-the-event-socket-real-time-automation)
+  - [Event format](#event-format)
+  - [Full event reference](#full-event-reference)
+- [88.5 Automation Scripts](#885-automation-scripts)
+  - [Per-workspace wallpaper](#per-workspace-wallpaper)
+  - [Focus-follows-mouse with exclusions](#focus-follows-mouse-with-exclusions)
+  - [Window picker (rofi-based)](#window-picker-rofi-based)
+  - [Auto-tile newly opened windows](#auto-tile-newly-opened-windows)
+  - [Idle inhibit based on fullscreen media](#idle-inhibit-based-on-fullscreen-media)
+- [88.6 Python Automation with pyprland](#886-python-automation-with-pyprland)
+  - [pyprland config (`~/.config/hypr/pyprland.toml`)](#pyprland-config-confighyprpyprlandtoml)
+  - [Using pyprland's Python API](#using-pyprlands-python-api)
+- [88.7 Batch Dispatch](#887-batch-dispatch)
+- [88.8 Hyprland IPC in Quickshell](#888-hyprland-ipc-in-quickshell)
+
+---
+
+
 ## Overview
 
 Hyprland exposes two Unix sockets: a command socket for queries and dispatches,

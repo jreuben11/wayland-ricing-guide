@@ -1,5 +1,24 @@
 # Chapter 32 — Clipboard Management: wl-clipboard, cliphist
 
+## Contents
+
+- [Overview](#overview)
+- [32.1 Wayland Clipboard Architecture](#321-wayland-clipboard-architecture)
+- [32.2 wl-clipboard — The Core Tool](#322-wl-clipboard-the-core-tool)
+- [32.3 cliphist — Clipboard History](#323-cliphist-clipboard-history)
+- [32.4 copyq — Cross-Platform GUI Manager](#324-copyq-cross-platform-gui-manager)
+- [32.5 Hyprland Clipboard Setup](#325-hyprland-clipboard-setup)
+- [32.6 Sway Clipboard Setup](#326-sway-clipboard-setup)
+- [32.7 Primary Selection (Middle-Click Paste)](#327-primary-selection-middle-click-paste)
+- [32.8 Quickshell Clipboard Widget](#328-quickshell-clipboard-widget)
+- [32.9 Security Considerations](#329-security-considerations)
+- [32.10 Clipboard in Scripts and Automation](#3210-clipboard-in-scripts-and-automation)
+- [32.11 Tool Comparison](#3211-tool-comparison)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Clipboard management on Wayland is architecturally different from X11, and understanding those differences is essential before reaching for tools. On X11, a persistent server (Xorg itself) retained clipboard content even after the source application exited. Wayland deliberately discards this model: the compositor is minimal, and clipboard content is owned by the *application*, not the compositor. When the application dies, its clipboard selection dies with it.

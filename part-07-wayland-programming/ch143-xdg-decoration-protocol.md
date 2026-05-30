@@ -1,5 +1,28 @@
 # Chapter 143 — Window Decorations: xdg-decoration-v1, CSD vs SSD
 
+## Contents
+
+- [Overview](#overview)
+- [143.1 Client-Side vs Server-Side Decorations](#1431-client-side-vs-server-side-decorations)
+- [143.2 xdg-decoration-v1 Protocol](#1432-xdg-decoration-v1-protocol)
+  - [Negotiation flow](#negotiation-flow)
+- [143.3 Compositor Behavior](#1433-compositor-behavior)
+  - [Hyprland: CSD-first](#hyprland-csd-first)
+  - [Sway: SSD default, respects client preference](#sway-ssd-default-respects-client-preference)
+  - [KWin (KDE Plasma): full SSD with Breeze theme](#kwin-kde-plasma-full-ssd-with-breeze-theme)
+  - [Niri: CSD-only](#niri-csd-only)
+- [143.4 libdecor: CSD for Decoration-Unaware Clients](#1434-libdecor-csd-for-decoration-unaware-clients)
+  - [libdecor plugins](#libdecor-plugins)
+- [143.5 Forcing SSD or CSD for Specific Apps](#1435-forcing-ssd-or-csd-for-specific-apps)
+  - [Sway: force no titlebar for specific apps](#sway-force-no-titlebar-for-specific-apps)
+  - [Hyprland: remove compositor border for specific windows](#hyprland-remove-compositor-border-for-specific-windows)
+- [143.6 zwp_server_decoration_manager_v1 (Legacy KWin Protocol)](#1436-zwpserverdecorationmanagerv1-legacy-kwin-protocol)
+- [143.7 Debugging Decoration Issues](#1437-debugging-decoration-issues)
+- [143.8 GTK and Qt Decoration Behavior Summary](#1438-gtk-and-qt-decoration-behavior-summary)
+
+---
+
+
 ## Overview
 
 The question of who draws the window titlebar — the application (client-side

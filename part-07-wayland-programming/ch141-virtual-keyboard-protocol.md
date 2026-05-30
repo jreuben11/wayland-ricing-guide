@@ -1,5 +1,26 @@
 # Chapter 141 — Virtual Keyboard Protocol: zwp_virtual_keyboard_v1
 
+## Contents
+
+- [Overview](#overview)
+- [141.1 Why X11 Input Injection No Longer Works](#1411-why-x11-input-injection-no-longer-works)
+- [141.2 zwp_virtual_keyboard_v1 Protocol](#1412-zwpvirtualkeyboardv1-protocol)
+  - [Keymap Upload](#keymap-upload)
+- [141.3 wtype — Type Text and Send Keys](#1413-wtype-type-text-and-send-keys)
+  - [Common wtype use cases](#common-wtype-use-cases)
+- [141.4 ydotool — Kernel-Level Input Injection](#1414-ydotool-kernel-level-input-injection)
+- [141.5 kanata — Software Key Remapper](#1415-kanata-software-key-remapper)
+  - [Basic kanata configuration](#basic-kanata-configuration)
+  - [Layer switching example](#layer-switching-example)
+  - [Running kanata as a systemd service](#running-kanata-as-a-systemd-service)
+- [141.6 keyd — Kernel-Level Key Remapping](#1416-keyd-kernel-level-key-remapping)
+- [141.7 Python: Using the Protocol Directly](#1417-python-using-the-protocol-directly)
+- [141.8 Compositor Support Matrix](#1418-compositor-support-matrix)
+  - [Debugging virtual keyboard issues](#debugging-virtual-keyboard-issues)
+
+---
+
+
 ## Overview
 
 Programmatic key injection on Wayland is radically different from X11. Under X11,

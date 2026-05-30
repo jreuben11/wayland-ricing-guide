@@ -1,5 +1,24 @@
 # Chapter 31 — Screenshots and Recording: grim, slurp, wf-recorder, OBS
 
+## Contents
+
+- [Overview](#overview)
+- [31.1 The Screencopy Protocol Stack](#311-the-screencopy-protocol-stack)
+- [31.2 grim — The Screenshot Foundation](#312-grim-the-screenshot-foundation)
+- [31.3 slurp — Region Selection](#313-slurp-region-selection)
+- [31.4 hyprshot — Hyprland-Integrated Screenshots](#314-hyprshot-hyprland-integrated-screenshots)
+- [31.5 Screenshot Scripting](#315-screenshot-scripting)
+- [31.6 wf-recorder — Screen Recording](#316-wf-recorder-screen-recording)
+- [31.7 OBS Studio on Wayland](#317-obs-studio-on-wayland)
+- [31.8 wl-screenrec — Fast Hardware-Accelerated Recording](#318-wl-screenrec-fast-hardware-accelerated-recording)
+- [31.9 Flameshot on Wayland](#319-flameshot-on-wayland)
+- [31.10 Annotating Screenshots](#3110-annotating-screenshots)
+- [31.11 wl-copy and Clipboard Integration](#3111-wl-copy-and-clipboard-integration)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Screenshot and screen recording on Wayland requires compositor cooperation via the screencopy protocol. Unlike X11, where any application could read pixel data from the display via the `XGetImage` call or similar X11 requests, Wayland enforces strict surface isolation — a client cannot read another client's pixel data without explicit compositor permission. This fundamental security improvement means the entire screenshot/recording toolchain had to be reimagined from scratch.

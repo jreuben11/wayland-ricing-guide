@@ -1,5 +1,54 @@
 # Chapter 54 — Display Managers and Greeters: SDDM, GDM, greetd
 
+## Contents
+
+- [Overview](#overview)
+- [54.1 Display Manager Comparison](#541-display-manager-comparison)
+- [54.2 SDDM — Qt-Based Login Screen](#542-sddm-qt-based-login-screen)
+  - [Installation](#installation)
+  - [Core Configuration](#core-configuration)
+  - [Theme Installation](#theme-installation)
+  - [Writing a Custom QML Theme](#writing-a-custom-qml-theme)
+  - [NixOS Configuration](#nixos-configuration)
+- [54.3 GDM — GNOME Display Manager](#543-gdm-gnome-display-manager)
+  - [Installation and Basic Config](#installation-and-basic-config)
+  - [Theming GDM](#theming-gdm)
+- [54.4 greetd — The Compositor-Agnostic Daemon](#544-greetd-the-compositor-agnostic-daemon)
+  - [Installation and Core Config](#installation-and-core-config)
+- [54.5 greetd Greeters](#545-greetd-greeters)
+  - [ReGreet — GTK4 Graphical Greeter](#regreet-gtk4-graphical-greeter)
+  - [tuigreet — Terminal UI Greeter](#tuigreet-terminal-ui-greeter)
+  - [wlgreet — Minimal Wayland Greeter](#wlgreet-minimal-wayland-greeter)
+  - [Quickshell Greeter](#quickshell-greeter)
+- [54.6 No Display Manager — TTY Autologin](#546-no-display-manager-tty-autologin)
+  - [systemd getty Override](#systemd-getty-override)
+  - [Shell Profile Compositor Launch](#shell-profile-compositor-launch)
+- [54.7 Session Desktop Files](#547-session-desktop-files)
+- [54.8 Multi-Monitor Display Manager Configuration](#548-multi-monitor-display-manager-configuration)
+  - [SDDM Multi-Monitor](#sddm-multi-monitor)
+  - [GDM Multi-Monitor](#gdm-multi-monitor)
+  - [greetd Multi-Monitor](#greetd-multi-monitor)
+- [54.9 PAM and Security Considerations](#549-pam-and-security-considerations)
+  - [Checking the PAM Stack](#checking-the-pam-stack)
+  - [Adding FIDO2 / YubiKey Authentication](#adding-fido2-yubikey-authentication)
+  - [Fingerprint Authentication (fprintd)](#fingerprint-authentication-fprintd)
+- [Troubleshooting](#troubleshooting)
+  - [SDDM fails to start, black screen after enable](#sddm-fails-to-start-black-screen-after-enable)
+  - [greetd greeter exits immediately / loop restart](#greetd-greeter-exits-immediately-loop-restart)
+  - [GDM forces X11 instead of Wayland](#gdm-forces-x11-instead-of-wayland)
+  - [SDDM theme not applying](#sddm-theme-not-applying)
+  - [Session not appearing in DM session list](#session-not-appearing-in-dm-session-list)
+  - [Autologin loop (TTY autologin)](#autologin-loop-tty-autologin)
+- [54.10 Creating a Custom SDDM QML Theme from Scratch](#5410-creating-a-custom-sddm-qml-theme-from-scratch)
+  - [Directory Structure](#directory-structure)
+  - [theme.conf](#themeconf)
+  - [Minimal Main.qml](#minimal-mainqml)
+  - [SDDM QML API reference](#sddm-qml-api-reference)
+  - [Installing and selecting the theme](#installing-and-selecting-the-theme)
+
+---
+
+
 ## Overview
 
 The display manager (DM) is the first visual element a user encounters after boot — the login screen

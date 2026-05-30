@@ -1,5 +1,49 @@
 # Chapter 108 — eww Deep Dive: Yuck Language, State Model, and Desktop Widgets
 
+## Contents
+
+- [Overview](#overview)
+- [108.1 Architecture: How eww Works](#1081-architecture-how-eww-works)
+  - [Installing eww](#installing-eww)
+- [108.2 Yuck Language Fundamentals](#1082-yuck-language-fundamentals)
+  - [Comments and File Organisation](#comments-and-file-organisation)
+  - [Literals and Types](#literals-and-types)
+  - [Expressions `{...}`](#expressions)
+  - [Built-in Functions Reference](#built-in-functions-reference)
+- [108.3 Variable Kinds](#1083-variable-kinds)
+  - [`defvar` — Static Mutable Variable](#defvar-static-mutable-variable)
+  - [`deflisten` — Streaming Shell Command](#deflisten-streaming-shell-command)
+  - [`defpoll` — Polling Shell Command](#defpoll-polling-shell-command)
+  - [Magic Variables](#magic-variables)
+- [108.4 Window Definitions](#1084-window-definitions)
+- [108.5 Core Widget Reference](#1085-core-widget-reference)
+  - [Layout Widgets](#layout-widgets)
+  - [Display Widgets](#display-widgets)
+  - [Interactive Widgets](#interactive-widgets)
+  - [Conditional Rendering](#conditional-rendering)
+  - [Iteration](#iteration)
+  - [Transitions and Reveal](#transitions-and-reveal)
+- [108.6 Real-World Widget Examples](#1086-real-world-widget-examples)
+  - [Workspace Switcher (Hyprland)](#workspace-switcher-hyprland)
+  - [System Monitor Panel (Not a Bar)](#system-monitor-panel-not-a-bar)
+  - [Calendar Widget](#calendar-widget)
+  - [Music Player (MPRIS via playerctl)](#music-player-mpris-via-playerctl)
+- [108.7 SCSS and Theming](#1087-scss-and-theming)
+  - [Consuming pywal/matugen Output](#consuming-pywalmatugen-output)
+  - [GTK CSS Variables](#gtk-css-variables)
+- [108.8 Multi-Monitor Setup](#1088-multi-monitor-setup)
+- [108.9 CLI Reference](#1089-cli-reference)
+- [108.10 Troubleshooting](#10810-troubleshooting)
+  - [Widget renders but data is wrong](#widget-renders-but-data-is-wrong)
+  - [SCSS compilation error](#scss-compilation-error)
+  - [Window appears but has wrong size or position](#window-appears-but-has-wrong-size-or-position)
+  - [`deflisten` variable never updates](#deflisten-variable-never-updates)
+  - [eww can't find `HYPRLAND_SOCKET2`](#eww-cant-find-hyprlandsocket2)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 eww (Elkowar's Wacky Widgets) introduced a fundamentally different model for shell widgets in 2021: instead of a config-file-driven bar with a fixed set of modules, eww is a general-purpose widget runtime. You define *any* window shape — a status bar, a floating calendar, a full-screen dashboard, a corner clock — in a Lisp-flavoured DSL called Yuck, back it with reactive data from shell commands, and style it with CSS/SCSS. That model predated AGS, Quickshell, and Astal by years, and it explains why a large fraction of the ricing community's dotfiles still contain `.yuck` files.

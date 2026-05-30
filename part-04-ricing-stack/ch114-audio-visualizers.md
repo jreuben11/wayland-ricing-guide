@@ -1,5 +1,31 @@
 # Chapter 114 — Audio Visualizers: cava and glava on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [114.1 cava](#1141-cava)
+  - [Installation](#installation)
+  - [PipeWire Source Configuration](#pipewire-source-configuration)
+  - [Full Configuration](#full-configuration)
+  - [Cyberpunk Color Profile](#cyberpunk-color-profile)
+  - [Floating Terminal Visualizer](#floating-terminal-visualizer)
+  - [Per-Application Visualization (Virtual Sink)](#per-application-visualization-virtual-sink)
+  - [Embedding in eww Bar](#embedding-in-eww-bar)
+- [114.2 glava](#1142-glava)
+  - [Installation](#installation)
+  - [PipeWire Source](#pipewire-source)
+  - [Module Configuration](#module-configuration)
+  - [Cyberpunk Radial Visualizer](#cyberpunk-radial-visualizer)
+  - [Session Startup](#session-startup)
+- [114.3 Troubleshooting](#1143-troubleshooting)
+  - [cava shows flat bars / no audio](#cava-shows-flat-bars-no-audio)
+  - [cava bars flicker or have gaps](#cava-bars-flicker-or-have-gaps)
+  - [glava crashes with "failed to initialize EGL"](#glava-crashes-with-failed-to-initialize-egl)
+  - [glava appears on top of windows instead of behind](#glava-appears-on-top-of-windows-instead-of-behind)
+
+---
+
+
 ## Overview
 
 Audio visualizers translate PipeWire audio data into animated graphics: bar charts dancing in a terminal, waveforms rendered in OpenGL behind your desktop, frequency spectra embedded in a Waybar module. On Wayland, two tools dominate: **cava** (terminal-based, extremely configurable, zero GPU overhead) and **glava** (OpenGL, runs as a desktop background overlay using layer-shell or X11 shaped windows). Both consume audio from PipeWire and both need explicit source configuration on a Wayland-native setup.

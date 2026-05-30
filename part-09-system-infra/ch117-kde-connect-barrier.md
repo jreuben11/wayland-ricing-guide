@@ -1,5 +1,31 @@
 # Chapter 117 — Multi-Device Integration: KDE Connect and Barrier/InputLeap
 
+## Contents
+
+- [Overview](#overview)
+- [117.1 KDE Connect](#1171-kde-connect)
+  - [Installation](#installation)
+  - [Session Startup](#session-startup)
+  - [Device Pairing](#device-pairing)
+  - [Clipboard Sync](#clipboard-sync)
+  - [Notification Mirroring](#notification-mirroring)
+  - [Remote Touchpad/Keyboard](#remote-touchpadkeyboard)
+  - [File Transfer](#file-transfer)
+  - [Media Controls](#media-controls)
+  - [GSConnect (GNOME Shell Extension)](#gsconnect-gnome-shell-extension)
+- [117.2 Barrier / InputLeap](#1172-barrier-inputleap)
+  - [The Wayland Problem](#the-wayland-problem)
+  - [Installation](#installation)
+  - [Server Configuration (machine with keyboard/mouse)](#server-configuration-machine-with-keyboardmouse)
+  - [Client Configuration (machine being controlled)](#client-configuration-machine-being-controlled)
+  - [Wayland Input Injection: uinput Method](#wayland-input-injection-uinput-method)
+  - [Wayland Input Injection: Virtual Input Protocol](#wayland-input-injection-virtual-input-protocol)
+  - [Autostart](#autostart)
+  - [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Two categories of multi-device tools fill different needs on a riced Wayland desktop. **KDE Connect** links your Linux desktop to a phone: notification mirroring, clipboard sync, file transfer, remote touchpad/keyboard, and media controls. **Barrier** (now forked as **InputLeap**) links multiple computers together, sharing a single keyboard and mouse across machines over a network — a software KVM switch.

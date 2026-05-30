@@ -1,5 +1,31 @@
 # Chapter 71 — Network Management and Polkit: nmtui, nm-applet, pkexec
 
+## Contents
+
+- [Overview](#overview)
+- [71.1 The Problem](#711-the-problem)
+- [71.2 NetworkManager TUI: nmtui](#712-networkmanager-tui-nmtui)
+- [71.3 nm-applet — System Tray Widget](#713-nm-applet-system-tray-widget)
+- [71.4 iwgtk — Lightweight WiFi Manager](#714-iwgtk-lightweight-wifi-manager)
+- [71.5 CLI Network Management Reference](#715-cli-network-management-reference)
+- [71.6 DNS Configuration](#716-dns-configuration)
+- [71.7 What Polkit Is](#717-what-polkit-is)
+- [71.8 Available Polkit Agents](#718-available-polkit-agents)
+- [71.9 Starting a Polkit Agent](#719-starting-a-polkit-agent)
+- [71.10 Testing Polkit](#7110-testing-polkit)
+- [71.11 Polkit Rules (Advanced)](#7111-polkit-rules-advanced)
+- [71.12 VPN Setup](#7112-vpn-setup)
+- [Troubleshooting](#troubleshooting)
+  - [nm-applet not appearing in system tray](#nm-applet-not-appearing-in-system-tray)
+  - [Polkit agent not showing dialogs](#polkit-agent-not-showing-dialogs)
+  - [NetworkManager not managing an interface](#networkmanager-not-managing-an-interface)
+  - [DNS resolution failures](#dns-resolution-failures)
+  - [iwd fails to connect to enterprise WiFi (WPA2-Enterprise / 802.1X)](#iwd-fails-to-connect-to-enterprise-wifi-wpa2-enterprise-8021x)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Two things silently break every new Hyprland/Sway setup: no network manager UI

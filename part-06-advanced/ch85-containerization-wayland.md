@@ -1,5 +1,45 @@
 # Chapter 85 — Containerization, Sandboxing, WSL2, and Headless Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [85.1 Distrobox — Cross-Distro Packages with Wayland Access](#851-distrobox-cross-distro-packages-with-wayland-access)
+  - [How Wayland Forwarding Works](#how-wayland-forwarding-works)
+  - [Basic Setup](#basic-setup)
+  - [GPU Acceleration](#gpu-acceleration)
+  - [Exporting Apps to Host](#exporting-apps-to-host)
+  - [Hard Limits](#hard-limits)
+- [85.2 Podman and Docker — Direct Wayland Socket Mounting](#852-podman-and-docker-direct-wayland-socket-mounting)
+  - [Minimal Working Wayland Container (Podman)](#minimal-working-wayland-container-podman)
+  - [Adding PipeWire Audio](#adding-pipewire-audio)
+  - [Adding D-Bus (for tray, notifications, portals)](#adding-d-bus-for-tray-notifications-portals)
+  - [Toolbox (Fedora/RHEL)](#toolbox-fedorarhel)
+- [85.3 Flatpak — Portal-Based Sandboxing](#853-flatpak-portal-based-sandboxing)
+  - [Portal Status (2025–2026)](#portal-status-2025-2026)
+  - [Flatpak Wayland Permissions](#flatpak-wayland-permissions)
+  - [wp-security-context-v1 — Compositor Support](#wp-security-context-v1-compositor-support)
+- [85.4 bubblejail — Targeted App Sandboxing](#854-bubblejail-targeted-app-sandboxing)
+  - [Firejail — Avoid on Wayland](#firejail-avoid-on-wayland)
+- [85.5 WSL2 / Windows Host (WSLg)](#855-wsl2-windows-host-wslg)
+  - [Architecture](#architecture)
+  - [What Works](#what-works)
+  - [What Does Not Work](#what-does-not-work)
+  - [Installation and Testing](#installation-and-testing)
+- [85.6 macOS Host](#856-macos-host)
+  - [UTM — QEMU Frontend for Apple Silicon and Intel](#utm-qemu-frontend-for-apple-silicon-and-intel)
+  - [Parallels Desktop](#parallels-desktop)
+  - [Lima / colima](#lima-colima)
+- [85.7 Headless Wayland — CI, Testing, Cloud](#857-headless-wayland-ci-testing-cloud)
+  - [Sway Headless](#sway-headless)
+  - [Weston Headless](#weston-headless)
+  - [GitHub Actions / GitLab CI](#github-actions-gitlab-ci)
+  - [Cloud VMs (AWS, GCE, Azure)](#cloud-vms-aws-gce-azure)
+  - [Quickshell Testing Without a Compositor](#quickshell-testing-without-a-compositor)
+- [85.8 Isolation Summary and Recommendations](#858-isolation-summary-and-recommendations)
+
+---
+
+
 ## Overview
 
 Beyond full VMs (Ch 84), several lighter-weight isolation mechanisms exist for

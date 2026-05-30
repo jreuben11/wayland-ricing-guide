@@ -1,5 +1,30 @@
 # Chapter 142 — Power Management: power-profiles-daemon, CPU Governors, and Thermal
 
+## Contents
+
+- [Overview](#overview)
+- [142.1 power-profiles-daemon Overview](#1421-power-profiles-daemon-overview)
+- [142.2 powerprofilesctl — CLI Usage](#1422-powerprofilesctl-cli-usage)
+- [142.3 D-Bus Interface](#1423-d-bus-interface)
+- [142.4 Waybar power-profiles Module](#1424-waybar-power-profiles-module)
+- [142.5 Keybind-Driven Profile Switching](#1425-keybind-driven-profile-switching)
+  - [Hyprland](#hyprland)
+  - [Sway](#sway)
+- [142.6 CPU Frequency Governors (Manual Control)](#1426-cpu-frequency-governors-manual-control)
+  - [Persist governor across reboots](#persist-governor-across-reboots)
+- [142.7 Intel and AMD P-State Drivers](#1427-intel-and-amd-p-state-drivers)
+- [142.8 Thermal Management](#1428-thermal-management)
+  - [Checking thermal zones](#checking-thermal-zones)
+  - [thermald (Intel thermal daemon)](#thermald-intel-thermal-daemon)
+  - [Manual thermal throttle point](#manual-thermal-throttle-point)
+- [142.9 Battery Threshold (Charging Limit)](#1429-battery-threshold-charging-limit)
+- [142.10 PPD vs TLP Comparison](#14210-ppd-vs-tlp-comparison)
+- [142.11 upower Integration](#14211-upower-integration)
+  - [Waybar battery module with upower events](#waybar-battery-module-with-upower-events)
+
+---
+
+
 ## Overview
 
 Linux power management in 2025 has converged on two models: the simple

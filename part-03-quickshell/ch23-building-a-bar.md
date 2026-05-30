@@ -1,5 +1,39 @@
 # Chapter 23 — Building a Complete Status Bar
 
+## Contents
+
+- [Overview](#overview)
+- [23.1 Project Structure](#231-project-structure)
+- [23.2 The Shell Entry Point](#232-the-shell-entry-point)
+- [23.3 The Bar Container](#233-the-bar-container)
+- [23.4 Clock Module](#234-clock-module)
+- [23.5 Workspace Indicator Module](#235-workspace-indicator-module)
+- [23.6 Focused Window Title](#236-focused-window-title)
+- [23.7 Volume Module](#237-volume-module)
+- [23.8 Battery Module](#238-battery-module)
+- [23.9 Media Controls Module](#239-media-controls-module)
+- [23.10 Network Status Module](#2310-network-status-module)
+- [23.11 System Tray](#2311-system-tray)
+- [23.12 Theming the Bar](#2312-theming-the-bar)
+  - [Dark/Light Mode Toggle](#darklight-mode-toggle)
+  - [pywal Integration](#pywal-integration)
+- [23.13 Animations](#2313-animations)
+  - [Module Fade on Value Change](#module-fade-on-value-change)
+- [23.14 Complete Source Code](#2314-complete-source-code)
+- [Module Comparison](#module-comparison)
+- [Troubleshooting](#troubleshooting)
+  - [Bar not appearing on a monitor](#bar-not-appearing-on-a-monitor)
+  - [Exclusive zone not respected by Hyprland](#exclusive-zone-not-respected-by-hyprland)
+  - [Workspaces showing wrong monitor](#workspaces-showing-wrong-monitor)
+  - [System tray icons missing](#system-tray-icons-missing)
+  - [PipeWire module shows nothing](#pipewire-module-shows-nothing)
+  - [nmcli parsing errors in Network module](#nmcli-parsing-errors-in-network-module)
+  - [QML type not found / import errors](#qml-type-not-found-import-errors)
+- [Related Chapters](#related-chapters)
+
+---
+
+
 ## Overview
 
 This chapter is an end-to-end tutorial for building a production-quality, multi-monitor status bar from scratch using Quickshell. The bar will cover the full stack: Wayland layer-shell anchoring, per-monitor instantiation, IPC with Hyprland, PipeWire audio, UPower battery, MPRIS media, system tray, and live theming with pywal. Each section adds one module to a running bar, so you can stop at any depth and have a working system.

@@ -1,5 +1,54 @@
 # Chapter 86 — Automation and Testing of Wayland Ricing Configs
 
+## Contents
+
+- [Overview](#overview)
+- [86.1 Static Config Validation](#861-static-config-validation)
+  - [sway](#sway)
+  - [Hyprland](#hyprland)
+  - [niri](#niri)
+  - [labwc / river](#labwc-river)
+  - [Config validation in CI (GitHub Actions)](#config-validation-in-ci-github-actions)
+- [86.2 Dotfile Linting](#862-dotfile-linting)
+  - [Shell scripts (shellcheck)](#shell-scripts-shellcheck)
+  - [TOML configs (taplo)](#toml-configs-taplo)
+  - [YAML configs (yamllint)](#yaml-configs-yamllint)
+  - [QML / Quickshell (qmllint)](#qml-quickshell-qmllint)
+  - [All-in-one lint script](#all-in-one-lint-script)
+- [86.3 Synthetic Input Injection](#863-synthetic-input-injection)
+  - [wtype — keyboard input (wlroots compositors only)](#wtype-keyboard-input-wlroots-compositors-only)
+  - [ydotool — compositor-agnostic input via uinput](#ydotool-compositor-agnostic-input-via-uinput)
+  - [dotool — simpler uinput tool (no daemon)](#dotool-simpler-uinput-tool-no-daemon)
+  - [Which input tool to use](#which-input-tool-to-use)
+- [86.4 Compositor State Assertions via IPC](#864-compositor-state-assertions-via-ipc)
+  - [Sway IPC with jq](#sway-ipc-with-jq)
+  - [Hyprland IPC with jq](#hyprland-ipc-with-jq)
+- [86.5 Screenshot Regression Testing](#865-screenshot-regression-testing)
+  - [Capturing screenshots with grim](#capturing-screenshots-with-grim)
+  - [Comparing with ImageMagick](#comparing-with-imagemagick)
+  - [odiff — fast perceptual comparison](#odiff-fast-perceptual-comparison)
+  - [Full regression test script](#full-regression-test-script)
+- [86.6 QML Component Testing (Quickshell)](#866-qml-component-testing-quickshell)
+  - [qmllint — static analysis](#qmllint-static-analysis)
+  - [QQuickTest — unit tests for QML components](#qquicktest-unit-tests-for-qml-components)
+- [86.7 NixOS VM Tests — Gold Standard](#867-nixos-vm-tests-gold-standard)
+  - [Architecture](#architecture)
+  - [Writing a sway ricing test](#writing-a-sway-ricing-test)
+  - [Key Python driver methods and Wayland compat](#key-python-driver-methods-and-wayland-compat)
+- [86.8 Continuous Integration for Dotfiles](#868-continuous-integration-for-dotfiles)
+  - [GitHub Actions — full dotfile CI pipeline](#github-actions-full-dotfile-ci-pipeline)
+  - [Updating baselines](#updating-baselines)
+- [86.9 Testing Hyprland-Specific Config](#869-testing-hyprland-specific-config)
+  - [Config validation + IPC round-trip test](#config-validation-ipc-round-trip-test)
+  - [Window rule testing](#window-rule-testing)
+- [86.10 Performance Benchmarking](#8610-performance-benchmarking)
+  - [Frame timing via wp_presentation](#frame-timing-via-wppresentation)
+  - [Compositor startup time](#compositor-startup-time)
+  - [Config reload time (Hyprland)](#config-reload-time-hyprland)
+
+---
+
+
 ## Overview
 
 A ricing config is code. Like any code, it can be tested. This chapter covers

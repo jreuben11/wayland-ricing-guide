@@ -1,5 +1,51 @@
 # Chapter 67 — GNOME Shell on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [67.1 GNOME's Wayland Architecture](#671-gnomes-wayland-architecture)
+- [67.2 Installation](#672-installation)
+  - [Arch Linux (full GNOME)](#arch-linux-full-gnome)
+  - [Arch Linux (minimal — shell only)](#arch-linux-minimal-shell-only)
+  - [Fedora (GNOME Workstation default)](#fedora-gnome-workstation-default)
+  - [Ubuntu / Debian](#ubuntu-debian)
+  - [NixOS](#nixos)
+  - [Verify Wayland session is active](#verify-wayland-session-is-active)
+- [67.3 GNOME Ricing: The Extension Ecosystem](#673-gnome-ricing-the-extension-ecosystem)
+- [67.4 GNOME Shell Theming](#674-gnome-shell-theming)
+  - [Gradience — libadwaita Color Theming](#gradience-libadwaita-color-theming)
+- [67.5 gnome-tweaks and dconf](#675-gnome-tweaks-and-dconf)
+- [67.6 GNOME's Unique UX Features for Ricing](#676-gnomes-unique-ux-features-for-ricing)
+  - [Activities Overview Customization](#activities-overview-customization)
+  - [Workspace Configuration](#workspace-configuration)
+  - [Custom Keyboard Shortcuts](#custom-keyboard-shortcuts)
+  - [Panel and Dash Tuning](#panel-and-dash-tuning)
+- [67.7 GNOME Terminal and App Theming](#677-gnome-terminal-and-app-theming)
+  - [GNOME Console (kgx) and GNOME Terminal](#gnome-console-kgx-and-gnome-terminal)
+  - [Nautilus (Files) Theming](#nautilus-files-theming)
+  - [Papirus Icon Theme](#papirus-icon-theme)
+  - [Fonts](#fonts)
+- [67.8 GNOME Wayland-Specific Configuration](#678-gnome-wayland-specific-configuration)
+  - [Screen Recording](#screen-recording)
+  - [Screen Sharing and PipeWire](#screen-sharing-and-pipewire)
+  - [Night Light (Color Temperature)](#night-light-color-temperature)
+  - [Remote Desktop (Built-in RDP Server)](#remote-desktop-built-in-rdp-server)
+  - [Fractional Scaling](#fractional-scaling)
+  - [Multi-Monitor Configuration](#multi-monitor-configuration)
+- [67.9 GNOME in a Minimal Setup](#679-gnome-in-a-minimal-setup)
+- [67.10 GNOME vs. Custom Compositor](#6710-gnome-vs-custom-compositor)
+- [67.11 GNOME Extensions: Writing a Minimal Custom Extension](#6711-gnome-extensions-writing-a-minimal-custom-extension)
+- [Troubleshooting](#troubleshooting)
+  - [Extension fails to load or crashes Shell](#extension-fails-to-load-or-crashes-shell)
+  - [Blank screen / Shell crash recovery](#blank-screen-shell-crash-recovery)
+  - [Theming not applying (libadwaita ignores GTK theme)](#theming-not-applying-libadwaita-ignores-gtk-theme)
+  - [Screen sharing / screencasting not working](#screen-sharing-screencasting-not-working)
+  - [GDM not starting / black screen at login](#gdm-not-starting-black-screen-at-login)
+  - [Wayland app opens in XWayland unintentionally](#wayland-app-opens-in-xwayland-unintentionally)
+
+---
+
+
 ## Overview
 
 GNOME Shell is the #1 Wayland desktop by installed base. It has been Wayland-default

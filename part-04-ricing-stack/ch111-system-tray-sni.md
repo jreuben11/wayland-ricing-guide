@@ -1,5 +1,47 @@
 # Chapter 111 — System Tray and the StatusNotifierItem Protocol
 
+## Contents
+
+- [Overview](#overview)
+- [111.1 StatusNotifierItem: Protocol Overview](#1111-statusnotifieritem-protocol-overview)
+  - [The Three Roles](#the-three-roles)
+  - [D-Bus Interface Summary](#d-bus-interface-summary)
+- [111.2 Which Apps Use SNI](#1112-which-apps-use-sni)
+- [111.3 Waybar Tray Module](#1113-waybar-tray-module)
+  - [Basic Configuration](#basic-configuration)
+  - [CSS Styling](#css-styling)
+  - [Waybar as the SNI Watcher](#waybar-as-the-sni-watcher)
+- [111.4 Quickshell SystemTray](#1114-quickshell-systemtray)
+  - [Basic Tray Widget](#basic-tray-widget)
+  - [Menu Rendering](#menu-rendering)
+  - [Filtering by Status](#filtering-by-status)
+  - [Attention Animation](#attention-animation)
+- [111.5 Standalone StatusNotifierWatcher](#1115-standalone-statusnotifierwatcher)
+  - [xembedsniproxy (KDE)](#xembedsniproxy-kde)
+  - [swaybar-protocol watcher (swaybar users)](#swaybar-protocol-watcher-swaybar-users)
+- [111.6 snixembed: Legacy X11 Tray Bridge](#1116-snixembed-legacy-x11-tray-bridge)
+  - [Installation](#installation)
+  - [Session Startup](#session-startup)
+  - [Verifying snixembed Is Working](#verifying-snixembed-is-working)
+- [111.7 eww Systray Widget](#1117-eww-systray-widget)
+- [111.8 D-Bus Debugging](#1118-d-bus-debugging)
+  - [List All Registered SNI Items](#list-all-registered-sni-items)
+  - [Inspect a Specific Item](#inspect-a-specific-item)
+  - [Monitor All SNI Traffic](#monitor-all-sni-traffic)
+  - [Call an Item's Method](#call-an-items-method)
+- [111.9 Ayatana / libappindicator Extension](#1119-ayatana-libappindicator-extension)
+- [111.10 Troubleshooting](#11110-troubleshooting)
+  - [Tray is empty / no icons appear](#tray-is-empty-no-icons-appear)
+  - [Icons appear but are missing for one specific app](#icons-appear-but-are-missing-for-one-specific-app)
+  - [Icons appear but click does nothing](#icons-appear-but-click-does-nothing)
+  - [Two watchers conflict (Waybar + KWin both running)](#two-watchers-conflict-waybar-kwin-both-running)
+  - [Steam / Discord icon appears but disappears after a few seconds](#steam-discord-icon-appears-but-disappears-after-a-few-seconds)
+  - [Icons are too small / blurry](#icons-are-too-small-blurry)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 The system tray — that cluster of small icons near the clock that indicates running apps, network status, volume, and a dozen other things — is one of the most common sources of confusion on a freshly riced Wayland desktop. Icons for Steam, Discord, Nextcloud, KeePassXC, and network managers that appeared automatically on X11 simply vanish. This chapter explains why, and how to fix it.

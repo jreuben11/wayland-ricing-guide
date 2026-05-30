@@ -1,5 +1,30 @@
 # Chapter 104 — Waybar CSS Theming Deep Dive
 
+## Contents
+
+- [Overview](#overview)
+- [104.1 How GTK CSS Applies to Waybar](#1041-how-gtk-css-applies-to-waybar)
+- [104.2 GTK CSS vs Standard CSS](#1042-gtk-css-vs-standard-css)
+- [104.3 Bar Layout and Appearance](#1043-bar-layout-and-appearance)
+- [104.4 Workspace Module](#1044-workspace-module)
+- [104.5 Clock Module](#1045-clock-module)
+- [104.6 Battery Module](#1046-battery-module)
+- [104.7 Network Module](#1047-network-module)
+- [104.8 Audio / PipeWire Module](#1048-audio-pipewire-module)
+- [104.9 System Tray](#1049-system-tray)
+- [104.10 Custom Module Styling](#10410-custom-module-styling)
+- [104.11 Pill / Island Design](#10411-pill-island-design)
+- [104.12 Blur Integration (Hyprland)](#10412-blur-integration-hyprland)
+- [104.13 Animations](#10413-animations)
+- [104.14 pywal / matugen Integration](#10414-pywal-matugen-integration)
+  - [pywal colours in Waybar CSS](#pywal-colours-in-waybar-css)
+  - [matugen colours in Waybar CSS](#matugen-colours-in-waybar-css)
+- [104.15 Complete Minimal style.css](#10415-complete-minimal-stylecss)
+- [104.16 Debugging Waybar CSS](#10416-debugging-waybar-css)
+
+---
+
+
 ## Overview
 
 Waybar is styled with GTK CSS — a superset of standard CSS with GTK-specific

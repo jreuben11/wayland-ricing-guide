@@ -1,5 +1,23 @@
 # Chapter 139 — Rice Bootstrap: One-Command Setup Scripts
 
+## Contents
+
+- [Overview](#overview)
+- [139.1 Philosophy: Idempotent Bootstrap](#1391-philosophy-idempotent-bootstrap)
+- [139.2 Directory Structure](#1392-directory-structure)
+- [139.3 Entry Point: install.sh](#1393-entry-point-installsh)
+- [139.4 Package Installer](#1394-package-installer)
+- [139.5 Font Installer](#1395-font-installer)
+- [139.6 Dotfile Linker](#1396-dotfile-linker)
+- [139.7 Theme Applicator](#1397-theme-applicator)
+- [139.8 Service Enabler](#1398-service-enabler)
+- [139.9 Verification Script](#1399-verification-script)
+- [139.10 Putting It Together: GitHub Workflow](#13910-putting-it-together-github-workflow)
+- [Quick Install](#quick-install)
+
+---
+
+
 ## Overview
 
 A dotfiles repository gets you to "clone and stow" — but a full rice involves more: installing packages, enabling services, setting GTK and icon themes, installing fonts, setting up systemd user units, and verifying that all tools are present and correctly configured. This chapter builds a complete rice bootstrap system: a dependency installer, a dotfile linker, a font setup script, a theme applicator, and a verification script — all composable into a single entry point.

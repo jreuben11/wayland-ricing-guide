@@ -1,5 +1,47 @@
 # Chapter 22 — System Services: Notifications, MPRIS, UPower, SystemTray
 
+## Contents
+
+- [Overview](#overview)
+- [22.1 Notifications — `Quickshell.Services.Notifications`](#221-notifications-quickshellservicesnotifications)
+  - [Notification Properties Reference](#notification-properties-reference)
+  - [Minimal Notification Server](#minimal-notification-server)
+  - [Full Notification Card Component](#full-notification-card-component)
+  - [Persisting Notification History](#persisting-notification-history)
+- [22.2 MPRIS — Media Player Control](#222-mpris-media-player-control)
+  - [MprisPlayer Properties Reference](#mprisplayer-properties-reference)
+  - [Minimal Now-Playing Widget](#minimal-now-playing-widget)
+  - [Progress Bar with Smooth Animation](#progress-bar-with-smooth-animation)
+  - [Multi-Player Selector](#multi-player-selector)
+  - [Seeking](#seeking)
+- [22.3 UPower — Battery and Power Management](#223-upower-battery-and-power-management)
+  - [UPowerDevice Properties Reference](#upowerdevice-properties-reference)
+  - [Battery Icon Component](#battery-icon-component)
+  - [All Devices (Peripherals)](#all-devices-peripherals)
+  - [Power Profile Integration](#power-profile-integration)
+  - [Low Battery Notification Bridge](#low-battery-notification-bridge)
+- [22.4 SystemTray](#224-systemtray)
+  - [SystemTrayItem Properties Reference](#systemtrayitem-properties-reference)
+  - [Minimal Tray Strip](#minimal-tray-strip)
+  - [Full TrayItem Component](#full-trayitem-component)
+  - [Filtering by Status](#filtering-by-status)
+  - [Requesting the Watcher Service](#requesting-the-watcher-service)
+- [22.5 Composing a Full Info Bar](#225-composing-a-full-info-bar)
+  - [Full Bar Shell](#full-bar-shell)
+  - [Layout Tips](#layout-tips)
+  - [Per-Screen Responsive Sizing](#per-screen-responsive-sizing)
+  - [Notification Popup Overlay](#notification-popup-overlay)
+- [Troubleshooting](#troubleshooting)
+  - [NotificationServer does not receive any notifications](#notificationserver-does-not-receive-any-notifications)
+  - [Mpris.players is always empty](#mprisplayers-is-always-empty)
+  - [UPower.displayDevice is null](#upowerdisplaydevice-is-null)
+  - [SystemTray shows no items even though nm-applet is running](#systemtray-shows-no-items-even-though-nm-applet-is-running)
+  - [Tray icons appear blurry or wrong size](#tray-icons-appear-blurry-or-wrong-size)
+  - [Notification body markup renders as raw HTML](#notification-body-markup-renders-as-raw-html)
+
+---
+
+
 ## Overview
 
 Quickshell's service modules bridge your QML shell to the living ecosystem of D-Bus services

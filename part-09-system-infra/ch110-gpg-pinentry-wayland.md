@@ -1,5 +1,43 @@
 # Chapter 110 — GPG, SSH Agents, and pinentry on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [110.1 Why X11 pinentry Breaks on Wayland](#1101-why-x11-pinentry-breaks-on-wayland)
+- [110.2 Pinentry Programs: Comparison](#1102-pinentry-programs-comparison)
+  - [Recommended Choice](#recommended-choice)
+- [110.3 Installing pinentry-gnome3](#1103-installing-pinentry-gnome3)
+- [110.4 Configuring gpg-agent](#1104-configuring-gpg-agent)
+  - [`~/.gnupg/gpg-agent.conf`](#gnupggpg-agentconf)
+  - [Reloading gpg-agent](#reloading-gpg-agent)
+- [110.5 Agent Environment Variables](#1105-agent-environment-variables)
+  - [Method 1: systemd import-environment (recommended)](#method-1-systemd-import-environment-recommended)
+  - [Method 2: gpg-agent systemd user unit override](#method-2-gpg-agent-systemd-user-unit-override)
+  - [Method 3: `~/.gnupg/gpg-agent.conf` extra-socket](#method-3-gnupggpg-agentconf-extra-socket)
+- [110.6 Socket Activation and Session Startup](#1106-socket-activation-and-session-startup)
+- [110.7 SSH Agent Support](#1107-ssh-agent-support)
+  - [Enable in gpg-agent.conf](#enable-in-gpg-agentconf)
+  - [Export the SSH socket](#export-the-ssh-socket)
+  - [Adding SSH keys to gpg-agent](#adding-ssh-keys-to-gpg-agent)
+- [110.8 Alternatives: gnome-keyring and ssh-agent](#1108-alternatives-gnome-keyring-and-ssh-agent)
+  - [gnome-keyring (GNOME sessions)](#gnome-keyring-gnome-sessions)
+  - [Standalone ssh-agent](#standalone-ssh-agent)
+  - [keychain](#keychain)
+- [110.9 pass and gopass](#1109-pass-and-gopass)
+  - [pass-wayland Clipboard Integration](#pass-wayland-clipboard-integration)
+  - [gopass](#gopass)
+- [110.10 sops and age](#11010-sops-and-age)
+- [110.11 Troubleshooting](#11011-troubleshooting)
+  - ["gpg: signing failed: No secret key"](#gpg-signing-failed-no-secret-key)
+  - [Pinentry appears but is invisible / behind windows](#pinentry-appears-but-is-invisible-behind-windows)
+  - [pinentry-gnome3 fails with "could not open connection to session bus"](#pinentry-gnome3-fails-with-could-not-open-connection-to-session-bus)
+  - [SSH agent socket not found](#ssh-agent-socket-not-found)
+  - [Two agents fighting (gnome-keyring + gpg-agent)](#two-agents-fighting-gnome-keyring-gpg-agent)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Every riced desktop that uses GPG-signed git commits, pass (the password manager), SSH keys stored on a YubiKey, or age-encrypted secrets eventually hits the same wall: `gpg: signing failed: No secret key` or a pinentry dialog that opens in a terminal nobody sees, or a password prompt that silently fails. These failures have the same root cause — the GPG agent cannot find a working pinentry program in the Wayland session environment.

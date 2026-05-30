@@ -1,5 +1,27 @@
 # Chapter 38 — pywal, matugen, and Automatic Color Extraction
 
+## Contents
+
+- [Overview](#overview)
+- [38.1 pywal — The Original](#381-pywal-the-original)
+  - [Output Files Written by pywal](#output-files-written-by-pywal)
+  - [Applying pywal to Applications](#applying-pywal-to-applications)
+- [38.2 matugen — Material You Extraction](#382-matugen-material-you-extraction)
+  - [Material You Color Roles](#material-you-color-roles)
+  - [matugen Config and Template System](#matugen-config-and-template-system)
+- [38.3 wallust — Modern pywal Alternative](#383-wallust-modern-pywal-alternative)
+- [38.4 wpgtk — GUI Front-End for pywal](#384-wpgtk-gui-front-end-for-pywal)
+- [38.5 Applying Palettes to Terminals](#385-applying-palettes-to-terminals)
+- [38.6 Applying Palettes to Firefox](#386-applying-palettes-to-firefox)
+- [38.7 Applying Palettes to GTK and Qt Apps](#387-applying-palettes-to-gtk-and-qt-apps)
+- [38.8 Systemwide Palette Consistency](#388-systemwide-palette-consistency)
+- [38.9 End-to-End Dynamic Theming Script](#389-end-to-end-dynamic-theming-script)
+- [38.10 Quickshell Integration](#3810-quickshell-integration)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Dynamic theming extracts a color palette from your wallpaper and applies it

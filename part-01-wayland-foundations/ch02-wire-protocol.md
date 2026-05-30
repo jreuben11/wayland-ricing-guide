@@ -1,5 +1,43 @@
 # Chapter 2 — The Wire Protocol: Messages, Objects, and Interfaces
 
+## Contents
+
+- [Overview](#overview)
+- [2.1 The Unix Socket Transport](#21-the-unix-socket-transport)
+  - [Binary Header Format](#binary-header-format)
+  - [Argument Types](#argument-types)
+  - [Inspecting the Socket](#inspecting-the-socket)
+- [2.2 The Object Model](#22-the-object-model)
+  - [The `wl_display` Root Object](#the-wldisplay-root-object)
+  - [Interface Versioning](#interface-versioning)
+- [2.3 Requests and Events](#23-requests-and-events)
+  - [`wl_display.sync` and Roundtrip Semantics](#wldisplaysync-and-roundtrip-semantics)
+- [2.4 The Global Registry Pattern](#24-the-global-registry-pattern)
+  - [Complete Global Enumeration Example (C)](#complete-global-enumeration-example-c)
+  - [Binding a Global](#binding-a-global)
+- [2.5 Surfaces and the Rendering Pipeline](#25-surfaces-and-the-rendering-pipeline)
+  - [`wl_buffer`: Attaching Pixel Data](#wlbuffer-attaching-pixel-data)
+  - [`wl_shm` Buffer from Scratch](#wlshm-buffer-from-scratch)
+  - [Commit Semantics: Double-Buffered State](#commit-semantics-double-buffered-state)
+  - [Frame Callbacks: Pacing Rendering to Vsync](#frame-callbacks-pacing-rendering-to-vsync)
+  - [Damage Tracking: Partial Surface Updates](#damage-tracking-partial-surface-updates)
+- [2.6 Debugging the Wire Protocol](#26-debugging-the-wire-protocol)
+  - [`WAYLAND_DEBUG`](#waylanddebug)
+  - [`wldbg` — Interactive Protocol Debugger](#wldbg-interactive-protocol-debugger)
+  - [`weston-info` and `wayland-info`](#weston-info-and-wayland-info)
+  - [Decoding Hex Dumps](#decoding-hex-dumps)
+  - [Protocol Error Messages](#protocol-error-messages)
+- [Troubleshooting](#troubleshooting)
+  - [Client cannot connect to the compositor](#client-cannot-connect-to-the-compositor)
+  - [`WAYLAND_DEBUG` floods with pointer/keyboard noise](#waylanddebug-floods-with-pointerkeyboard-noise)
+  - [Buffer not appearing on screen after commit](#buffer-not-appearing-on-screen-after-commit)
+  - [Protocol error: "object already has a role"](#protocol-error-object-already-has-a-role)
+  - [Interface not found in globals](#interface-not-found-in-globals)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Wayland's wire protocol is the backbone of every interaction between a client application and the compositor. Unlike X11's notoriously sprawling protocol—which grew organically over decades and carries enormous legacy baggage—Wayland's wire protocol was designed from scratch with simplicity, safety, and performance as primary goals. Understanding it at the binary level is essential for advanced ricing work: when you write a custom compositor extension, debug a misbehaving client, or profile rendering latency, you are working directly with these primitives.

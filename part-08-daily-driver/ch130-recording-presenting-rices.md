@@ -1,5 +1,31 @@
 # Chapter 130 — Recording, Presenting, and Sharing Your Rice
 
+## Contents
+
+- [Overview](#overview)
+- [130.1 fastfetch: System Info for Rice Screenshots](#1301-fastfetch-system-info-for-rice-screenshots)
+  - [Installation](#installation)
+  - [Config File](#config-file)
+  - [Custom ASCII Logo](#custom-ascii-logo)
+  - [Color Palette Block](#color-palette-block)
+- [130.2 neofetch vs fastfetch vs pfetch](#1302-neofetch-vs-fastfetch-vs-pfetch)
+- [130.3 The Standard Rice Screenshot Composition](#1303-the-standard-rice-screenshot-composition)
+- [130.4 Screen Recording with wf-recorder](#1304-screen-recording-with-wf-recorder)
+- [130.5 Animated GIF Creation](#1305-animated-gif-creation)
+  - [ffmpeg pipeline](#ffmpeg-pipeline)
+  - [gifsicle optimization](#gifsicle-optimization)
+  - [One-shot GIF capture script](#one-shot-gif-capture-script)
+- [130.6 r/unixporn Submission Guide](#1306-runixporn-submission-guide)
+  - [What to include](#what-to-include)
+  - [Software list comment template](#software-list-comment-template)
+  - [Image requirements](#image-requirements)
+- [130.7 GitHub README Showcase](#1307-github-readme-showcase)
+  - [README badge strip](#readme-badge-strip)
+- [130.8 Video Codec Recommendations](#1308-video-codec-recommendations)
+
+---
+
+
 ## Overview
 
 A rice only exists in the community's imagination until you share it. This chapter covers the full pipeline from live desktop to shareable artifact: `fastfetch` and `neofetch` configuration for the canonical fetch screenshot, screen recording with `wf-recorder` and OBS, animated GIF creation with `ffmpeg`, and the r/unixporn submission workflow. Every step is Wayland-native.

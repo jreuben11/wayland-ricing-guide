@@ -1,5 +1,22 @@
 # Chapter 24 — Lockscreens with PAM and Greetd
 
+## Contents
+
+- [Overview](#overview)
+- [24.1 The Two Locking Use Cases](#241-the-two-locking-use-cases)
+- [24.2 Session Lock with WlSessionLock](#242-session-lock-with-wlsessionlock)
+- [24.3 PAM Authentication](#243-pam-authentication)
+- [24.4 Complete Lockscreen UI Design](#244-complete-lockscreen-ui-design)
+- [24.5 Triggering the Lock](#245-triggering-the-lock)
+- [24.6 Greetd Integration](#246-greetd-integration)
+- [24.7 Security Considerations](#247-security-considerations)
+- [24.8 Multi-Screen and Hotplug Handling](#248-multi-screen-and-hotplug-handling)
+- [24.9 Idle Daemon Integration Reference](#249-idle-daemon-integration-reference)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Wayland's security model fundamentally changed how lockscreens work compared to X11. Under X11, a lockscreen was just another window, and any sufficiently privileged process could bypass it by killing the locker or drawing over it. Wayland's `ext-session-lock-v1` protocol eliminates this attack surface: the compositor freezes all other surfaces until the lock is explicitly released by the locking client itself. If the locking client crashes, the compositor keeps the screen locked rather than unlocking it.

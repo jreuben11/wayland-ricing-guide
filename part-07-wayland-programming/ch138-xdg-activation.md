@@ -1,5 +1,25 @@
 # Chapter 138 — xdg-activation-v1: Focus Stealing Prevention
 
+## Contents
+
+- [Overview](#overview)
+- [138.1 The Problem: Focus Stealing on X11 vs Wayland](#1381-the-problem-focus-stealing-on-x11-vs-wayland)
+- [138.2 Protocol Architecture](#1382-protocol-architecture)
+- [138.3 Token Lifecycle](#1383-token-lifecycle)
+- [138.4 Application Support](#1384-application-support)
+  - [GTK4](#gtk4)
+  - [Qt6](#qt6)
+  - [D-Bus Activation (XDG Portal)](#d-bus-activation-xdg-portal)
+  - [Terminal Apps via DESKTOP_STARTUP_ID](#terminal-apps-via-desktopstartupid)
+- [138.5 Writing a Client (Python + pywayland)](#1385-writing-a-client-python-pywayland)
+- [138.6 Compositor Implementation Status](#1386-compositor-implementation-status)
+- [138.7 Debugging Focus Activation](#1387-debugging-focus-activation)
+- [138.8 Window Rules: noinitialfocus](#1388-window-rules-noinitialfocus)
+- [138.9 XDG Activation vs EWMH (X11 Legacy)](#1389-xdg-activation-vs-ewmh-x11-legacy)
+
+---
+
+
 ## Overview
 
 One of Wayland's strongest security improvements over X11 is that applications cannot arbitrarily steal focus. On X11, any process could call `_NET_ACTIVE_WINDOW` and bring itself to the foreground. Wayland forbids this at the protocol level: a window can only gain focus if the user or the compositor grants it an **activation token**. The `xdg-activation-v1` protocol is the mechanism that apps use to legitimately request focus — it is how clicking a link in a terminal raises the browser, how a file manager raises an already-open editor, and how notifications can focus a specific window on user interaction.

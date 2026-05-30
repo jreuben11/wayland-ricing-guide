@@ -1,5 +1,45 @@
 # Chapter 70 — Color Picker Tools: hyprpicker, wl-color-picker, gpick
 
+## Contents
+
+- [Overview](#overview)
+- [Tool Comparison](#tool-comparison)
+- [70.1 hyprpicker — The Standard](#701-hyprpicker-the-standard)
+  - [Basic Usage](#basic-usage)
+  - [Shell Integration](#shell-integration)
+  - [Saving to a Color Log](#saving-to-a-color-log)
+- [70.2 wl-color-picker](#702-wl-color-picker)
+- [70.3 gpick — Advanced GUI Color Picker](#703-gpick-advanced-gui-color-picker)
+  - [gpick Feature Walkthrough](#gpick-feature-walkthrough)
+  - [gpick Configuration](#gpick-configuration)
+  - [Exporting a gpick Palette to Hyprland](#exporting-a-gpick-palette-to-hyprland)
+- [70.4 kcolorchooser — KDE Color Picker](#704-kcolorchooser-kde-color-picker)
+- [70.5 Color Picking in Quickshell](#705-color-picking-in-quickshell)
+- [70.6 Color Format Conversion with pastel](#706-color-format-conversion-with-pastel)
+  - [pastel Core Operations](#pastel-core-operations)
+  - [Shell Format Conversion Without pastel](#shell-format-conversion-without-pastel)
+  - [Generating a Full Palette with pastel](#generating-a-full-palette-with-pastel)
+- [70.7 Integrating Color Pickers into the Ricing Workflow](#707-integrating-color-pickers-into-the-ricing-workflow)
+  - [Extracting Colors from a Wallpaper](#extracting-colors-from-a-wallpaper)
+  - [Full Pipeline Script](#full-pipeline-script)
+  - [Sampling Colors Interactively for Theme Tuning](#sampling-colors-interactively-for-theme-tuning)
+- [70.8 Additional Wayland-Compatible Color Tools](#708-additional-wayland-compatible-color-tools)
+  - [wf-color-picker](#wf-color-picker)
+  - [colorpicker (Rust, wlr-screencopy)](#colorpicker-rust-wlr-screencopy)
+  - [GNOME Color Picker (Eye of GNOME extension / Picker applet)](#gnome-color-picker-eye-of-gnome-extension-picker-applet)
+  - [xcalib and Display Calibration Colors](#xcalib-and-display-calibration-colors)
+- [Troubleshooting](#troubleshooting)
+  - [hyprpicker exits immediately without showing overlay](#hyprpicker-exits-immediately-without-showing-overlay)
+  - [hyprpicker color values look wrong (off by a shade)](#hyprpicker-color-values-look-wrong-off-by-a-shade)
+  - [gpick cannot sample colors on Wayland surfaces](#gpick-cannot-sample-colors-on-wayland-surfaces)
+  - [wl-color-picker: "no screencast portal available"](#wl-color-picker-no-screencast-portal-available)
+  - [pastel: "command not found" after cargo install](#pastel-command-not-found-after-cargo-install)
+  - [Colors differ between hyprpicker and screenshot tools](#colors-differ-between-hyprpicker-and-screenshot-tools)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Sampling colors from the screen is a fundamental step in building cohesive desktop themes. On X11, tools like `gcolor2`, `xcolor`, `xdotool`, and `gpick` used XQueryPointer and XGetImage to capture pixel data — mechanisms that simply do not exist in the Wayland security model. On Wayland, a client cannot read from another client's surface without compositor cooperation via the `wlr-screencopy-v1` or `ext-image-capture-source-v1` protocols.

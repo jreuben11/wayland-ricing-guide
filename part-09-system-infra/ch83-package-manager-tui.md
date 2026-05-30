@@ -1,5 +1,45 @@
 # Chapter 83 — Package Manager TUI Tools: paru, pacseek, nix-search, Flatpak
 
+## Contents
+
+- [Overview](#overview)
+- [83.1 Arch: AUR Helpers](#831-arch-aur-helpers)
+  - [paru — The Recommended AUR Helper](#paru-the-recommended-aur-helper)
+  - [yay — Go-Based Alternative](#yay-go-based-alternative)
+  - [aura — Haskell-Based AUR Helper](#aura-haskell-based-aur-helper)
+  - [Comparison: AUR Helpers](#comparison-aur-helpers)
+- [83.2 pacseek — Pacman/AUR TUI Browser](#832-pacseek-pacmanaur-tui-browser)
+- [83.3 baph — Minimal AUR Helper](#833-baph-minimal-aur-helper)
+- [83.4 NixOS: nix-search and Related Tools](#834-nixos-nix-search-and-related-tools)
+  - [Built-in nix search](#built-in-nix-search)
+  - [nix-search-cli — Fast Offline Search](#nix-search-cli-fast-offline-search)
+  - [nh — Nix Helper](#nh-nix-helper)
+  - [nvd — NixOS Version Diff](#nvd-nixos-version-diff)
+  - [Comparison: NixOS Package Tools](#comparison-nixos-package-tools)
+- [83.5 Flatpak Package Management](#835-flatpak-package-management)
+  - [Basic Flatpak Setup](#basic-flatpak-setup)
+  - [Flatpak Permissions and Portals](#flatpak-permissions-and-portals)
+  - [Theming Flatpak Apps on Wayland](#theming-flatpak-apps-on-wayland)
+  - [Warehouse — Flatpak GUI Manager](#warehouse-flatpak-gui-manager)
+- [83.6 Toolbox / Distrobox — Containerized Packages](#836-toolbox-distrobox-containerized-packages)
+  - [Distrobox Setup](#distrobox-setup)
+  - [Distrobox on NixOS](#distrobox-on-nixos)
+  - [Toolbox (GNOME/Fedora)](#toolbox-gnomefedora)
+  - [Comparison: Distrobox vs Toolbox vs Flatpak](#comparison-distrobox-vs-toolbox-vs-flatpak)
+- [83.7 Keeping the System Clean](#837-keeping-the-system-clean)
+  - [Arch Cleanup](#arch-cleanup)
+  - [NixOS Cleanup](#nixos-cleanup)
+  - [Flatpak Cleanup](#flatpak-cleanup)
+- [Troubleshooting](#troubleshooting)
+  - [paru / AUR Build Failures](#paru-aur-build-failures)
+  - [NixOS Build Failures](#nixos-build-failures)
+  - [Flatpak Issues on Wayland](#flatpak-issues-on-wayland)
+  - [Distrobox Issues](#distrobox-issues)
+- [Cross-References](#cross-references)
+
+---
+
+
 ## Overview
 
 Daily package management in a terminal-centric rice benefits enormously from TUI and CLI tools that go beyond the bare-minimum interfaces of `pacman`, `nix-env`, or `apt`. The friction of looking up package names in a browser, copying commands, and running multiple queries can be collapsed into a single interactive session with the right tooling. A polished package manager experience is as much a part of your rice as your bar configuration or color scheme.

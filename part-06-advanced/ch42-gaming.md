@@ -1,5 +1,58 @@
 # Chapter 42 — Gaming on Wayland: XWayland, gamescope, VRR, HDR
 
+## Contents
+
+- [Overview](#overview)
+- [42.1 Wayland Gaming Status (2025/2026)](#421-wayland-gaming-status-20252026)
+- [42.2 XWayland for Games](#422-xwayland-for-games)
+- [42.3 gamescope — The Gaming Compositor](#423-gamescope-the-gaming-compositor)
+  - [Basic gamescope Launch Options](#basic-gamescope-launch-options)
+  - [Complete gamescope Flag Reference](#complete-gamescope-flag-reference)
+  - [gamescope Upscaling Deep Dive](#gamescope-upscaling-deep-dive)
+- [42.4 Variable Refresh Rate for Gaming](#424-variable-refresh-rate-for-gaming)
+  - [Compositor VRR Configuration](#compositor-vrr-configuration)
+  - [VRR Requirements and Verification](#vrr-requirements-and-verification)
+- [42.5 HDR Gaming](#425-hdr-gaming)
+  - [KWin/Plasma 6 HDR Setup](#kwinplasma-6-hdr-setup)
+  - [gamescope HDR Setup](#gamescope-hdr-setup)
+  - [Kernel and Driver Prerequisites](#kernel-and-driver-prerequisites)
+  - [Proton HDR Support](#proton-hdr-support)
+- [42.6 Input and Latency](#426-input-and-latency)
+  - [Pointer and Mouse Configuration](#pointer-and-mouse-configuration)
+  - [Pointer Locking and Relative Motion](#pointer-locking-and-relative-motion)
+  - [NVIDIA Cursor Workarounds](#nvidia-cursor-workarounds)
+  - [Measuring Input Latency](#measuring-input-latency)
+- [42.7 Performance Monitoring](#427-performance-monitoring)
+  - [MangoHud](#mangohud)
+  - [GOverlay](#goverlay)
+  - [DXVK HUD](#dxvk-hud)
+  - [Benchmarking with Frame Time Capture](#benchmarking-with-frame-time-capture)
+- [42.8 NVIDIA-Specific Gaming Setup](#428-nvidia-specific-gaming-setup)
+  - [Kernel Parameters](#kernel-parameters)
+  - [Environment Variables](#environment-variables)
+  - [Explicit Sync](#explicit-sync)
+  - [Vulkan ICD Configuration](#vulkan-icd-configuration)
+- [42.9 Proton and Wine on Wayland](#429-proton-and-wine-on-wayland)
+  - [Enabling the Proton Wayland Backend](#enabling-the-proton-wayland-backend)
+  - [wine-wayland (Standalone Wine)](#wine-wayland-standalone-wine)
+  - [DXVK and VKD3D-Proton](#dxvk-and-vkd3d-proton)
+- [42.10 Controller Support](#4210-controller-support)
+  - [udev Rules for Controller Access](#udev-rules-for-controller-access)
+  - [Testing Controllers](#testing-controllers)
+  - [Steam Input and Controller Remapping](#steam-input-and-controller-remapping)
+  - [Bluetooth Controller Pairing](#bluetooth-controller-pairing)
+- [42.11 AMD-Specific Gaming Optimizations](#4211-amd-specific-gaming-optimizations)
+- [Troubleshooting](#troubleshooting)
+  - [Game fails to launch / black screen](#game-fails-to-launch-black-screen)
+  - [gamescope fails to start / crashes](#gamescope-fails-to-start-crashes)
+  - [VRR not working](#vrr-not-working)
+  - [NVIDIA artifacts / screen corruption](#nvidia-artifacts-screen-corruption)
+  - [MangoHud not showing overlay](#mangohud-not-showing-overlay)
+  - [Controller not recognized by game](#controller-not-recognized-by-game)
+
+---
+
+
 ## Overview
 
 Gaming on Wayland is now production-ready for the vast majority of users as of 2025/2026. The

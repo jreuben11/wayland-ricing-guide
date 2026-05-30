@@ -1,5 +1,24 @@
 # Chapter 48 — Building a Compositor in Rust with Smithay
 
+## Contents
+
+- [Overview](#overview)
+- [48.1 Why Smithay vs. wlroots (in Rust)](#481-why-smithay-vs-wlroots-in-rust)
+- [48.2 Project Setup](#482-project-setup)
+- [48.3 The Calloop Event Loop](#483-the-calloop-event-loop)
+- [48.4 State Management in Smithay](#484-state-management-in-smithay)
+- [48.5 Delegate Macros](#485-delegate-macros)
+- [48.6 XDG Shell Handler](#486-xdg-shell-handler)
+- [48.7 Backend: DRM/libinput](#487-backend-drmlibinput)
+- [48.8 Rendering with Smithay](#488-rendering-with-smithay)
+- [48.9 Desktop Utilities](#489-desktop-utilities)
+- [48.10 Keyboard and Pointer Input Handling](#4810-keyboard-and-pointer-input-handling)
+- [48.11 Study Resources and Real-World Compositors](#4811-study-resources-and-real-world-compositors)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Smithay is a pure-Rust library for building Wayland compositors. Unlike the C-based wlroots (covered in Chapter 47), Smithay provides memory-safe abstractions over the Wayland protocol stack, DRM/KMS output management, and input handling — all within Rust's ownership model. Real-world compositors built on Smithay include `niri`, `Jay`, and COSMIC's `cosmic-comp`, making it a proven foundation for production-grade work.

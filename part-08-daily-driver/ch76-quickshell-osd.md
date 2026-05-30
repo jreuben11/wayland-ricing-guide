@@ -1,5 +1,21 @@
 # Chapter 76 — Quickshell OSD: Volume, Brightness, and Media On-Screen Displays
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [76.1 OSD Architecture](#761-osd-architecture)
+  - [76.2 OSD State Singleton](#762-osd-state-singleton)
+  - [76.3 Volume OSD Window](#763-volume-osd-window)
+  - [76.4 Brightness OSD](#764-brightness-osd)
+  - [76.5 Mic Mute Indicator](#765-mic-mute-indicator)
+  - [76.6 Capslock / NumLock Indicator](#766-capslock-numlock-indicator)
+  - [76.7 Keybinds That Trigger the OSD](#767-keybinds-that-trigger-the-osd)
+  - [76.8 swayosd — Alternative (External OSD Daemon)](#768-swayosd-alternative-external-osd-daemon)
+
+---
+
+
 ## Overview
 On-screen displays (OSDs) — the translucent overlays showing volume level when
 you press a media key — are in nearly every rice. Quickshell can replace external

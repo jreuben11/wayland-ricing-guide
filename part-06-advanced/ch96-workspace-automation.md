@@ -1,5 +1,28 @@
 # Chapter 96 — Workspace Automation: pyprland, Scratchpads, Persistent Layouts
 
+## Contents
+
+- [Overview](#overview)
+- [96.1 pyprland — Plugin Host for Hyprland](#961-pyprland-plugin-host-for-hyprland)
+  - [Available pyprland plugins](#available-pyprland-plugins)
+- [96.2 Scratchpads](#962-scratchpads)
+  - [Configuration](#configuration)
+  - [Hyprland keybinds for scratchpads](#hyprland-keybinds-for-scratchpads)
+  - [Multi-instance scratchpads](#multi-instance-scratchpads)
+- [96.3 Expose — All Windows on Current Workspace](#963-expose-all-windows-on-current-workspace)
+- [96.4 Hyprexpo — Workspace Grid Overview (Plugin)](#964-hyprexpo-workspace-grid-overview-plugin)
+- [96.5 Persistent Workspace Layouts](#965-persistent-workspace-layouts)
+  - [Named workspaces](#named-workspaces)
+  - [Auto-assign apps to workspaces](#auto-assign-apps-to-workspaces)
+- [96.6 Per-Workspace Wallpaper (via pyprland)](#966-per-workspace-wallpaper-via-pyprland)
+- [96.7 Layout Automation Scripts](#967-layout-automation-scripts)
+  - [Save and restore window layout](#save-and-restore-window-layout)
+  - [Focus recent windows (like Alt+Tab)](#focus-recent-windows-like-alttab)
+- [96.8 Special Workspaces](#968-special-workspaces)
+
+---
+
+
 ## Overview
 
 Beyond basic workspace switching, Hyprland's IPC and tools like pyprland enable

@@ -1,5 +1,52 @@
 # Chapter 58 — Browser Theming and Wayland Integration: Firefox, Chromium
 
+## Contents
+
+- [Overview](#overview)
+- [58.1 Firefox Native Wayland](#581-firefox-native-wayland)
+  - [Enabling the Backend](#enabling-the-backend)
+  - [Verifying Wayland Window Integration](#verifying-wayland-window-integration)
+  - [about:config Flags for Wayland Performance](#aboutconfig-flags-for-wayland-performance)
+- [58.2 VA-API Hardware Video Decoding](#582-va-api-hardware-video-decoding)
+  - [Installing VA-API Libraries](#installing-va-api-libraries)
+  - [Verifying VA-API](#verifying-va-api)
+  - [Verifying Decode in Firefox](#verifying-decode-in-firefox)
+- [58.3 Firefox userChrome.css — Removing UI Chrome](#583-firefox-userchromecss-removing-ui-chrome)
+  - [Enabling userChrome.css](#enabling-userchromecss)
+  - [Finding Your Profile Directory](#finding-your-profile-directory)
+  - [Core CSS Recipes](#core-css-recipes)
+  - [Popular Firefox CSS Rices](#popular-firefox-css-rices)
+- [58.4 Firefox Color Schemes and Palette Integration](#584-firefox-color-schemes-and-palette-integration)
+  - [Firefox Color Extension](#firefox-color-extension)
+  - [Pywalfox — Automatic wal/pywal Integration](#pywalfox-automatic-walpywal-integration)
+  - [Catppuccin Theme](#catppuccin-theme)
+  - [Custom New Tab Page](#custom-new-tab-page)
+- [58.5 Chromium / Chrome Native Wayland](#585-chromium-chrome-native-wayland)
+  - [Launch Flags](#launch-flags)
+  - [Persistent Flags File](#persistent-flags-file)
+  - [Chromium Theming](#chromium-theming)
+- [58.6 Electron App Wayland Flags](#586-electron-app-wayland-flags)
+  - [Per-Application Flags Files](#per-application-flags-files)
+  - [Global Electron Flags](#global-electron-flags)
+  - [NixOS Declarative Configuration](#nixos-declarative-configuration)
+  - [Vesktop — Discord with Full Wayland Support](#vesktop-discord-with-full-wayland-support)
+- [58.7 Browser in the Rice: Compositor Integration](#587-browser-in-the-rice-compositor-integration)
+  - [Window Rules for Browsers](#window-rules-for-browsers)
+  - [Firefox Release Channel Comparison](#firefox-release-channel-comparison)
+  - [Multi-Account Containers Color Coding](#multi-account-containers-color-coding)
+  - [Start Page / New Tab Theming Summary](#start-page-new-tab-theming-summary)
+- [58.8 Troubleshooting](#588-troubleshooting)
+  - [Firefox Falls Back to XWayland](#firefox-falls-back-to-xwayland)
+  - [VA-API Not Working in Firefox](#va-api-not-working-in-firefox)
+  - [Chromium Flags Not Being Read](#chromium-flags-not-being-read)
+  - [Electron App is Blurry at Fractional Scale](#electron-app-is-blurry-at-fractional-scale)
+  - [userChrome.css Changes Not Taking Effect](#userchromecss-changes-not-taking-effect)
+  - [Firefox Crashes on Wayland with NVIDIA](#firefox-crashes-on-wayland-with-nvidia)
+- [Cross-References](#cross-references)
+
+---
+
+
 ## Overview
 
 The browser is the most-used application for most desktop users. Getting it Wayland-native —

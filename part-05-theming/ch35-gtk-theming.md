@@ -1,5 +1,29 @@
 # Chapter 35 — GTK Theming: Adwaita, libadwaita, CSS Overrides
 
+## Contents
+
+- [Overview](#overview)
+- [35.1 GTK3 vs GTK4 Theming Models](#351-gtk3-vs-gtk4-theming-models)
+- [35.2 GTK3 Theming](#352-gtk3-theming)
+- [35.3 GTK4 and libadwaita](#353-gtk4-and-libadwaita)
+- [35.4 Setting GTK Theme on Wayland](#354-setting-gtk-theme-on-wayland)
+- [35.5 Home Manager GTK Configuration](#355-home-manager-gtk-configuration)
+- [35.6 Dark Mode and Color Scheme](#356-dark-mode-and-color-scheme)
+- [35.7 Popular GTK Theme Collections](#357-popular-gtk-theme-collections)
+- [35.8 Firefox GTK Integration](#358-firefox-gtk-integration)
+- [35.9 GNOME Extensions and Theme Interactions](#359-gnome-extensions-and-theme-interactions)
+- [Troubleshooting](#troubleshooting)
+- [35.10 libadwaita AdwStyleManager and Accent Colors](#3510-libadwaita-adwstylemanager-and-accent-colors)
+  - [AdwStyleManager color scheme (dark/light switching)](#adwstylemanager-color-scheme-darklight-switching)
+  - [Color scheme values](#color-scheme-values)
+  - [Accent Color API (libadwaita 1.4+)](#accent-color-api-libadwaita-14)
+  - [CSS @define-color for accent override](#css-define-color-for-accent-override)
+  - [adw-gtk3 CSS variable mapping](#adw-gtk3-css-variable-mapping)
+  - [System-wide accent via GNOME Settings (GNOME 47+)](#system-wide-accent-via-gnome-settings-gnome-47)
+
+---
+
+
 ## Overview
 
 Most Linux desktop applications are GTK-based. From GNOME's own apps to cross-desktop utilities like GIMP, Inkscape, and Firefox (partially), GTK's visual consistency is central to a coherent desktop aesthetic. Theming GTK correctly — without breaking apps or introducing visual regressions — requires understanding two very different theming models: the relatively open GTK3 system and the opinionated, partially locked-down GTK4+libadwaita world.

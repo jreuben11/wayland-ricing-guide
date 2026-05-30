@@ -1,5 +1,30 @@
 # Chapter 93 — D-Bus Essentials for Wayland Power Users
 
+## Contents
+
+- [Overview](#overview)
+- [93.1 Session Bus vs System Bus](#931-session-bus-vs-system-bus)
+- [93.2 busctl — The Best D-Bus CLI](#932-busctl-the-best-d-bus-cli)
+  - [busctl monitor (event stream)](#busctl-monitor-event-stream)
+- [93.3 gdbus — GNOME D-Bus Tool](#933-gdbus-gnome-d-bus-tool)
+- [93.4 dbus-monitor — Traffic Monitoring](#934-dbus-monitor-traffic-monitoring)
+- [93.5 Scripting D-Bus from Shell](#935-scripting-d-bus-from-shell)
+  - [Send a desktop notification](#send-a-desktop-notification)
+  - [Control MPRIS media player](#control-mpris-media-player)
+  - [Query UPower battery](#query-upower-battery)
+  - [NetworkManager status](#networkmanager-status)
+- [93.6 Writing a D-Bus Service from Shell](#936-writing-a-d-bus-service-from-shell)
+- [93.7 D-Bus in Quickshell](#937-d-bus-in-quickshell)
+- [93.8 Varlink — The D-Bus Successor for System Services](#938-varlink-the-d-bus-successor-for-system-services)
+  - [What uses Varlink today](#what-uses-varlink-today)
+  - [Querying Varlink from the CLI](#querying-varlink-from-the-cli)
+  - [Varlink interface definition (IDL)](#varlink-interface-definition-idl)
+  - [When to use Varlink vs D-Bus](#when-to-use-varlink-vs-d-bus)
+- [93.9 dbus-run-session — Headless D-Bus Testing](#939-dbus-run-session-headless-d-bus-testing)
+
+---
+
+
 ## Overview
 
 D-Bus is the IPC backbone of a Linux desktop. Portals, notifications, MPRIS,

@@ -1,5 +1,58 @@
 # Chapter 61 — Screen Sharing and Video Calls: Portal Setup, WebRTC, OBS
 
+## Contents
+
+- [Overview](#overview)
+- [61.1 How Screen Sharing Works on Wayland](#611-how-screen-sharing-works-on-wayland)
+- [61.2 Required Packages](#612-required-packages)
+  - [Arch Linux / Hyprland](#arch-linux-hyprland)
+  - [Arch Linux / Sway](#arch-linux-sway)
+  - [Ubuntu 24.04 / Hyprland (PPA)](#ubuntu-2404-hyprland-ppa)
+  - [Fedora 40+](#fedora-40)
+  - [Package Version Requirements](#package-version-requirements)
+- [61.3 Startup Configuration (The Critical Part)](#613-startup-configuration-the-critical-part)
+  - [Hyprland (`hyprland.conf`)](#hyprland-hyprlandconf)
+  - [Sway (`~/.config/sway/config`)](#sway-configswayconfig)
+  - [Portal Priority Configuration](#portal-priority-configuration)
+- [61.4 Firefox Screen Sharing](#614-firefox-screen-sharing)
+  - [Launch Environment](#launch-environment)
+  - [Testing Firefox Screen Share](#testing-firefox-screen-share)
+- [61.5 Chromium / Chrome Screen Sharing](#615-chromium-chrome-screen-sharing)
+  - [Per-User Flags Files](#per-user-flags-files)
+  - [Electron App Base Flags](#electron-app-base-flags)
+  - [Feature Flag Comparison](#feature-flag-comparison)
+- [61.6 Video Call Applications](#616-video-call-applications)
+  - [Discord / Vesktop](#discord-vesktop)
+  - [Zoom](#zoom)
+  - [Microsoft Teams](#microsoft-teams)
+  - [Slack](#slack)
+  - [Google Meet / Jitsi / Whereby](#google-meet-jitsi-whereby)
+  - [Application Support Matrix](#application-support-matrix)
+- [61.7 OBS Studio Screen Capture](#617-obs-studio-screen-capture)
+  - [Installation and Initial Setup](#installation-and-initial-setup)
+  - [Adding a Screen Capture Source](#adding-a-screen-capture-source)
+  - [Window vs. Output Capture](#window-vs-output-capture)
+  - [Virtual Camera for Video Calls](#virtual-camera-for-video-calls)
+  - [OBS PipeWire Audio Capture](#obs-pipewire-audio-capture)
+  - [Recording with Hardware Encoding](#recording-with-hardware-encoding)
+- [61.8 xdg-desktop-portal-wlr for Sway](#618-xdg-desktop-portal-wlr-for-sway)
+  - [Configuration File](#configuration-file)
+  - [Multi-Monitor Output Selection with Wofi](#multi-monitor-output-selection-with-wofi)
+  - [Checking Available Outputs for xdpw](#checking-available-outputs-for-xdpw)
+- [61.9 NixOS Configuration](#619-nixos-configuration)
+  - [NixOS with Hyprland (Home Manager + System Config)](#nixos-with-hyprland-home-manager-system-config)
+  - [NixOS with Sway](#nixos-with-sway)
+  - [Home Manager Environment Variables](#home-manager-environment-variables)
+- [61.10 Troubleshooting](#6110-troubleshooting)
+  - [Diagnostic Checklist](#diagnostic-checklist)
+  - [Verbose Portal Debugging](#verbose-portal-debugging)
+  - [Common Problems and Fixes](#common-problems-and-fixes)
+  - [Confirming a Working Setup End-to-End](#confirming-a-working-setup-end-to-end)
+  - [Portal Restart Helper](#portal-restart-helper)
+
+---
+
+
 ## Overview
 
 Screen sharing is a daily need for remote workers, streamers, and anyone participating

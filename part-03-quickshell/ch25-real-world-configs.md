@@ -1,5 +1,26 @@
 # Chapter 25 — Real-World Quickshell Configurations
 
+## Contents
+
+- [Overview](#overview)
+- [25.1 end_4/dots-hyprland](#251-end4dots-hyprland)
+- [25.2 outfoxxed's Configurations](#252-outfoxxeds-configurations)
+- [25.3 ekremx25/quickshell — Multi-Compositor Configuration](#253-ekremx25quickshell-multi-compositor-configuration)
+- [25.4 doannc2212/quickshell-config — 206-Theme Switcher](#254-doannc2212quickshell-config-206-theme-switcher)
+- [25.5 Common Architecture Patterns](#255-common-architecture-patterns)
+  - [Pattern: The Theme Singleton](#pattern-the-theme-singleton)
+  - [Pattern: Reactive Wallpaper-Based Colors](#pattern-reactive-wallpaper-based-colors)
+  - [Pattern: Reveal Animations](#pattern-reveal-animations)
+  - [Pattern: Conditional Modules via LazyLoader](#pattern-conditional-modules-via-lazyloader)
+  - [Pattern: Per-Monitor State with Variants](#pattern-per-monitor-state-with-variants)
+- [25.6 Performance Tuning](#256-performance-tuning)
+- [25.7 Debugging Production Configs](#257-debugging-production-configs)
+- [25.8 Config Organisation Recommendations](#258-config-organisation-recommendations)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 This chapter dissects exemplary community Quickshell configurations, drawing architectural patterns,

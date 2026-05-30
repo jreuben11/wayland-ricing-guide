@@ -1,5 +1,20 @@
 # Chapter 75 — Quickshell Notification Center: Full Sidebar Implementation
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [75.1 Architecture](#751-architecture)
+  - [75.2 The Notification Store Singleton](#752-the-notification-store-singleton)
+  - [75.3 Toast Popup Component](#753-toast-popup-component)
+  - [75.4 Toast Card Design](#754-toast-card-design)
+  - [75.5 Notification Center Drawer](#755-notification-center-drawer)
+  - [75.6 Triggering the Center from the Bar](#756-triggering-the-center-from-the-bar)
+  - [75.7 Do-Not-Disturb Mode](#757-do-not-disturb-mode)
+
+---
+
+
 ## Overview
 A notification center (persistent sidebar showing notification history) is one
 of the most-requested Quickshell components. This chapter builds one end-to-end:

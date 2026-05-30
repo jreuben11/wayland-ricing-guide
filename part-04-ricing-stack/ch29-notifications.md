@@ -1,5 +1,26 @@
 # Chapter 29 — Notification Daemons: mako, dunst, swaync
 
+## Contents
+
+- [Overview](#overview)
+- [29.1 The Freedesktop Notification Spec](#291-the-freedesktop-notification-spec)
+- [29.2 mako — Minimal Sway-Focused Daemon](#292-mako-minimal-sway-focused-daemon)
+- [29.3 dunst — The Feature-Rich Daemon](#293-dunst-the-feature-rich-daemon)
+- [29.4 swaync — SwayNotificationCenter](#294-swaync-swaynotificationcenter)
+- [29.5 Quickshell Native Notifications (Ch 22 Recap)](#295-quickshell-native-notifications-ch-22-recap)
+- [29.6 Notification Styling Guide](#296-notification-styling-guide)
+  - [Positioning and Anchoring](#positioning-and-anchoring)
+  - [Stack Ordering and Overflow](#stack-ordering-and-overflow)
+  - [Do-Not-Disturb and Focus Modes](#do-not-disturb-and-focus-modes)
+  - [Critical Notification Persistence](#critical-notification-persistence)
+- [29.7 Testing Notifications](#297-testing-notifications)
+- [29.8 Choosing a Daemon](#298-choosing-a-daemon)
+- [29.9 Session Startup Integration](#299-session-startup-integration)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Notification daemons are the silent workhorses of a riced desktop. Every time a chat app pings you, a build finishes, or a system event fires, a daemon intercepts the D-Bus call, decides how to render it, and pushes a popup to your compositor using the `wlr-layer-shell` protocol. On Wayland this is non-trivial: unlike X11, where any process could draw anywhere, Wayland requires explicit layer-shell privileges. Notification popups live on the `overlay` layer, above all windows, and the daemon must hold the compositor's trust to place them there.

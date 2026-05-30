@@ -6,6 +6,19 @@ Understanding which protocol does what prevents the most common class of debuggi
 
 ---
 
+## Contents
+
+- [Core Wayland Protocols (wayland.xml)](#core-wayland-protocols-waylandxml)
+- [Standard Extensions (wayland-protocols)](#standard-extensions-wayland-protocols)
+- [wlr-protocols (wlroots ecosystem)](#wlr-protocols-wlroots-ecosystem)
+- [Hyprland Custom Protocols](#hyprland-custom-protocols)
+- [Protocol Versioning and Compatibility](#protocol-versioning-and-compatibility)
+- [Protocol Explorer and Source Locations](#protocol-explorer-and-source-locations)
+- [Troubleshooting Protocol Errors](#troubleshooting-protocol-errors)
+
+---
+
+
 ## Core Wayland Protocols (wayland.xml)
 
 The core protocol, defined in `wayland.xml` inside the `wayland` package itself, is the lowest level of the stack. Every Wayland client that ever draws a pixel must use these objects. They are not extensions — they are the protocol. Clients do not opt into them; they are the vocabulary of the connection.

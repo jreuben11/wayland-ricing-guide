@@ -1,5 +1,27 @@
 # Chapter 101 — Advanced Nix Flake Architecture for a Full Rice
 
+## Contents
+
+- [Overview](#overview)
+- [101.1 Repository Structure](#1011-repository-structure)
+- [101.2 Root flake.nix](#1012-root-flakenix)
+- [101.3 Shared Host Config (`hosts/default.nix`)](#1013-shared-host-config-hostsdefaultnix)
+- [101.4 Host-Specific Config (`hosts/laptop/default.nix`)](#1014-host-specific-config-hostslaptopdefaultnix)
+- [101.5 Shared Home Config (`home/default.nix`)](#1015-shared-home-config-homedefaultnix)
+- [101.6 Hyprland Home Module (`home/hyprland.nix`)](#1016-hyprland-home-module-homehyprlandnix)
+- [101.7 Secrets Management with agenix](#1017-secrets-management-with-agenix)
+  - [Setup](#setup)
+  - [`secrets/secrets.nix` — key declarations](#secretssecretsnix-key-declarations)
+  - [Encrypt a secret](#encrypt-a-secret)
+  - [Use in NixOS config](#use-in-nixos-config)
+- [101.8 sops-nix (Alternative to agenix)](#1018-sops-nix-alternative-to-agenix)
+- [101.9 Custom Overlays](#1019-custom-overlays)
+- [101.10 Reusable NixOS Module (`modules/nixos/wayland.nix`)](#10110-reusable-nixos-module-modulesnixoswaylandnix)
+- [101.11 Deploy and Maintain](#10111-deploy-and-maintain)
+
+---
+
+
 ## Overview
 
 Chapter 39 covers Home Manager basics. This chapter goes further: structuring

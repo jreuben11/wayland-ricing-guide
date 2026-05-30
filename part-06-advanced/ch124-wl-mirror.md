@@ -1,5 +1,18 @@
 # Chapter 124 — wl-mirror: Screen Mirroring Between Outputs
 
+## Contents
+
+- [Overview](#overview)
+- [124.1 Installation](#1241-installation)
+- [124.2 Basic Usage](#1242-basic-usage)
+- [124.3 Presentation Mode (Laptop + Projector)](#1243-presentation-mode-laptop-projector)
+- [124.4 Compositor Mirror Mode vs. wl-mirror](#1244-compositor-mirror-mode-vs-wl-mirror)
+- [124.5 wl-mirror in a Hyprland Keybind](#1245-wl-mirror-in-a-hyprland-keybind)
+- [124.6 Troubleshooting](#1246-troubleshooting)
+
+---
+
+
 ## Overview
 
 `wl-mirror` is a Wayland client that displays the contents of one Wayland output inside a window on another output. Common uses: presenting a laptop screen on a projector without configuring a clone/mirror mode in the compositor, sharing a specific monitor's content in a video call without screen capture, or creating a preview window of a secondary display.

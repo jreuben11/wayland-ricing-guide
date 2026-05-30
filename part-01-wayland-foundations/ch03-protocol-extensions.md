@@ -1,5 +1,55 @@
 # Chapter 3 — Protocol Extensions: xdg-shell, layer-shell, wlr-protocols
 
+## Contents
+
+- [Overview](#overview)
+- [3.1 The wayland-protocols Repository](#31-the-wayland-protocols-repository)
+  - [wayland-scanner: The XML-to-C Pipeline](#wayland-scanner-the-xml-to-c-pipeline)
+  - [How Compositors Advertise Extensions: The Registry](#how-compositors-advertise-extensions-the-registry)
+- [3.2 xdg-shell — The Standard Window Protocol](#32-xdg-shell-the-standard-window-protocol)
+  - [xdg_wm_base: The Toplevel Shell Manager](#xdgwmbase-the-toplevel-shell-manager)
+  - [xdg_surface and xdg_toplevel: The Configure Handshake](#xdgsurface-and-xdgtoplevel-the-configure-handshake)
+  - [xdg_popup: Menus, Tooltips, and Context Menus](#xdgpopup-menus-tooltips-and-context-menus)
+  - [CSD vs. SSD: xdg-decoration-unstable-v1](#csd-vs-ssd-xdg-decoration-unstable-v1)
+- [3.3 xdg-output — Multi-Monitor Metadata](#33-xdg-output-multi-monitor-metadata)
+  - [Fractional Scaling and wp-fractional-scale-v1](#fractional-scaling-and-wp-fractional-scale-v1)
+- [3.4 wlr-layer-shell — The Ricing Protocol](#34-wlr-layer-shell-the-ricing-protocol)
+  - [The Four Layers](#the-four-layers)
+  - [Anchoring and Exclusive Zones](#anchoring-and-exclusive-zones)
+  - [Keyboard Interactivity Modes](#keyboard-interactivity-modes)
+  - [How swww Uses BACKGROUND Layer](#how-swww-uses-background-layer)
+  - [How Waybar Uses the TOP Layer](#how-waybar-uses-the-top-layer)
+- [3.5 wlr-protocols Suite](#35-wlr-protocols-suite)
+  - [wlr-output-management-unstable-v1](#wlr-output-management-unstable-v1)
+  - [wlr-screencopy-unstable-v1](#wlr-screencopy-unstable-v1)
+  - [wlr-data-control-unstable-v1](#wlr-data-control-unstable-v1)
+  - [wlr-foreign-toplevel-management-unstable-v1](#wlr-foreign-toplevel-management-unstable-v1)
+  - [wlr-gamma-control-unstable-v1](#wlr-gamma-control-unstable-v1)
+  - [wlr-input-inhibitor-unstable-v1](#wlr-input-inhibitor-unstable-v1)
+- [3.6 Other Important Extensions](#36-other-important-extensions)
+  - [wp-viewporter](#wp-viewporter)
+  - [wp-presentation-time](#wp-presentation-time)
+  - [wp-cursor-shape-v1](#wp-cursor-shape-v1)
+  - [zwp-linux-dmabuf-v1](#zwp-linux-dmabuf-v1)
+  - [ext-session-lock-v1](#ext-session-lock-v1)
+  - [xdg-activation-v1](#xdg-activation-v1)
+- [3.7 Hyprland-Specific Protocols](#37-hyprland-specific-protocols)
+  - [hyprland-global-shortcuts-v1](#hyprland-global-shortcuts-v1)
+  - [hyprland-toplevel-export-v1](#hyprland-toplevel-export-v1)
+  - [hyprland-ctm-control-v1](#hyprland-ctm-control-v1)
+  - [hyprland-focus-grab-v1](#hyprland-focus-grab-v1)
+- [Troubleshooting](#troubleshooting)
+  - ["Protocol not supported" / Client refuses to launch](#protocol-not-supported-client-refuses-to-launch)
+  - [Layer surface not appearing / wrong size](#layer-surface-not-appearing-wrong-size)
+  - [Screencopy / screenshot produces blank output](#screencopy-screenshot-produces-blank-output)
+  - [Clipboard tools fail silently](#clipboard-tools-fail-silently)
+  - [Fractional scaling blurry / artifacts](#fractional-scaling-blurry-artifacts)
+  - [Protocol version mismatch](#protocol-version-mismatch)
+- [Resources](#resources)
+
+---
+
+
 ## Overview
 
 The core Wayland protocol is intentionally bare. It defines a display server

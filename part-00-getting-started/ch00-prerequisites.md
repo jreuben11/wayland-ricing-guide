@@ -1,5 +1,24 @@
 # Chapter 0 — Prerequisites and Environment Setup
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [0.1 Assumed Knowledge](#01-assumed-knowledge)
+  - [0.2 Distribution Recommendations](#02-distribution-recommendations)
+  - [0.3 Hardware Requirements](#03-hardware-requirements)
+  - [0.4 Bootloader and Kernel Parameters](#04-bootloader-and-kernel-parameters)
+  - [0.5 Verifying You Are on Wayland](#05-verifying-you-are-on-wayland)
+  - [0.6 Display Server Stack Installation](#06-display-server-stack-installation)
+  - [0.7 Login Manager Setup](#07-login-manager-setup)
+  - [0.8 Essential First Packages](#08-essential-first-packages)
+  - [0.9 Environment Variables Reference](#09-environment-variables-reference)
+  - [0.10 Laptop Hardware Recommendations for Wayland Ricing](#010-laptop-hardware-recommendations-for-wayland-ricing)
+  - [0.12 What to Read First](#012-what-to-read-first)
+
+---
+
+
 ## Overview
 Everything you need before chapter 1. Covers assumed knowledge, hardware
 requirements, initial OS setup, and how to verify you are running Wayland.

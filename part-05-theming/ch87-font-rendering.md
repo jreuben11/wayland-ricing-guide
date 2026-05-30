@@ -1,5 +1,41 @@
 # Chapter 87 — Font Rendering Deep Dive: fontconfig, Hinting, CJK
 
+## Contents
+
+- [Overview](#overview)
+- [87.1 The Font Stack](#871-the-font-stack)
+- [87.2 fontconfig Configuration Files](#872-fontconfig-configuration-files)
+  - [Minimal user fonts.conf](#minimal-user-fontsconf)
+- [87.3 Rendering Parameters](#873-rendering-parameters)
+  - [antialias](#antialias)
+  - [hinting and hintstyle](#hinting-and-hintstyle)
+  - [rgba (subpixel rendering)](#rgba-subpixel-rendering)
+  - [lcdfilter](#lcdfilter)
+  - [Complete rendering block](#complete-rendering-block)
+- [87.4 Font Preference and Aliases](#874-font-preference-and-aliases)
+  - [Setting preferred fonts by generic family](#setting-preferred-fonts-by-generic-family)
+  - [Substituting one font for another](#substituting-one-font-for-another)
+  - [Per-application font overrides](#per-application-font-overrides)
+- [87.5 CJK Fallback Chains](#875-cjk-fallback-chains)
+  - [The CJK problem](#the-cjk-problem)
+  - [Proper CJK fallback configuration](#proper-cjk-fallback-configuration)
+  - [Emoji font](#emoji-font)
+- [87.6 Nerd Font Installation and Configuration](#876-nerd-font-installation-and-configuration)
+  - [Verify the font is installed](#verify-the-font-is-installed)
+  - [fontconfig for Nerd Fonts](#fontconfig-for-nerd-fonts)
+- [87.7 DPI and HiDPI on Wayland](#877-dpi-and-hidpi-on-wayland)
+  - [Checking DPI](#checking-dpi)
+  - [Forcing font DPI for specific apps](#forcing-font-dpi-for-specific-apps)
+- [87.8 fontconfig Debugging](#878-fontconfig-debugging)
+  - [Common mismatches to check](#common-mismatches-to-check)
+- [87.9 Complete Recommended fonts.conf](#879-complete-recommended-fontsconf)
+- [87.10 Nerd Font Glyph Verification](#8710-nerd-font-glyph-verification)
+  - [Verifying in Different Applications](#verifying-in-different-applications)
+  - [Bitmap Fonts on Wayland](#bitmap-fonts-on-wayland)
+
+---
+
+
 ## Overview
 
 Every character on your desktop passes through fontconfig before it reaches

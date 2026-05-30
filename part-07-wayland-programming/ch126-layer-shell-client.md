@@ -1,5 +1,21 @@
 # Chapter 126 — Writing a Layer-Shell Client from Scratch
 
+## Contents
+
+- [Overview](#overview)
+- [126.1 Protocol Fundamentals](#1261-protocol-fundamentals)
+- [126.2 C with gtk4-layer-shell](#1262-c-with-gtk4-layer-shell)
+  - [Dependencies](#dependencies)
+  - [CMakeLists.txt](#cmakeliststxt)
+  - [`main.c` — Clock Bar](#mainc-clock-bar)
+- [126.3 Python with PyGObject + gtk4-layer-shell](#1263-python-with-pygobject-gtk4-layer-shell)
+- [126.4 Rust with gtk4-rs + gtk4-layer-shell-rs](#1264-rust-with-gtk4-rs-gtk4-layer-shell-rs)
+- [126.5 Advanced: Fullscreen Overlay with Click-Through](#1265-advanced-fullscreen-overlay-with-click-through)
+- [126.6 Layer Ordering and Compositor Behavior](#1266-layer-ordering-and-compositor-behavior)
+
+---
+
+
 ## Overview
 
 The `zwlr-layer-shell-v1` protocol is the foundation of every status bar, notification popup, lock screen, and desktop overlay on wlroots-based Wayland compositors. Chapter 28 showed you how to *use* layer-shell applications; this chapter shows you how to *write* one — in C using `gtk4-layer-shell`, in Python using the same library via PyGObject, and as a reference in Rust using `gtk4-layer-shell-rs`. By the end you will have a working clock overlay in all three languages that anchors to the top-right corner of the screen, reserves exclusive zone space, and responds to click events.

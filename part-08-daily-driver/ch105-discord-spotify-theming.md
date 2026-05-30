@@ -1,5 +1,30 @@
 # Chapter 105 — Discord and Spotify Theming: Vencord and Spicetify
 
+## Contents
+
+- [Overview](#overview)
+- [105.1 Vencord — Discord Theming](#1051-vencord-discord-theming)
+  - [What Vencord is](#what-vencord-is)
+  - [Installation on Linux (Wayland)](#installation-on-linux-wayland)
+  - [QuickCSS](#quickcss)
+  - [Installing Themes](#installing-themes)
+  - [Useful Vencord Plugins](#useful-vencord-plugins)
+  - [Hyprland Window Rules for Discord](#hyprland-window-rules-for-discord)
+  - [Wayland Screen Sharing with Vesktop](#wayland-screen-sharing-with-vesktop)
+- [105.2 Spicetify — Spotify Theming](#1052-spicetify-spotify-theming)
+  - [What Spicetify is](#what-spicetify-is)
+  - [Installation](#installation)
+  - [Basic workflow](#basic-workflow)
+  - [Spicetify Marketplace (recommended)](#spicetify-marketplace-recommended)
+  - [Manual Theme Installation](#manual-theme-installation)
+  - [Spicetify config (`~/.config/spicetify/config-xpui.ini`)](#spicetify-config-configspicetifyconfig-xpuiini)
+  - [Writing a Custom Spicetify Theme](#writing-a-custom-spicetify-theme)
+  - [Keeping Spicetify After Spotify Updates](#keeping-spicetify-after-spotify-updates)
+  - [Hyprland Window Rules for Spotify](#hyprland-window-rules-for-spotify)
+
+---
+
+
 ## Overview
 
 Discord and Spotify are among the most-used apps on a riced desktop, and both

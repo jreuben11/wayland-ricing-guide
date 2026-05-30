@@ -1,5 +1,21 @@
 # Chapter 120 — WirePlumber Lua Scripting
 
+## Contents
+
+- [Overview](#overview)
+- [120.1 WirePlumber Architecture](#1201-wireplumber-architecture)
+  - [Script Entry Points](#script-entry-points)
+- [120.2 Configuration Overrides (No Lua Required)](#1202-configuration-overrides-no-lua-required)
+- [120.3 Device Priority: Prefer USB Audio](#1203-device-priority-prefer-usb-audio)
+- [120.4 Auto-Profile Switching on Headphone Plug](#1204-auto-profile-switching-on-headphone-plug)
+- [120.5 Volume Persistence Per Device](#1205-volume-persistence-per-device)
+- [120.6 Custom Link Policy: Route App to Specific Device](#1206-custom-link-policy-route-app-to-specific-device)
+- [120.7 Reload and Debug](#1207-reload-and-debug)
+- [120.8 Script Loading Reference](#1208-script-loading-reference)
+
+---
+
+
 ## Overview
 
 WirePlumber is the session manager for PipeWire — the daemon that decides which nodes connect to which, which profile an audio device uses, what volume to restore when a device plugs in, and how to route a video stream from a camera to a recording application. Its behavior is entirely controlled by Lua scripts that run in an embedded interpreter, reacting to PipeWire graph events.

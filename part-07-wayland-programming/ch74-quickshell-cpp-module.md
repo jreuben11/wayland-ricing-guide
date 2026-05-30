@@ -1,5 +1,26 @@
 # Chapter 74 — Writing a Quickshell C++ Module
 
+## Contents
+
+- [Overview](#overview)
+- [When to Write a C++ Module](#when-to-write-a-c-module)
+- [Module Architecture](#module-architecture)
+- [A Minimal Singleton Service: Battery Monitor](#a-minimal-singleton-service-battery-monitor)
+- [CMakeLists.txt for the Module](#cmakeliststxt-for-the-module)
+- [Using the Module in QML](#using-the-module-in-qml)
+- [D-Bus Service Module Pattern](#d-bus-service-module-pattern)
+- [Multi-Threaded Module with QThread](#multi-threaded-module-with-qthread)
+- [Custom QAbstractListModel for Structured Data](#custom-qabstractlistmodel-for-structured-data)
+- [Registering with Quickshell's Build System](#registering-with-quickshells-build-system)
+  - [In-Tree Integration](#in-tree-integration)
+  - [Out-of-Tree Plugin](#out-of-tree-plugin)
+- [Existing Modules as Reference](#existing-modules-as-reference)
+- [Contributing Your Module Upstream](#contributing-your-module-upstream)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Quickshell is designed from the ground up to be extensible at the C++ layer. Unlike shell-script–based compositors that wrap external processes, Quickshell allows you to write native service modules that live inside the compositor process itself, sharing its event loop and Qt object model. This means zero-latency data delivery to QML, type-safe bindings, and the full power of Qt's signals-and-slots system — all without forking a subprocess or parsing text output.

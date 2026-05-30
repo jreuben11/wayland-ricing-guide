@@ -1,5 +1,25 @@
 # Chapter 39 — Nix and Home Manager: Reproducible Rices
 
+## Contents
+
+- [Overview](#overview)
+- [39.1 Why Nix for Ricing](#391-why-nix-for-ricing)
+- [39.2 Home Manager Overview](#392-home-manager-overview)
+- [39.3 Flake-Based Setup](#393-flake-based-setup)
+- [39.4 Compositor Configuration in Nix](#394-compositor-configuration-in-nix)
+- [39.5 Quickshell in Home Manager](#395-quickshell-in-home-manager)
+- [39.6 Unified Theming: GTK, Qt, Fonts, and Cursors](#396-unified-theming-gtk-qt-fonts-and-cursors)
+- [39.7 Terminal and Shell Configuration](#397-terminal-and-shell-configuration)
+- [39.8 Managing Dotfiles with Nix](#398-managing-dotfiles-with-nix)
+- [39.9 NixOS System-Level vs. Home Manager](#399-nixos-system-level-vs-home-manager)
+- [39.10 Sharing Rices as Flakes](#3910-sharing-rices-as-flakes)
+- [39.11 Secrets Management with sops-nix](#3911-secrets-management-with-sops-nix)
+- [39.12 Useful Nix Patterns for Ricing](#3912-useful-nix-patterns-for-ricing)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 NixOS and Home Manager transform a rice from a fragile collection of dotfiles into a reproducible, version-controlled system declaration. Where traditional ricing means copying configs between machines and hoping nothing drifts, a Nix-based rice is a pure function: the same inputs always produce the same desktop environment. This chapter covers the full stack — flake structure, Home Manager modules for Wayland compositors, theming through `gtk`/`qt`/`cursor` attributes, secrets management, and sharing your rice with the community.

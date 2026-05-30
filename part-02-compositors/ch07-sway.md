@@ -1,5 +1,58 @@
 # Chapter 7 — Sway: i3 on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [7.1 History and Philosophy](#71-history-and-philosophy)
+  - [Key Design Principles](#key-design-principles)
+- [7.2 Installation and Initial Setup](#72-installation-and-initial-setup)
+  - [Distribution Packages](#distribution-packages)
+  - [First Launch](#first-launch)
+  - [Config File Locations](#config-file-locations)
+- [7.3 Configuration Deep Dive](#73-configuration-deep-dive)
+  - [Variable Substitution and Modifiers](#variable-substitution-and-modifiers)
+  - [Output Configuration](#output-configuration)
+  - [Input Configuration](#input-configuration)
+  - [Seat Configuration](#seat-configuration)
+  - [Window Decoration](#window-decoration)
+- [7.4 Layout and Window Management](#74-layout-and-window-management)
+  - [Core Keybindings](#core-keybindings)
+  - [Workspaces](#workspaces)
+  - [Window Rules with `for_window`](#window-rules-with-forwindow)
+  - [Resize Mode](#resize-mode)
+- [7.5 IPC and Scripting](#75-ipc-and-scripting)
+  - [swaymsg Reference](#swaymsg-reference)
+  - [Python i3ipc: Event-Driven Scripting](#python-i3ipc-event-driven-scripting)
+  - [swayidle: Idle Management](#swayidle-idle-management)
+  - [swaylock: Lock Screen](#swaylock-lock-screen)
+  - [Gaming Mode Toggle Script](#gaming-mode-toggle-script)
+- [7.6 The Sway Ecosystem](#76-the-sway-ecosystem)
+  - [Waybar](#waybar)
+  - [Mako: Notification Daemon](#mako-notification-daemon)
+  - [Wofi: Application Launcher](#wofi-application-launcher)
+  - [swaybg and Wallpaper Management](#swaybg-and-wallpaper-management)
+  - [Tool Summary Table](#tool-summary-table)
+- [7.7 Complete Configuration Examples](#77-complete-configuration-examples)
+  - [Minimal Functional Config](#minimal-functional-config)
+  - [Multi-Monitor Development Setup](#multi-monitor-development-setup)
+  - [Screenshot Bindings](#screenshot-bindings)
+- [7.8 Sway vs. Hyprland: Choosing Your Path](#78-sway-vs-hyprland-choosing-your-path)
+  - [Feature Comparison](#feature-comparison)
+  - [When to Choose Sway](#when-to-choose-sway)
+  - [When to Choose Hyprland](#when-to-choose-hyprland)
+- [7.9 XWayland Support](#79-xwayland-support)
+- [Troubleshooting](#troubleshooting)
+  - [Sway Fails to Start](#sway-fails-to-start)
+  - [Black Screen After Login](#black-screen-after-login)
+  - [GTK Apps Look Wrong / Wrong Theme](#gtk-apps-look-wrong-wrong-theme)
+  - [Waybar Not Showing](#waybar-not-showing)
+  - [Input Device Not Responding](#input-device-not-responding)
+  - [Screen Tearing (XWayland apps)](#screen-tearing-xwayland-apps)
+  - [High CPU from sway](#high-cpu-from-sway)
+
+---
+
+
 ## Overview
 
 Sway is the most mature and widely deployed wlroots-based Wayland compositor. Created by Drew DeVault in 2015 as a faithful re-implementation of i3 for Wayland, it has become the go-to compositor for users migrating from X11 who want stability, a proven configuration model, and a rich ecosystem of supporting tools.

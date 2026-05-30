@@ -1,5 +1,32 @@
 # Chapter 132 — Bar Alternatives: yambar, sfwbar, HEMBar, i3status-rust
 
+## Contents
+
+- [Overview](#overview)
+- [132.1 Comparison Table](#1321-comparison-table)
+- [132.2 yambar](#1322-yambar)
+  - [Installation](#installation)
+  - [Config Structure](#config-structure)
+  - [Module Reference](#module-reference)
+  - [Particles (rendering primitives)](#particles-rendering-primitives)
+  - [Running yambar](#running-yambar)
+- [132.3 sfwbar](#1323-sfwbar)
+  - [Installation](#installation)
+  - [Config File](#config-file)
+  - [Running sfwbar](#running-sfwbar)
+- [132.4 HEMBar](#1324-hembar)
+  - [Installation](#installation)
+  - [Config Structure](#config-structure)
+- [132.5 i3status-rust](#1325-i3status-rust)
+  - [Installation](#installation)
+  - [Config](#config)
+  - [Integrating with Sway](#integrating-with-sway)
+- [132.6 When to Choose Each Bar](#1326-when-to-choose-each-bar)
+- [132.7 Script Module Pattern (all bars)](#1327-script-module-pattern-all-bars)
+
+---
+
+
 ## Overview
 
 Waybar dominates the Wayland bar ecosystem, but it is not the only option. `yambar` offers a declarative particle-based model that composes complex modules from primitives. `sfwbar` takes an S-expression config and targets Sway-family compositors. `HEMBar` is a newer Rust/GTK4 bar optimized for Hyprland. `i3status-rust` implements the i3bar JSON protocol and works with any compositor that has i3bar support. This chapter covers installation, configuration, and a comparison to help you choose.

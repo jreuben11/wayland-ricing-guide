@@ -1,5 +1,36 @@
 # Chapter 79 — Input Method Editors on Wayland: Fcitx5, IBus
 
+## Contents
+
+- [Overview](#overview)
+- [79.1 The Wayland IME Protocol Stack](#791-the-wayland-ime-protocol-stack)
+- [79.2 Fcitx5 — Recommended IME](#792-fcitx5-recommended-ime)
+  - [Installation by Distribution](#installation-by-distribution)
+- [79.3 Environment Variables (Critical)](#793-environment-variables-critical)
+- [79.4 Starting Fcitx5](#794-starting-fcitx5)
+- [79.5 Configuring Input Methods](#795-configuring-input-methods)
+- [79.6 Fcitx5 Theming](#796-fcitx5-theming)
+- [79.7 IBus (Alternative)](#797-ibus-alternative)
+- [79.8 App-Specific Issues](#798-app-specific-issues)
+  - [Firefox](#firefox)
+  - [Electron Apps (VS Code, Slack, Discord, Obsidian)](#electron-apps-vs-code-slack-discord-obsidian)
+  - [Terminal Emulators](#terminal-emulators)
+  - [GTK4 Apps](#gtk4-apps)
+  - [Java / Swing Applications](#java-swing-applications)
+  - [XWayland Apps](#xwayland-apps)
+- [79.9 Advanced: Per-Window IME Toggle with Hyprland](#799-advanced-per-window-ime-toggle-with-hyprland)
+- [79.10 Troubleshooting](#7910-troubleshooting)
+  - [Diagnostic First Steps](#diagnostic-first-steps)
+  - [IME Has No Effect / Ctrl+Space Does Nothing](#ime-has-no-effect-ctrlspace-does-nothing)
+  - [Works in Some Apps But Not Others](#works-in-some-apps-but-not-others)
+  - [Candidate Window Not Appearing / Appearing in Wrong Position](#candidate-window-not-appearing-appearing-in-wrong-position)
+  - [Qt Apps Not Working on Wayland Native Mode](#qt-apps-not-working-on-wayland-native-mode)
+  - [Fcitx5 Crashes or Fails to Start](#fcitx5-crashes-or-fails-to-start)
+  - [Environment Variables Not Reaching Apps](#environment-variables-not-reaching-apps)
+
+---
+
+
 ## Overview
 
 IMEs (Input Method Editors) allow typing in CJK (Chinese/Japanese/Korean), Arabic, Indic

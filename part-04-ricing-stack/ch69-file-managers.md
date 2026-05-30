@@ -1,5 +1,24 @@
 # Chapter 69 — File Managers: Yazi, Thunar, Dolphin, lf
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [69.1 The Landscape](#691-the-landscape)
+  - [69.2 Yazi — The Modern TUI File Manager](#692-yazi-the-modern-tui-file-manager)
+  - [69.3 lf — The Veteran TUI Manager](#693-lf-the-veteran-tui-manager)
+  - [69.4 Thunar — Lightweight GUI Manager](#694-thunar-lightweight-gui-manager)
+  - [69.5 Dolphin — Qt6 Feature-Rich Manager](#695-dolphin-qt6-feature-rich-manager)
+  - [69.6 nnn — Ultraminimal TUI Manager](#696-nnn-ultraminimal-tui-manager)
+  - [69.7 Mounting Drives Without Polkit](#697-mounting-drives-without-polkit)
+  - [69.8 File Association on Wayland](#698-file-association-on-wayland)
+  - [69.9 Thumbnail Caching and Management](#699-thumbnail-caching-and-management)
+  - [69.10 Integrating File Managers with Your Wayland Compositor](#6910-integrating-file-managers-with-your-wayland-compositor)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 File managers on Wayland behave like any other GTK/Qt application — there are no

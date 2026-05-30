@@ -1,5 +1,41 @@
 # Chapter 52 — xdg-desktop-portal: Screen Sharing, File Chooser, Settings
 
+## Contents
+
+- [Overview](#overview)
+- [52.1 What xdg-desktop-portal Is](#521-what-xdg-desktop-portal-is)
+- [52.2 The Backend Architecture](#522-the-backend-architecture)
+- [52.3 Installation](#523-installation)
+  - [Arch Linux](#arch-linux)
+  - [Fedora / RHEL](#fedora-rhel)
+  - [NixOS (declarative)](#nixos-declarative)
+  - [Manual / Source Build (advanced)](#manual-source-build-advanced)
+- [52.4 Portal Configuration File](#524-portal-configuration-file)
+- [52.5 Portal Interfaces Reference](#525-portal-interfaces-reference)
+- [52.6 The Settings Portal and Dark Mode](#526-the-settings-portal-and-dark-mode)
+- [52.7 Screen Sharing Setup (WebRTC and OBS)](#527-screen-sharing-setup-webrtc-and-obs)
+  - [Prerequisites](#prerequisites)
+  - [Firefox Configuration](#firefox-configuration)
+  - [Chromium / Chrome Configuration](#chromium-chrome-configuration)
+  - [OBS Studio](#obs-studio)
+  - [Testing Screen Share from CLI](#testing-screen-share-from-cli)
+- [52.8 Session Startup and Service Ordering](#528-session-startup-and-service-ordering)
+- [52.9 Flatpak and Portal Permissions](#529-flatpak-and-portal-permissions)
+- [52.10 Writing a Custom Portal Backend](#5210-writing-a-custom-portal-backend)
+- [52.11 Advanced: PipeWire Integration for ScreenCast](#5211-advanced-pipewire-integration-for-screencast)
+- [52.12 Troubleshooting](#5212-troubleshooting)
+  - [Step 1: Check Service Status](#step-1-check-service-status)
+  - [Step 2: Verify Environment Variables](#step-2-verify-environment-variables)
+  - [Step 3: Run Portal in Debug Mode](#step-3-run-portal-in-debug-mode)
+  - [Step 4: Test Portal Interfaces Directly via D-Bus](#step-4-test-portal-interfaces-directly-via-d-bus)
+  - [Step 5: Inspect portals.conf Routing](#step-5-inspect-portalsconf-routing)
+  - [Common Failure Patterns](#common-failure-patterns)
+  - [Hard Reset Procedure](#hard-reset-procedure)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 xdg-desktop-portal (XDP) is the D-Bus middleware layer that sandboxed and native Wayland

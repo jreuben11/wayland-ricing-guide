@@ -1,5 +1,49 @@
 # Chapter 37 — Icon Packs, Cursors, and Fonts
 
+## Contents
+
+- [Overview](#overview)
+- [37.1 Icon Themes](#371-icon-themes)
+  - [How Icon Themes Work](#how-icon-themes-work)
+  - [Popular Icon Themes](#popular-icon-themes)
+  - [Installing Icon Themes](#installing-icon-themes)
+  - [Setting the Icon Theme](#setting-the-icon-theme)
+- [37.2 Cursor Themes](#372-cursor-themes)
+  - [Cursor Theme Structure](#cursor-theme-structure)
+  - [Popular Cursor Themes](#popular-cursor-themes)
+  - [Installing Cursor Themes](#installing-cursor-themes)
+  - [Setting Cursors on Wayland](#setting-cursors-on-wayland)
+  - [XWayland Cursor Size Mismatch Fix](#xwayland-cursor-size-mismatch-fix)
+- [37.3 Font Selection for Ricing](#373-font-selection-for-ricing)
+  - [Font Categories and Their Roles](#font-categories-and-their-roles)
+  - [Nerd Fonts](#nerd-fonts)
+  - [Fontconfig Configuration](#fontconfig-configuration)
+  - [Font Rendering on HiDPI](#font-rendering-on-hidpi)
+- [37.4 Terminal Font Rendering](#374-terminal-font-rendering)
+  - [Kitty](#kitty)
+  - [Alacritty](#alacritty)
+  - [Foot](#foot)
+  - [WezTerm](#wezterm)
+  - [Font Size Guidelines](#font-size-guidelines)
+- [37.5 Emoji Support](#375-emoji-support)
+  - [Installing Emoji Fonts](#installing-emoji-fonts)
+  - [Fontconfig Emoji Fallback](#fontconfig-emoji-fallback)
+  - [Terminal Emoji Rendering](#terminal-emoji-rendering)
+- [37.6 Managing Fonts with fc-query and fc-list](#376-managing-fonts-with-fc-query-and-fc-list)
+- [37.7 Applying Themes with nwg-look](#377-applying-themes-with-nwg-look)
+- [Troubleshooting](#troubleshooting)
+  - [Icons Not Updating After Theme Change](#icons-not-updating-after-theme-change)
+  - [Wrong Icon Theme in Flatpak Apps](#wrong-icon-theme-in-flatpak-apps)
+  - [Cursor Theme Not Applying to Some Apps](#cursor-theme-not-applying-to-some-apps)
+  - [Cursor Too Small/Large on HiDPI](#cursor-too-smalllarge-on-hidpi)
+  - [Font Not Found in Terminal](#font-not-found-in-terminal)
+  - [Fontconfig Cache Stale](#fontconfig-cache-stale)
+  - [Emoji Showing as Boxes or Monochrome](#emoji-showing-as-boxes-or-monochrome)
+  - [GTK Apps Ignoring settings.ini](#gtk-apps-ignoring-settingsini)
+
+---
+
+
 ## Overview
 
 Icons, cursors, and fonts are the finishing touches that unify a rice. Together they form the visual language of the desktop: icons communicate application identity and action semantics, cursors provide haptic-like feedback for pointer interactions, and fonts govern readability and aesthetic tone across every surface. Getting these three elements to harmonize — and to render consistently across GTK apps, Qt apps, Electron shells, terminals, and Wayland-native clients — requires understanding several layered subsystems that often interact in non-obvious ways.

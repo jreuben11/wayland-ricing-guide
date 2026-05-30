@@ -1,5 +1,27 @@
 # Chapter 129 — Firefox userChrome.css: Deep Browser Ricing
 
+## Contents
+
+- [Overview](#overview)
+- [129.1 Enabling userChrome.css](#1291-enabling-userchromecss)
+- [129.2 Finding Selectors with the Browser Toolbox](#1292-finding-selectors-with-the-browser-toolbox)
+- [129.3 Compact / Ultra-Compact Mode](#1293-compact-ultra-compact-mode)
+- [129.4 Hiding the Tab Bar (Tree Style Tab / Vertical Tabs)](#1294-hiding-the-tab-bar-tree-style-tab-vertical-tabs)
+  - [For Tree Style Tab extension](#for-tree-style-tab-extension)
+  - [For Firefox 133+ native vertical tabs](#for-firefox-133-native-vertical-tabs)
+  - [Sidebar width tuning](#sidebar-width-tuning)
+- [129.5 Tokyo Night Theme](#1295-tokyo-night-theme)
+- [129.6 Cyberpunk Neon Theme](#1296-cyberpunk-neon-theme)
+- [129.7 userContent.css: New Tab and About Pages](#1297-usercontentcss-new-tab-and-about-pages)
+- [129.8 Pre-made Theme Frameworks](#1298-pre-made-theme-frameworks)
+- [129.9 Firefox Color Extension vs. Manual CSS](#1299-firefox-color-extension-vs-manual-css)
+- [129.10 CSD and Wayland Window Controls](#12910-csd-and-wayland-window-controls)
+- [129.11 Useful about:config Flags](#12911-useful-aboutconfig-flags)
+- [129.12 Integrating with pywal / matugen](#12912-integrating-with-pywal-matugen)
+
+---
+
+
 ## Overview
 
 Firefox exposes its entire UI as styleable XUL/HTML elements, accessible via `userChrome.css` for the browser chrome (toolbars, tabs, menus) and `userContent.css` for page content (new-tab page, about: pages). This makes Firefox the most thoroughly riceable browser on Linux — every pixel of the interface can be restyled to match your desktop aesthetic. This chapter covers the mechanics of the system, writing selectors using the browser toolbox, pre-made theme frameworks, and complete Tokyo Night and Cyberpunk examples.

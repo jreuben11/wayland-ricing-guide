@@ -1,5 +1,38 @@
 # Chapter 36 — Qt and KDE Theming: Kvantum, qt5ct/qt6ct
 
+## Contents
+
+- [Overview](#overview)
+- [36.1 Qt Theme Mechanisms](#361-qt-theme-mechanisms)
+- [36.2 qt5ct and qt6ct](#362-qt5ct-and-qt6ct)
+- [36.3 Kvantum — SVG-Based Qt Theme Engine](#363-kvantum-svg-based-qt-theme-engine)
+  - [Installing Kvantum](#installing-kvantum)
+  - [Kvantum Theme Locations](#kvantum-theme-locations)
+  - [Kvantum Manager GUI](#kvantum-manager-gui)
+  - [Popular Kvantum Themes](#popular-kvantum-themes)
+  - [Writing a Custom Kvantum Theme](#writing-a-custom-kvantum-theme)
+- [36.4 Environment Variables for Qt on Wayland](#364-environment-variables-for-qt-on-wayland)
+  - [Hyprland](#hyprland)
+  - [Sway](#sway)
+  - [Shell Profile (Fallback)](#shell-profile-fallback)
+- [36.5 Breeze for Non-KDE Setups](#365-breeze-for-non-kde-setups)
+- [36.6 Home Manager Qt Configuration](#366-home-manager-qt-configuration)
+- [36.7 Fonts for Qt and GTK](#367-fonts-for-qt-and-gtk)
+  - [Installing Fonts](#installing-fonts)
+  - [Fontconfig Configuration](#fontconfig-configuration)
+  - [DPI Configuration](#dpi-configuration)
+- [36.8 Consistent Look Across GTK and Qt](#368-consistent-look-across-gtk-and-qt)
+- [Troubleshooting](#troubleshooting)
+  - [Qt apps ignore QT_QPA_PLATFORMTHEME](#qt-apps-ignore-qtqpaplatformtheme)
+  - [Kvantum theme not visible / Fusion style shown](#kvantum-theme-not-visible-fusion-style-shown)
+  - [Qt apps crash or show blank windows on Wayland](#qt-apps-crash-or-show-blank-windows-on-wayland)
+  - [Font rendering differs between Qt and GTK](#font-rendering-differs-between-qt-and-gtk)
+  - [Kvantum compositor effects (blur/transparency) not working](#kvantum-compositor-effects-blurtransparency-not-working)
+  - [qt5ct/qt6ct GUI won't launch](#qt5ctqt6ct-gui-wont-launch)
+
+---
+
+
 ## Overview
 
 Qt applications require a completely separate theming pipeline from GTK applications. While GTK apps respond to `~/.config/gtk-3.0/gtk.css` and related files, Qt uses its own style engine, platform theme plugins, and configuration format. On a non-KDE Wayland compositor such as Hyprland, Sway, or River, there is no KDE Plasma session running to push Qt theming defaults — so every Qt application will render with bare-bones Fusion style unless you configure the stack manually.

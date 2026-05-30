@@ -1,5 +1,25 @@
 # Chapter 137 — Touch Gestures on Wayland: Native and libinput
 
+## Contents
+
+- [Overview](#overview)
+- [137.1 Native Gestures: Hyprland](#1371-native-gestures-hyprland)
+  - [Four-Finger Gestures (via hyprexpo)](#four-finger-gestures-via-hyprexpo)
+  - [Pinch-to-Zoom (via cursor:zoom_factor)](#pinch-to-zoom-via-cursorzoomfactor)
+- [137.2 Native Gestures: Niri](#1372-native-gestures-niri)
+- [137.3 Sway: No Native Gestures](#1373-sway-no-native-gestures)
+- [137.4 libinput-gestures (Universal Fallback)](#1374-libinput-gestures-universal-fallback)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Compositor-Specific Swipe Commands](#compositor-specific-swipe-commands)
+  - [Running as a Service](#running-as-a-service)
+- [137.5 touchegg (X11-Style Gesture Daemon)](#1375-touchegg-x11-style-gesture-daemon)
+- [137.6 libinput Touchpad Configuration Reference](#1376-libinput-touchpad-configuration-reference)
+- [137.7 Gesture Conflict: Compositor vs Userspace](#1377-gesture-conflict-compositor-vs-userspace)
+
+---
+
+
 ## Overview
 
 Touchpad gesture support on Wayland comes in two flavors: compositor-native gestures built directly into the compositor (zero latency, no extra daemon) and userspace tools like `libinput-gestures` that translate raw libinput events into actions. This chapter covers Hyprland's native gesture system, Sway's workarounds, Niri's gestures, and how to configure `libinput-gestures` and `touchegg` as fallbacks for compositors without native support.

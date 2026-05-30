@@ -1,5 +1,52 @@
 # Chapter 30 — Screen Locking: hyprlock, swaylock, gtklock
 
+## Contents
+
+- [Overview](#overview)
+- [30.1 The Session Lock Protocol](#301-the-session-lock-protocol)
+- [30.2 hyprlock — GPU-Accelerated and Beautiful](#302-hyprlock-gpu-accelerated-and-beautiful)
+  - [Installation](#installation)
+  - [Basic Configuration](#basic-configuration)
+  - [Dynamic Labels and Shell Commands](#dynamic-labels-and-shell-commands)
+  - [Per-Monitor Backgrounds](#per-monitor-backgrounds)
+  - [Shape Elements](#shape-elements)
+- [30.3 swaylock — The Standard](#303-swaylock-the-standard)
+  - [Installation](#installation)
+  - [Basic CLI Usage](#basic-cli-usage)
+  - [Configuration File](#configuration-file)
+  - [swaylock-effects: Blur and Clock](#swaylock-effects-blur-and-clock)
+  - [swayidle Integration](#swayidle-integration)
+- [30.4 gtklock — GTK-Based with Modules](#304-gtklock-gtk-based-with-modules)
+  - [Installation](#installation)
+  - [Base Configuration](#base-configuration)
+  - [CSS Theming](#css-theming)
+  - [Launching gtklock with Modules at Runtime](#launching-gtklock-with-modules-at-runtime)
+- [30.5 Quickshell Lockscreen (See Ch 24)](#305-quickshell-lockscreen-see-ch-24)
+- [30.6 Idle Management](#306-idle-management)
+  - [hypridle](#hypridle)
+  - [swayidle (Non-Hyprland)](#swayidle-non-hyprland)
+  - [Idle Inhibition](#idle-inhibition)
+  - [`loginctl lock-session` vs Direct Locker](#loginctl-lock-session-vs-direct-locker)
+- [30.7 DPMS and Screen Blanking](#307-dpms-and-screen-blanking)
+  - [Hyprland](#hyprland)
+  - [wlroots / sway](#wlroots-sway)
+  - [Preventing Blanking During Presentations](#preventing-blanking-during-presentations)
+  - [wlr-output-power-management Protocol](#wlr-output-power-management-protocol)
+- [30.8 Locking on Suspend and Before Sleep](#308-locking-on-suspend-and-before-sleep)
+  - [systemd-inhibit + logind](#systemd-inhibit-logind)
+  - [PAM Configuration](#pam-configuration)
+- [Troubleshooting](#troubleshooting)
+  - [hyprlock / swaylock fails to lock — "session lock not supported"](#hyprlock-swaylock-fails-to-lock-session-lock-not-supported)
+  - [Lock screen appears but input is not captured](#lock-screen-appears-but-input-is-not-captured)
+  - [hyprlock exits immediately / crashes on startup](#hyprlock-exits-immediately-crashes-on-startup)
+  - [swayidle / hypridle not triggering](#swayidle-hypridle-not-triggering)
+  - [Screen does not lock before suspend](#screen-does-not-lock-before-suspend)
+  - [gtklock modules not loading](#gtklock-modules-not-loading)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 Screen locking is one of the most security-sensitive aspects of a desktop environment, and Wayland's protocol design makes it fundamentally more robust than anything achievable on X11. On X11, any sufficiently privileged process could theoretically draw over a lock screen or intercept input; on Wayland, the compositor itself enforces the locked state at the protocol level, making bypass attacks structurally impossible without exploiting the compositor binary itself.

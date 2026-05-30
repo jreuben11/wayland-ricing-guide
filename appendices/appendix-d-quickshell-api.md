@@ -1,5 +1,54 @@
 # Appendix D — Quickshell API Quick Reference
 
+## Contents
+
+- [Import Map](#import-map)
+- [Entry Point](#entry-point)
+- [Quickshell (Core)](#quickshell-core)
+  - [Global Singleton: `Quickshell`](#global-singleton-quickshell)
+  - [QsScreen](#qsscreen)
+  - [Window Types](#window-types)
+  - [PanelWindow](#panelwindow)
+  - [Multi-monitor with Variants](#multi-monitor-with-variants)
+  - [Utility Types](#utility-types)
+  - [pragma Singleton](#pragma-singleton)
+- [Quickshell.Io](#quickshellio)
+  - [Process](#process)
+  - [StdioCollector vs SplitParser](#stdiocollector-vs-splitparser)
+  - [FileView](#fileview)
+  - [Socket (Unix Socket Client)](#socket-unix-socket-client)
+  - [IpcHandler (External IPC Server)](#ipchandler-external-ipc-server)
+- [Quickshell.Wayland](#quickshellwayland)
+  - [ToplevelManager — Window Taskbar](#toplevelmanager-window-taskbar)
+  - [WlSessionLock — Lockscreen](#wlsessionlock-lockscreen)
+  - [ScreencopyView — Live Screen Capture](#screencopyview-live-screen-capture)
+- [Quickshell.Hyprland](#quickshellhyprland)
+  - [Accessing Hyprland State](#accessing-hyprland-state)
+  - [HyprlandMonitor](#hyprlandmonitor)
+  - [HyprlandWorkspace](#hyprlandworkspace)
+  - [HyprlandWindow](#hyprlandwindow)
+  - [Dispatching and Keywords](#dispatching-and-keywords)
+  - [Global Shortcuts](#global-shortcuts)
+  - [HyprlandEvent — Raw Events](#hyprlandevent-raw-events)
+- [Quickshell.I3 (Sway)](#quickshelli3-sway)
+- [Quickshell.Services.Notifications](#quickshellservicesnotifications)
+- [Quickshell.Services.Mpris](#quickshellservicesmpris)
+- [Quickshell.Services.Pipewire](#quickshellservicespipewire)
+- [Quickshell.Services.UPower](#quickshellservicesupower)
+- [Quickshell.Services.SystemTray](#quickshellservicessystemtray)
+- [Quickshell.Services.Pam (Lockscreen)](#quickshellservicespam-lockscreen)
+- [Quickshell.Services.Greetd (Login Greeter)](#quickshellservicesgreetd-login-greeter)
+- [Quickshell.Widgets](#quickshellwidgets)
+- [DBusMenu](#dbusmenu)
+- [Common Reactive Patterns](#common-reactive-patterns)
+  - [Null-safe chaining](#null-safe-chaining)
+  - [Computed property with complex logic](#computed-property-with-complex-logic)
+  - [Polling with a Timer](#polling-with-a-timer)
+  - [One-liner Process output](#one-liner-process-output)
+
+---
+
+
 ## Import Map
 
 ```qml

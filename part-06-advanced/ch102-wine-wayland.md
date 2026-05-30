@@ -1,5 +1,32 @@
 # Chapter 102 — Wine Wayland: Native Windows Apps Without XWayland
 
+## Contents
+
+- [Overview](#overview)
+- [102.1 The Old Problem](#1021-the-old-problem)
+- [102.2 Installation](#1022-installation)
+  - [Arch Linux](#arch-linux)
+  - [Verifying the driver build](#verifying-the-driver-build)
+- [102.3 Running Wine Apps on Wayland](#1023-running-wine-apps-on-wayland)
+  - [Method 1: WAYLAND_DISPLAY environment variable](#method-1-waylanddisplay-environment-variable)
+  - [Method 2: winecfg per-prefix configuration](#method-2-winecfg-per-prefix-configuration)
+  - [Method 3: Shell wrapper](#method-3-shell-wrapper)
+- [102.4 Hyprland Window Rules for Wine Apps](#1024-hyprland-window-rules-for-wine-apps)
+- [102.5 Steam and Proton](#1025-steam-and-proton)
+  - [Proton with Wayland](#proton-with-wayland)
+  - [Which Proton version](#which-proton-version)
+  - [gamescope as fallback](#gamescope-as-fallback)
+- [102.6 DXVK and VKD3D-Proton](#1026-dxvk-and-vkd3d-proton)
+  - [Vulkan layer for frame timing](#vulkan-layer-for-frame-timing)
+- [102.7 HiDPI and Fractional Scaling](#1027-hidpi-and-fractional-scaling)
+- [102.8 Clipboard and IME](#1028-clipboard-and-ime)
+- [102.9 Lutris Configuration](#1029-lutris-configuration)
+- [102.10 Current Limitations (Wine 9.x)](#10210-current-limitations-wine-9x)
+- [102.11 Debugging](#10211-debugging)
+
+---
+
+
 ## Overview
 
 Wine 9.0 merged a native Wayland backend that renders Windows applications

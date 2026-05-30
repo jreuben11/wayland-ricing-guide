@@ -1,5 +1,52 @@
 # Chapter 68 — COSMIC Desktop: System76's Rust DE
 
+## Contents
+
+- [Overview](#overview)
+- [68.1 Why COSMIC Is Different](#681-why-cosmic-is-different)
+- [68.2 Installation](#682-installation)
+  - [68.2.1 Pop!_OS](#6821-popos)
+  - [68.2.2 Arch Linux and Arch-Based Distributions](#6822-arch-linux-and-arch-based-distributions)
+  - [68.2.3 NixOS](#6823-nixos)
+  - [68.2.4 Fedora / openSUSE / Debian](#6824-fedora-opensuse-debian)
+- [68.3 cosmic-comp: The Compositor](#683-cosmic-comp-the-compositor)
+  - [68.3.1 Architecture](#6831-architecture)
+  - [68.3.2 Config File Location and Schema](#6832-config-file-location-and-schema)
+  - [68.3.3 Keyboard Shortcuts](#6833-keyboard-shortcuts)
+  - [68.3.4 XKB Configuration](#6834-xkb-configuration)
+- [68.4 COSMIC Panel](#684-cosmic-panel)
+  - [68.4.1 Panel Configuration](#6841-panel-configuration)
+  - [68.4.2 Adding a Dock](#6842-adding-a-dock)
+  - [68.4.3 Writing a Custom Applet](#6843-writing-a-custom-applet)
+- [68.5 COSMIC Theming](#685-cosmic-theming)
+  - [68.5.1 Theme Files](#6851-theme-files)
+  - [68.5.2 Applying Themes via Settings](#6852-applying-themes-via-settings)
+  - [68.5.3 Cursor and Icon Themes](#6853-cursor-and-icon-themes)
+- [68.6 App Toolkit: iced + libcosmic](#686-app-toolkit-iced-libcosmic)
+  - [68.6.1 iced Overview](#6861-iced-overview)
+  - [68.6.2 Available COSMIC Applications](#6862-available-cosmic-applications)
+  - [68.6.3 Using cosmic-term](#6863-using-cosmic-term)
+- [68.7 COSMIC vs. the Alternatives](#687-cosmic-vs-the-alternatives)
+- [68.8 Multi-Monitor and Fractional Scaling](#688-multi-monitor-and-fractional-scaling)
+  - [68.8.1 Configuring Displays](#6881-configuring-displays)
+  - [68.8.2 Variable Refresh Rate (VRR/Adaptive Sync)](#6882-variable-refresh-rate-vrradaptive-sync)
+- [68.9 GPU Considerations](#689-gpu-considerations)
+  - [68.9.1 AMD (Recommended)](#6891-amd-recommended)
+  - [68.9.2 Intel (Integrated and Arc)](#6892-intel-integrated-and-arc)
+  - [68.9.3 NVIDIA](#6893-nvidia)
+- [68.10 Status and Roadmap (2025–2026)](#6810-status-and-roadmap-2025-2026)
+- [68.11 Troubleshooting](#6811-troubleshooting)
+  - [Compositor Does Not Start / Black Screen](#compositor-does-not-start-black-screen)
+  - [Settings Changes Not Taking Effect](#settings-changes-not-taking-effect)
+  - [Panel Applet Not Appearing](#panel-applet-not-appearing)
+  - [XWayland Apps Crash or Freeze](#xwayland-apps-crash-or-freeze)
+  - [NVIDIA: Screen Tearing or Blank Output](#nvidia-screen-tearing-or-blank-output)
+  - [Font Rendering Issues](#font-rendering-issues)
+- [Cross-References](#cross-references)
+
+---
+
+
 ## Overview
 
 COSMIC is System76's new desktop environment written entirely in Rust, built on

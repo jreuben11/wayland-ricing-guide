@@ -5,6 +5,49 @@ with a one-line description and the chapter(s) where it is covered in depth.
 
 ---
 
+## Contents
+
+- [A](#a)
+- [B](#b)
+- [C](#c)
+- [D](#d)
+- [E](#e)
+- [F](#f)
+- [G](#g)
+- [H](#h)
+- [I](#i)
+- [J](#j)
+- [K](#k)
+- [L](#l)
+- [M](#m)
+- [N](#n)
+- [O](#o)
+- [P](#p)
+- [Q](#q)
+- [R](#r)
+- [S](#s)
+- [T](#t)
+- [U](#u)
+- [V](#v)
+- [W](#w)
+- [X](#x)
+- [Y](#y)
+- [Z](#z)
+- [Quick Reference: Tool Categories](#quick-reference-tool-categories)
+  - [Compositor control](#compositor-control)
+  - [Screenshots and recording](#screenshots-and-recording)
+  - [Theming and color](#theming-and-color)
+  - [System monitoring](#system-monitoring)
+  - [Audio](#audio)
+  - [Network](#network)
+  - [Bluetooth](#bluetooth)
+  - [Dotfiles](#dotfiles)
+  - [Testing and automation](#testing-and-automation)
+  - [D-Bus and IPC](#d-bus-and-ipc)
+
+---
+
+
 ## A
 
 | Tool | Description | Chapter(s) |

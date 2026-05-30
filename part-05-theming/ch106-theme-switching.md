@@ -1,5 +1,23 @@
 # Chapter 106 — Automated Theme Switching
 
+## Contents
+
+- [Overview](#overview)
+- [106.1 Theme Directory Structure](#1061-theme-directory-structure)
+  - [`theme.env` — theme variables](#themeenv-theme-variables)
+- [106.2 The Switch Script](#1062-the-switch-script)
+  - [Hyprland keybind](#hyprland-keybind)
+- [106.3 Hyprland Colour Config Files](#1063-hyprland-colour-config-files)
+- [106.4 Alacritty with Theme Include](#1064-alacritty-with-theme-include)
+- [106.5 Time-Based Auto-Switching with systemd](#1065-time-based-auto-switching-with-systemd)
+  - [Timers for dark/light mode](#timers-for-darklight-mode)
+  - [Geoclue-aware switching (sunrise/sunset by location)](#geoclue-aware-switching-sunrisesunset-by-location)
+- [106.6 Quickshell Reactive Theme](#1066-quickshell-reactive-theme)
+- [106.7 NixOS: Declarative Theme Switching](#1067-nixos-declarative-theme-switching)
+
+---
+
+
 ## Overview
 
 A static rice is good. A rice that flips between a light and dark theme in one

@@ -6,6 +6,23 @@ The mechanisms described here are the same ones used to build `xdg-shell`, `wlr-
 
 ---
 
+## Contents
+
+- [46.1 When to Write a Protocol Extension](#461-when-to-write-a-protocol-extension)
+- [46.2 Protocol XML Anatomy](#462-protocol-xml-anatomy)
+- [46.3 Generating Code with wayland-scanner](#463-generating-code-with-wayland-scanner)
+- [46.4 Client-Side Implementation](#464-client-side-implementation)
+- [46.5 Server-Side Implementation in wlroots](#465-server-side-implementation-in-wlroots)
+- [46.6 Protocol Versioning](#466-protocol-versioning)
+- [46.7 Real-World Example: Full Blur Protocol Walkthrough](#467-real-world-example-full-blur-protocol-walkthrough)
+- [46.8 Protocol Versioning Best Practices](#468-protocol-versioning-best-practices)
+- [46.9 Upstreaming Protocols](#469-upstreaming-protocols)
+- [46.10 Testing and Debugging Protocol Extensions](#4610-testing-and-debugging-protocol-extensions)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## 46.1 When to Write a Protocol Extension
 
 The first question to ask before writing a new protocol is whether an existing one already covers your use case. The `wayland-protocols` repository provides stable, staging, and deprecated protocol definitions maintained by the freedesktop.org community. The `wlr-protocols` repository covers wlroots-specific extensions such as `wlr-layer-shell-unstable-v1` and `wlr-screencopy-unstable-v1`. Hyprland maintains its own `hyprland-protocols` repository for compositor-private extensions. Only write a new protocol when none of these adequately address your requirements.

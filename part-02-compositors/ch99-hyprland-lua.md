@@ -1,5 +1,52 @@
 # Chapter 99 — Hyprland Lua Configuration
 
+## Contents
+
+- [Overview](#overview)
+- [99.1 Setup](#991-setup)
+  - [File location](#file-location)
+  - [The `hl` global](#the-hl-global)
+  - [IDE support](#ide-support)
+- [99.2 Core Configuration — `hl.config()`](#992-core-configuration-hlconfig)
+- [99.3 Monitors — `hl.monitor()`](#993-monitors-hlmonitor)
+- [99.4 Keybinds — `hl.bind()` and `hl.dsp.*`](#994-keybinds-hlbind-and-hldsp)
+  - [Basic syntax](#basic-syntax)
+  - [Bind options](#bind-options)
+  - [Generating workspace binds with a loop](#generating-workspace-binds-with-a-loop)
+  - [Binding to a plain Lua function](#binding-to-a-plain-lua-function)
+  - [Submaps (modal keybinds)](#submaps-modal-keybinds)
+  - [Unbind](#unbind)
+- [99.5 Dispatcher Reference (`hl.dsp.*`)](#995-dispatcher-reference-hldsp)
+  - [Window (`hl.dsp.window.*`)](#window-hldspwindow)
+  - [Workspace (`hl.dsp.workspace.*`)](#workspace-hldspworkspace)
+  - [Focus (`hl.dsp.focus.*`)](#focus-hldspfocus)
+  - [Top-level dispatchers](#top-level-dispatchers)
+- [99.6 Window Rules — `hl.window_rule()`](#996-window-rules-hlwindowrule)
+  - [Layer rules — `hl.layer_rule()`](#layer-rules-hllayerrule)
+  - [Workspace rules — `hl.workspace_rule()`](#workspace-rules-hlworkspacerule)
+- [99.7 Autostart — `hl.on("hyprland.start", fn)`](#997-autostart-hlonhyprlandstart-fn)
+- [99.8 Environment Variables — `hl.env()`](#998-environment-variables-hlenv)
+- [99.9 Splitting Config with `require()`](#999-splitting-config-with-require)
+- [99.10 Lua-Specific Power Patterns](#9910-lua-specific-power-patterns)
+  - [Conditional config by hostname](#conditional-config-by-hostname)
+  - [Reusable bind group function](#reusable-bind-group-function)
+  - [Per-app window rule generator](#per-app-window-rule-generator)
+  - [Reading environment at startup](#reading-environment-at-startup)
+- [99.11 The Event System](#9911-the-event-system)
+  - [Full event list](#full-event-list)
+- [99.12 Timers](#9912-timers)
+- [99.13 Notifications — `hl.notification.create()`](#9913-notifications-hlnotificationcreate)
+- [99.14 Permissions — `hl.permission()`](#9914-permissions-hlpermission)
+- [99.15 Animations — `hl.curve()` and `hl.animation()`](#9915-animations-hlcurve-and-hlanimation)
+- [99.16 Migration from hyprlang `.conf`](#9916-migration-from-hyprlang-conf)
+  - [Automatic migration (recommended)](#automatic-migration-recommended)
+  - [Manual translation reference](#manual-translation-reference)
+  - [Timeline](#timeline)
+- [99.17 Complete Minimal Config](#9917-complete-minimal-config)
+
+---
+
+
 ## Overview
 
 Hyprland 0.55.0 (May 2026) introduced Lua as the new canonical configuration

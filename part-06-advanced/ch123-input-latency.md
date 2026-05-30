@@ -1,5 +1,25 @@
 # Chapter 123 — Input Latency Measurement on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [123.1 Where Latency Hides](#1231-where-latency-hides)
+- [123.2 Kernel-Level Measurement: evtest](#1232-kernel-level-measurement-evtest)
+  - [Automated Latency Sampling Script](#automated-latency-sampling-script)
+- [123.3 libinput Timestamp Analysis](#1233-libinput-timestamp-analysis)
+- [123.4 Compositor-to-Display Latency: wev + Frame Timing](#1234-compositor-to-display-latency-wev-frame-timing)
+- [123.5 End-to-End Measurement: Camera Method](#1235-end-to-end-measurement-camera-method)
+- [123.6 Latency Reduction Techniques](#1236-latency-reduction-techniques)
+  - [Kernel: threadirqs](#kernel-threadirqs)
+  - [Kernel: preempt=full](#kernel-preemptfull)
+  - [USB Polling Rate](#usb-polling-rate)
+  - [Compositor: Reduce Pipeline Stages](#compositor-reduce-pipeline-stages)
+  - [VRR for Latency Reduction](#vrr-for-latency-reduction)
+- [123.7 Latency Profiling Summary](#1237-latency-profiling-summary)
+
+---
+
+
 ## Overview
 
 Wayland compositors often claim lower input latency than X11, but verifying this claim requires concrete measurement tools. This chapter covers the toolchain for measuring input latency on Wayland: from kernel event timestamps through compositor pipeline to display scanout. It also covers practical latency reduction techniques at the kernel, compositor, and hardware levels.

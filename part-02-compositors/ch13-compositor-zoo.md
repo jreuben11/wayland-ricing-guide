@@ -1,5 +1,47 @@
 # Chapter 13 — The Full Zoo: dwl, Jay, cosmic-comp, KWin, GNOME Mutter, gamescope
 
+## Contents
+
+- [Overview](#overview)
+- [13.1 dwl — dwm for Wayland](#131-dwl-dwm-for-wayland)
+  - [Installation](#installation)
+  - [Minimal config.h excerpt](#minimal-configh-excerpt)
+  - [Key properties](#key-properties)
+- [13.2 Jay — Wayland in Rust](#132-jay-wayland-in-rust)
+  - [Installation](#installation)
+  - [Minimal jay config.toml](#minimal-jay-configtoml)
+  - [Key properties](#key-properties)
+- [13.3 cosmic-comp — The COSMIC Desktop Compositor](#133-cosmic-comp-the-cosmic-desktop-compositor)
+  - [Installation](#installation)
+  - [Key properties](#key-properties)
+- [13.4 KWin on Wayland](#134-kwin-on-wayland)
+  - [KWin script — tile new windows to the right half](#kwin-script-tile-new-windows-to-the-right-half)
+  - [Key properties](#key-properties)
+- [13.5 GNOME Mutter/Shell](#135-gnome-muttershell)
+  - [Key GNOME extension management commands](#key-gnome-extension-management-commands)
+  - [Key properties](#key-properties)
+- [13.6 gamescope — The Gaming Compositor](#136-gamescope-the-gaming-compositor)
+  - [Basic usage patterns](#basic-usage-patterns)
+  - [Key properties](#key-properties)
+- [13.7 cage — Kiosk Compositor](#137-cage-kiosk-compositor)
+  - [Installation and usage](#installation-and-usage)
+- [13.8 weston — The Reference Compositor](#138-weston-the-reference-compositor)
+  - [Installation and diagnostic use](#installation-and-diagnostic-use)
+- [13.9 Emerging Compositors (2025/2026)](#139-emerging-compositors-20252026)
+  - [Compositor comparison table (2025 snapshot)](#compositor-comparison-table-2025-snapshot)
+  - [Pinnacle quick start](#pinnacle-quick-start)
+- [Troubleshooting](#troubleshooting)
+  - [Compositor fails to start — no outputs detected](#compositor-fails-to-start-no-outputs-detected)
+  - [XWayland not working (dwl, Jay, cage)](#xwayland-not-working-dwl-jay-cage)
+  - [gamescope black screen / no HDR](#gamescope-black-screen-no-hdr)
+  - [KWin Wayland crashes on NVIDIA](#kwin-wayland-crashes-on-nvidia)
+  - [GNOME extensions breaking after upgrade](#gnome-extensions-breaking-after-upgrade)
+  - [Weston nested mode compositor conflict](#weston-nested-mode-compositor-conflict)
+  - [cage: application exits immediately](#cage-application-exits-immediately)
+
+---
+
+
 ## Overview
 
 Beyond the "big four" ricing compositors (Sway, Hyprland, River, Niri — covered in Chapters 9–12), the

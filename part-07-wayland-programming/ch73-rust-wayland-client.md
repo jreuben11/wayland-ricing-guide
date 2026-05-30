@@ -1,5 +1,22 @@
 # Chapter 73 — Writing Wayland Clients in Rust: wayland-client
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [73.1 The Rust Wayland Ecosystem](#731-the-rust-wayland-ecosystem)
+  - [73.2 Connecting and the Global Registry](#732-connecting-and-the-global-registry)
+  - [73.3 The Dispatch Trait](#733-the-dispatch-trait)
+  - [73.4 Creating a Surface and XDG Window](#734-creating-a-surface-and-xdg-window)
+  - [73.5 Shared Memory Rendering](#735-shared-memory-rendering)
+  - [73.6 Smithay Client Toolkit (SCTK)](#736-smithay-client-toolkit-sctk)
+  - [73.7 Layer Shell in Rust](#737-layer-shell-in-rust)
+  - [73.8 Real-World Rust Wayland Projects](#738-real-world-rust-wayland-projects)
+  - [73.9 Async Wayland with Tokio](#739-async-wayland-with-tokio)
+
+---
+
+
 ## Overview
 The `wayland-client` crate provides safe Rust bindings to the Wayland client
 library. This chapter builds the same minimal window from Ch 4 (C), but in

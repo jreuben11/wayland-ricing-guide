@@ -1,5 +1,28 @@
 # Chapter 50 — Terminal Emulators: Kitty, Alacritty, Foot, WezTerm, Ghostty
 
+## Contents
+
+- [Overview](#overview)
+- [50.1 The Wayland Terminal Landscape](#501-the-wayland-terminal-landscape)
+- [50.2 Kitty — The Feature King](#502-kitty-the-feature-king)
+- [50.3 Alacritty — Minimal and Fast](#503-alacritty-minimal-and-fast)
+- [50.4 Foot — Wayland-Native and Lightweight](#504-foot-wayland-native-and-lightweight)
+- [50.5 WezTerm — Programmable in Lua](#505-wezterm-programmable-in-lua)
+- [50.6 Ghostty — The New Challenger (2024+)](#506-ghostty-the-new-challenger-2024)
+- [50.7 Terminal Comparison Matrix](#507-terminal-comparison-matrix)
+- [50.8 Terminal-Agnostic Configuration Tips](#508-terminal-agnostic-configuration-tips)
+- [50.9 Transparency and Blur](#509-transparency-and-blur)
+- [50.10 Terminal Graphics Protocols: Sixel, Kitty, and iTerm2](#5010-terminal-graphics-protocols-sixel-kitty-and-iterm2)
+  - [Protocol Comparison](#protocol-comparison)
+  - [Sixel in Foot](#sixel-in-foot)
+  - [Kitty Graphics Protocol (icat)](#kitty-graphics-protocol-icat)
+  - [WezTerm: Both Protocols](#wezterm-both-protocols)
+  - [yazi: Terminal File Manager with Image Preview](#yazi-terminal-file-manager-with-image-preview)
+  - [Per-Terminal Ligature Support](#per-terminal-ligature-support)
+
+---
+
+
 ## Overview
 The terminal is the most-looked-at element in any rice. All major modern
 terminals are Wayland-native; the differences lie in GPU backend, font rendering,

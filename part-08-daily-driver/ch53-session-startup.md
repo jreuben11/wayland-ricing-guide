@@ -1,5 +1,24 @@
 # Chapter 53 — Session Startup and Environment: exec-once, dbus, systemd user
 
+## Contents
+
+- [Overview](#overview)
+- [53.1 The Startup Problem](#531-the-startup-problem)
+- [53.2 The Three Startup Layers](#532-the-three-startup-layers)
+- [53.3 systemd User Session](#533-systemd-user-session)
+- [53.4 Environment Variable Propagation](#534-environment-variable-propagation)
+- [53.5 Hyprland exec-once Reference](#535-hyprland-exec-once-reference)
+- [53.6 Sway exec vs exec-once](#536-sway-exec-vs-exec-once)
+- [53.7 Startup Order Best Practices](#537-startup-order-best-practices)
+- [53.8 Using systemd User Services Instead of exec-once](#538-using-systemd-user-services-instead-of-exec-once)
+- [53.9 The ~/.profile / ~/.zprofile Layer](#539-the-profile-zprofile-layer)
+- [53.10 Debugging Startup Issues](#5310-debugging-startup-issues)
+- [Cross-References](#cross-references)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 The most common category of Wayland breakage is startup order: apps launched

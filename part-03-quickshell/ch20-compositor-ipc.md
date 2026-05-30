@@ -1,5 +1,23 @@
 # Chapter 20 — Compositor IPC: Hyprland and i3/Sway Modules
 
+## Contents
+
+- [Overview](#overview)
+- [20.1 Quickshell.Hyprland Module Overview](#201-quickshellhyprland-module-overview)
+- [20.2 HyprlandMonitor](#202-hyprlandmonitor)
+- [20.3 HyprlandWorkspace](#203-hyprlandworkspace)
+- [20.4 HyprlandToplevel (Window Objects)](#204-hyprlandtoplevel-window-objects)
+- [20.5 HyprlandEvent (Raw Event Stream)](#205-hyprlandevent-raw-event-stream)
+- [20.6 HyprlandFocusGrab](#206-hyprlandfocusgrab)
+- [20.7 GlobalShortcut](#207-globalshortcut)
+- [20.8 Dispatching Hyprland Commands](#208-dispatching-hyprland-commands)
+- [20.9 The i3/Sway Module](#209-the-i3sway-module)
+- [20.10 Writing a Workspace Bar: Complete Example](#2010-writing-a-workspace-bar-complete-example)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Quickshell ships with first-class IPC modules for the two most popular tiling Wayland compositors:

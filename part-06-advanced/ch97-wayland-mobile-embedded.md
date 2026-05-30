@@ -1,5 +1,34 @@
 # Chapter 97 — Wayland on Mobile and Embedded: Phosh, Sxmo, Weston Kiosk
 
+## Contents
+
+- [Overview](#overview)
+- [97.1 The Mobile Wayland Stack](#971-the-mobile-wayland-stack)
+- [97.2 Phosh — GNOME Mobile Shell](#972-phosh-gnome-mobile-shell)
+  - [Installing Phosh (on postmarketOS)](#installing-phosh-on-postmarketos)
+  - [Phosh compositor internals](#phosh-compositor-internals)
+  - [Phosh quick settings and notification shade](#phosh-quick-settings-and-notification-shade)
+  - [Adaptive app development for Phosh](#adaptive-app-development-for-phosh)
+- [97.3 Sxmo — Minimalist Mobile UX on Sway](#973-sxmo-minimalist-mobile-ux-on-sway)
+  - [Sxmo architecture](#sxmo-architecture)
+  - [Installing Sxmo](#installing-sxmo)
+  - [Sxmo button map (PinePhone)](#sxmo-button-map-pinephone)
+  - [Customizing Sxmo scripts](#customizing-sxmo-scripts)
+- [97.4 KDE Plasma Mobile](#974-kde-plasma-mobile)
+- [97.5 postmarketOS — Mobile Linux Distribution](#975-postmarketos-mobile-linux-distribution)
+- [97.6 Weston — Reference Compositor for Embedded](#976-weston-reference-compositor-for-embedded)
+  - [Kiosk mode — single-app compositor](#kiosk-mode-single-app-compositor)
+  - [Weston kiosk shell](#weston-kiosk-shell)
+  - [Weston RDP backend (remote kiosk)](#weston-rdp-backend-remote-kiosk)
+- [97.7 Raspberry Pi Wayland Setup](#977-raspberry-pi-wayland-setup)
+  - [Performance on RPi 4/5](#performance-on-rpi-45)
+- [97.8 Embedded Compositor with cage](#978-embedded-compositor-with-cage)
+- [97.9 Input Method on Mobile](#979-input-method-on-mobile)
+- [97.10 Cross-Compiling for ARM](#9710-cross-compiling-for-arm)
+
+---
+
+
 ## Overview
 
 Wayland was designed with mobile and embedded in mind from the start. The same

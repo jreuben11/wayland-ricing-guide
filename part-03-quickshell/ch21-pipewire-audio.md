@@ -1,5 +1,22 @@
 # Chapter 21 — Audio with PipeWire
 
+## Contents
+
+- [Overview](#overview)
+- [21.1 PipeWire Architecture Primer](#211-pipewire-architecture-primer)
+- [21.2 PwNode — Audio Nodes](#212-pwnode-audio-nodes)
+- [21.3 Default Sink and Source](#213-default-sink-and-source)
+- [21.4 PwLink — Audio Routing](#214-pwlink-audio-routing)
+- [21.5 Audio Level Meters](#215-audio-level-meters)
+- [21.6 OSD (On-Screen Display) for Volume](#216-osd-on-screen-display-for-volume)
+- [21.7 Device Enumeration and Switcher](#217-device-enumeration-and-switcher)
+- [21.8 Microphone Privacy Indicator](#218-microphone-privacy-indicator)
+- [21.9 Complete Volume Widget — Putting It Together](#219-complete-volume-widget-putting-it-together)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 The `Quickshell.Services.Pipewire` module provides direct, reactive access to the PipeWire audio

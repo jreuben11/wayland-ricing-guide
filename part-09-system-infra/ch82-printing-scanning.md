@@ -1,5 +1,50 @@
 # Chapter 82 — Printing and Scanning on Wayland
 
+## Contents
+
+- [Overview](#overview)
+- [82.1 CUPS Setup](#821-cups-setup)
+  - [GTK and Qt Print Dialogs on Wayland](#gtk-and-qt-print-dialogs-on-wayland)
+- [82.2 Adding Printers](#822-adding-printers)
+  - [Automatic Discovery via Avahi/mDNS](#automatic-discovery-via-avahimdns)
+  - [Manual HP Printers](#manual-hp-printers)
+  - [Manual Canon, Epson, Brother Printers](#manual-canon-epson-brother-printers)
+  - [Adding a Printer via lpadmin (CLI)](#adding-a-printer-via-lpadmin-cli)
+- [82.3 GUI Print Managers](#823-gui-print-managers)
+  - [system-config-printer (GTK)](#system-config-printer-gtk)
+  - [KDE Printer Manager](#kde-printer-manager)
+  - [GNOME Printers (Settings)](#gnome-printers-settings)
+- [82.4 SANE Scanning](#824-sane-scanning)
+  - [Simple Scan (GUI)](#simple-scan-gui)
+  - [gscan2pdf (Advanced)](#gscan2pdf-advanced)
+  - [XSane (Legacy)](#xsane-legacy)
+- [82.5 Network Scanners](#825-network-scanners)
+  - [eSCL / AirScan (Modern Standard)](#escl-airscan-modern-standard)
+  - [WSD (Windows Scan)](#wsd-windows-scan)
+  - [HP Network Scanners (hplip)](#hp-network-scanners-hplip)
+  - [Epson Network Scanners (epsonscan2)](#epson-network-scanners-epsonscan2)
+- [82.6 Printing via CLI](#826-printing-via-cli)
+  - [Submitting Jobs](#submitting-jobs)
+  - [Queue Management](#queue-management)
+  - [Printer Information](#printer-information)
+  - [Converting and Printing Arbitrary Formats](#converting-and-printing-arbitrary-formats)
+- [82.7 CUPS-PDF Virtual Printer](#827-cups-pdf-virtual-printer)
+- [82.8 SANE Network Daemon (saned)](#828-sane-network-daemon-saned)
+- [82.9 Printer and Scanner Permissions](#829-printer-and-scanner-permissions)
+- [82.10 Comparison of Scanning Frontends](#8210-comparison-of-scanning-frontends)
+- [82.11 Automating Scans with Scripts](#8211-automating-scans-with-scripts)
+- [Troubleshooting](#troubleshooting)
+  - [CUPS web UI not accessible at localhost:631](#cups-web-ui-not-accessible-at-localhost631)
+  - [Printer shows as "stopped" or jobs stuck](#printer-shows-as-stopped-or-jobs-stuck)
+  - [No printers discovered on network](#no-printers-discovered-on-network)
+  - [scanimage -L shows no devices](#scanimage-l-shows-no-devices)
+  - [HP printer/scanner requires proprietary plugin](#hp-printerscanner-requires-proprietary-plugin)
+  - [Canon/Epson AUR driver build failures](#canonepson-aur-driver-build-failures)
+  - [Print quality issues: wrong paper size or scaling](#print-quality-issues-wrong-paper-size-or-scaling)
+
+---
+
+
 ## Overview
 
 Printing and scanning on Linux under Wayland are often treated as afterthoughts, but they deserve careful attention — particularly in riced environments where you control every component of the desktop stack. The good news: neither CUPS (the printing subsystem) nor SANE (the scanning framework) requires Wayland-specific changes at the protocol level. Both operate as daemons that expose either a socket or a network interface, and application GUIs interact with them over those abstractions regardless of the display server.

@@ -1,5 +1,35 @@
 # Chapter 72 — Media Players: mpv, VLC, and Wayland Playback
 
+## Contents
+
+- [Overview](#overview)
+- [Why mpv Dominates Ricing Setups](#why-mpv-dominates-ricing-setups)
+- [Sections](#sections)
+  - [72.1 mpv — The Ricing Standard](#721-mpv-the-ricing-standard)
+  - [72.2 mpv Configuration](#722-mpv-configuration)
+  - [72.3 Custom OSC Themes](#723-custom-osc-themes)
+  - [72.4 mpv Shaders and Upscaling](#724-mpv-shaders-and-upscaling)
+  - [72.5 mpv Scripts](#725-mpv-scripts)
+  - [72.6 mpv IPC and External Control](#726-mpv-ipc-and-external-control)
+  - [72.7 mpv as a Video Wallpaper Backend](#727-mpv-as-a-video-wallpaper-backend)
+  - [72.8 mpv with yt-dlp (YouTube and Streaming)](#728-mpv-with-yt-dlp-youtube-and-streaming)
+  - [72.9 Celluloid — mpv GUI Frontend](#729-celluloid-mpv-gui-frontend)
+  - [72.10 VLC on Wayland](#7210-vlc-on-wayland)
+  - [72.11 MPRIS Integration with Status Bars](#7211-mpris-integration-with-status-bars)
+  - [72.12 Audio-Only Playback and Music Integration](#7212-audio-only-playback-and-music-integration)
+- [Troubleshooting](#troubleshooting)
+  - [mpv opens on the wrong monitor / wrong scale](#mpv-opens-on-the-wrong-monitor-wrong-scale)
+  - [Black screen / no video with VA-API](#black-screen-no-video-with-va-api)
+  - [mpv crashes with Vulkan / waylandvk](#mpv-crashes-with-vulkan-waylandvk)
+  - [VLC does not start on Wayland (crashes at launch)](#vlc-does-not-start-on-wayland-crashes-at-launch)
+  - [mpvpaper causes compositor lag](#mpvpaper-causes-compositor-lag)
+  - [MPRIS2 / playerctl not showing mpv](#mpris2-playerctl-not-showing-mpv)
+  - [yt-dlp not finding videos / format errors](#yt-dlp-not-finding-videos-format-errors)
+- [Cross-References](#cross-references)
+
+---
+
+
 ## Overview
 
 mpv is the media player of the ricing world — scriptable, GPU-accelerated,

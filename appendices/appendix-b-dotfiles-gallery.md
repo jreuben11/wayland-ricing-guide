@@ -8,6 +8,41 @@ Cross-references: See **Chapter 4** for Hyprland compositor fundamentals, **Chap
 
 ---
 
+## Contents
+
+- [Exemplary Quickshell + Hyprland Rices](#exemplary-quickshell-hyprland-rices)
+  - [end_4/dots-hyprland](#end4dots-hyprland)
+  - [outfoxxed's configurations](#outfoxxeds-configurations)
+  - [ekremx25/quickshell](#ekremx25quickshell)
+- [Hyprland + Waybar Rices](#hyprland-waybar-rices)
+  - [notwidgets dotfiles](#notwidgets-dotfiles)
+  - [prasanthrangan/hyprdots (HyDE)](#prasanthranganhyprdots-hyde)
+- [Sway Rices](#sway-rices)
+  - [swaywm example configs](#swaywm-example-configs)
+  - [ben9ex dotfiles](#ben9ex-dotfiles)
+- [NixOS Flake Rices](#nixos-flake-rices)
+  - [Misterio77/nix-config](#misterio77nix-config)
+  - [Frost-Phoenix/nixos-config](#frost-phoenixnixos-config)
+  - [ryan4yin/nix-config](#ryan4yinnix-config)
+- [Niri Rices](#niri-rices)
+- [Finding More Rices](#finding-more-rices)
+  - [Using GitHub Search Effectively](#using-github-search-effectively)
+- [Annotated Dotfile Reading Guide](#annotated-dotfile-reading-guide)
+  - [Step 1: Compositor Configuration](#step-1-compositor-configuration)
+  - [Step 2: Bar Configuration](#step-2-bar-configuration)
+  - [Step 3: Trace the Theme Pipeline](#step-3-trace-the-theme-pipeline)
+  - [Step 4: Map the Startup Sequence](#step-4-map-the-startup-sequence)
+  - [Step 5: Study the Keybindings](#step-5-study-the-keybindings)
+- [Troubleshooting: Cloning and Running Someone Else's Config](#troubleshooting-cloning-and-running-someone-elses-config)
+  - [Missing Fonts](#missing-fonts)
+  - [Missing Dependencies](#missing-dependencies)
+  - [Monitor Name Mismatch](#monitor-name-mismatch)
+  - [Broken Waybar Modules](#broken-waybar-modules)
+  - [Hyprland IPC Version Mismatch](#hyprland-ipc-version-mismatch)
+
+---
+
+
 ## Exemplary Quickshell + Hyprland Rices
 
 Quickshell is a QML-based shell toolkit that has rapidly displaced Waybar and EWW for power users who want composable, animated, stateful widgets. The rices in this section are worth studying precisely because they push Quickshell to its architectural limits, exposing patterns that less sophisticated configurations hide.

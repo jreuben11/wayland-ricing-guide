@@ -1,5 +1,27 @@
 # Chapter 17 — PanelWindow, FloatingWindow, and Window Management
 
+## Contents
+
+- [Overview](#overview)
+- [17.1 PanelWindow — The Ricing Workhorse](#171-panelwindow-the-ricing-workhorse)
+  - [17.1.1 Layer Property Values](#1711-layer-property-values)
+  - [17.1.2 Keyboard Focus Modes](#1712-keyboard-focus-modes)
+- [17.2 FloatingWindow — Standard XDG Toplevels](#172-floatingwindow-standard-xdg-toplevels)
+- [17.3 PopupWindow and Transient Surfaces](#173-popupwindow-and-transient-surfaces)
+- [17.4 Multi-Monitor Patterns with Variants](#174-multi-monitor-patterns-with-variants)
+- [17.5 Screen Management and ShellScreen Properties](#175-screen-management-and-shellscreen-properties)
+- [17.6 Controlling Window Visibility](#176-controlling-window-visibility)
+- [17.7 Worked Example — Top Bar + Slide-In Side Panel](#177-worked-example-top-bar-slide-in-side-panel)
+- [17.8 Z-Ordering and Stacking](#178-z-ordering-and-stacking)
+- [17.9 Advanced PanelWindow Patterns](#179-advanced-panelwindow-patterns)
+  - [Fractional Positioning and HiDPI](#fractional-positioning-and-hidpi)
+  - [Strut-Only Panels (Invisible Space Reservations)](#strut-only-panels-invisible-space-reservations)
+  - [Input Passthrough](#input-passthrough)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Quickshell's window system is built on a direct mapping to Wayland protocols. Where X11 gave every window the same basic shape — a rectangle managed by a single window manager — Wayland splits the concept of "window" into several distinct surface roles, each backed by a dedicated protocol extension. Getting comfortable with these roles and knowing which one to reach for is the single most important prerequisite for building any shell component.

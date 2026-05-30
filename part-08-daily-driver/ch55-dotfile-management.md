@@ -1,5 +1,21 @@
 # Chapter 55 — Dotfile Management: stow, chezmoi, yadm, bare git
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [55.1 The Problem Dotfile Tools Solve](#551-the-problem-dotfile-tools-solve)
+  - [55.2 GNU Stow — Symlink Farm Manager](#552-gnu-stow-symlink-farm-manager)
+  - [55.3 chezmoi — The Feature-Rich Option](#553-chezmoi-the-feature-rich-option)
+  - [55.4 yadm — Yet Another Dotfiles Manager](#554-yadm-yet-another-dotfiles-manager)
+  - [55.5 Bare Git Repository](#555-bare-git-repository)
+  - [55.6 Choosing Your Approach](#556-choosing-your-approach)
+  - [55.7 Sharing Your Rice](#557-sharing-your-rice)
+  - [55.8 What to Track vs. Ignore](#558-what-to-track-vs-ignore)
+
+---
+
+
 ## Overview
 A rice without dotfile management is a rice you'll lose. This chapter covers
 the four dominant approaches to tracking, versioning, and sharing dotfiles.

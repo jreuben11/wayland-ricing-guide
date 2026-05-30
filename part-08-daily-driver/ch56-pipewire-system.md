@@ -1,5 +1,33 @@
 # Chapter 56 — PipeWire System Setup: WirePlumber, EasyEffects, Audio Routing
 
+## Contents
+
+- [Overview](#overview)
+- [56.1 PipeWire Architecture](#561-pipewire-architecture)
+- [56.2 Installation](#562-installation)
+  - [Arch Linux](#arch-linux)
+  - [Ubuntu / Debian](#ubuntu-debian)
+  - [NixOS](#nixos)
+- [56.3 WirePlumber Configuration](#563-wireplumber-configuration)
+- [56.4 pw-top and Monitoring the Audio Graph](#564-pw-top-and-monitoring-the-audio-graph)
+- [56.5 Audio Quality Configuration](#565-audio-quality-configuration)
+- [56.6 EasyEffects — System-Wide Audio EQ and Effects](#566-easyeffects-system-wide-audio-eq-and-effects)
+- [56.7 Bluetooth Audio](#567-bluetooth-audio)
+- [56.8 JACK Applications and Pro Audio](#568-jack-applications-and-pro-audio)
+- [56.9 Screen Recording Audio](#569-screen-recording-audio)
+- [56.10 Troubleshooting Audio](#5610-troubleshooting-audio)
+  - [No Audio Output](#no-audio-output)
+  - [Finding Your Audio Device](#finding-your-audio-device)
+  - [Test Audio Playback](#test-audio-playback)
+  - [Xruns and Crackling Audio](#xruns-and-crackling-audio)
+  - [Bluetooth Audio Issues](#bluetooth-audio-issues)
+  - [WirePlumber Logs](#wireplumber-logs)
+  - [Microphone Not Detected](#microphone-not-detected)
+- [Quick Reference](#quick-reference)
+
+---
+
+
 ## Overview
 
 PipeWire is the universal audio/video server that replaced PulseAudio and JACK on modern Linux systems. It provides a unified API for audio and video processing with compatibility layers for legacy PulseAudio and JACK applications. Ch 21 covers the Quickshell PipeWire API (`Quickshell.Services.Pipewire`). This chapter covers installing, configuring, and mastering PipeWire as a complete system — from initial setup through pro audio routing, Bluetooth codecs, EQ, and screen capture.

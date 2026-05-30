@@ -1,5 +1,33 @@
 # Chapter 6 — Compositor Taxonomy: Tiling, Stacking, Dynamic, Kiosk
 
+## Contents
+
+- [Overview](#overview)
+- [6.1 Design Axes](#61-design-axes)
+  - [Axis 1 — Layout Model](#axis-1-layout-model)
+  - [Axis 2 — Configuration Style](#axis-2-configuration-style)
+  - [Axis 3 — Base Library / Rendering Stack](#axis-3-base-library-rendering-stack)
+  - [Axis 4 — Workspace / Tag Model](#axis-4-workspace-tag-model)
+  - [Axis 5 — Animation Philosophy](#axis-5-animation-philosophy)
+- [6.2 Stacking Compositors](#62-stacking-compositors)
+- [6.3 Manual Tiling Compositors](#63-manual-tiling-compositors)
+- [6.4 Dynamic and Automatic Tiling Compositors](#64-dynamic-and-automatic-tiling-compositors)
+- [6.5 Plugin and Effect Compositors](#65-plugin-and-effect-compositors)
+- [6.6 Scrollable and Spatial Compositors](#66-scrollable-and-spatial-compositors)
+- [6.7 Kiosk and Embedded Compositors](#67-kiosk-and-embedded-compositors)
+- [6.8 Full Desktop Environment Compositors](#68-full-desktop-environment-compositors)
+- [6.9 Comprehensive Comparison Matrix](#69-comprehensive-comparison-matrix)
+- [Troubleshooting](#troubleshooting)
+  - [Compositor fails to start on TTY](#compositor-fails-to-start-on-tty)
+  - [GPU not detected / software rendering fallback](#gpu-not-detected-software-rendering-fallback)
+  - [Screen tearing or flickering](#screen-tearing-or-flickering)
+  - [XWayland applications not launching](#xwayland-applications-not-launching)
+  - [Wayland-specific app rendering issues (blank windows, black screen)](#wayland-specific-app-rendering-issues-blank-windows-black-screen)
+  - [Identifying which compositor is running](#identifying-which-compositor-is-running)
+
+---
+
+
 ## Overview
 
 Before committing dozens of hours to configuring a compositor, you need a mental model of the entire landscape. The Wayland compositor ecosystem is rich but fragmented: there are at least a dozen actively maintained compositors, each making different trade-offs around layout philosophy, configuration ergonomics, animation support, and portability. Choosing wrong means either a painful migration later or a perpetual sense that your tooling is fighting your workflow.

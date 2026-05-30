@@ -1,5 +1,24 @@
 # Chapter 135 — Multiple Keyboard Layouts and XKB Switching
 
+## Contents
+
+- [Overview](#overview)
+- [135.1 XKB Fundamentals](#1351-xkb-fundamentals)
+- [135.2 Hyprland](#1352-hyprland)
+- [135.3 Sway](#1353-sway)
+- [135.4 Niri](#1354-niri)
+- [135.5 River](#1355-river)
+- [135.6 Waybar Layout Indicator](#1356-waybar-layout-indicator)
+  - [Hyprland](#hyprland)
+  - [Sway](#sway)
+  - [Universal script (River, Niri, any compositor)](#universal-script-river-niri-any-compositor)
+- [135.7 Compose Key](#1357-compose-key)
+- [135.8 Per-Window Layout (Application-Level)](#1358-per-window-layout-application-level)
+- [135.9 Interaction with IME (Fcitx5 / IBus)](#1359-interaction-with-ime-fcitx5-ibus)
+
+---
+
+
 ## Overview
 
 Multi-layout keyboard configuration is a daily need for anyone writing in more than one language, using special characters, or following non-QWERTY conventions. On Wayland, all layout state lives in the compositor via XKB (X Keyboard Extension — kept as the standard despite Wayland's break from X11). This chapter covers per-compositor configuration, keybind switching, Waybar layout indicators, compose key setup, and interaction with input method editors.

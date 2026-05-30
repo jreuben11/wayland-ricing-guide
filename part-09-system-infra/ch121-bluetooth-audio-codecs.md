@@ -1,5 +1,25 @@
 # Chapter 121 — Bluetooth Audio Codec Negotiation on PipeWire
 
+## Contents
+
+- [Overview](#overview)
+- [121.1 Codec Overview](#1211-codec-overview)
+- [121.2 Installation](#1212-installation)
+- [121.3 BlueZ Configuration](#1213-bluez-configuration)
+- [121.4 PipeWire Bluez5 Module Configuration](#1214-pipewire-bluez5-module-configuration)
+- [121.5 Verifying the Active Codec](#1215-verifying-the-active-codec)
+- [121.6 Forcing a Specific Codec](#1216-forcing-a-specific-codec)
+- [121.7 HSP/HFP: Microphone Profile for Calls](#1217-hsphfp-microphone-profile-for-calls)
+  - [mSBC / LC3-SWB for Better Call Quality](#msbc-lc3-swb-for-better-call-quality)
+- [121.8 Troubleshooting](#1218-troubleshooting)
+  - [Device connects but only SBC is used despite LDAC support](#device-connects-but-only-sbc-is-used-despite-ldac-support)
+  - [Audio dropout or crackling on LDAC](#audio-dropout-or-crackling-on-ldac)
+  - [HFP microphone not working](#hfp-microphone-not-working)
+  - [WirePlumber not loading codec config](#wireplumber-not-loading-codec-config)
+
+---
+
+
 ## Overview
 
 PipeWire supports Bluetooth audio with AAC, aptX, aptX HD, aptX-LL, aptX-Adaptive, LDAC, and LC3 codecs beyond the standard SBC — but they are not enabled by default, and codec selection requires explicit configuration of both BlueZ and PipeWire's bluetooth module. This chapter covers enabling high-quality codecs, verifying which codec is active, forcing a specific codec, configuring the HSP/HFP microphone profile for calls, and troubleshooting negotiation failures.

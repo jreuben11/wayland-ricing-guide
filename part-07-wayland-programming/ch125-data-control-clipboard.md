@@ -1,5 +1,19 @@
 # Chapter 125 — The data-control Protocol and Clipboard Scripting
 
+## Contents
+
+- [Overview](#overview)
+- [125.1 Protocol Overview](#1251-protocol-overview)
+- [125.2 Reading the Clipboard (Python + pywayland)](#1252-reading-the-clipboard-python-pywayland)
+- [125.3 Writing to the Clipboard](#1253-writing-to-the-clipboard)
+- [125.4 Clipboard Watcher](#1254-clipboard-watcher)
+- [125.5 cliphist: Production Clipboard History](#1255-cliphist-production-clipboard-history)
+- [125.6 Primary Selection (Middle-Click Paste)](#1256-primary-selection-middle-click-paste)
+- [125.7 wl-copy / wl-paste Quick Reference](#1257-wl-copy-wl-paste-quick-reference)
+
+---
+
+
 ## Overview
 
 The `zwlr_data_control_manager_v1` protocol (wlr-data-control) gives privileged clients — clipboard managers, password managers, screenshot tools — programmatic read and write access to the Wayland clipboard and primary selection without requiring a focused window. This is the protocol that powers `wl-paste`, `wl-copy`, and `cliphist`. Understanding it enables writing custom clipboard tools, watchers, and transformers entirely in Wayland-native code.

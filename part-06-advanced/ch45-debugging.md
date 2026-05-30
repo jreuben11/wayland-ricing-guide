@@ -1,5 +1,28 @@
 # Chapter 45 — Debugging Wayland: WAYLAND_DEBUG, weston-info, wldbg
 
+## Contents
+
+- [Overview](#overview)
+- [45.1 WAYLAND_DEBUG — Protocol Tracing](#451-waylanddebug-protocol-tracing)
+- [45.2 weston-info — Output and Capability Inspection](#452-weston-info-output-and-capability-inspection)
+- [45.3 wldbg — Interactive Protocol Debugger](#453-wldbg-interactive-protocol-debugger)
+- [45.4 Compositor Logs and State Inspection](#454-compositor-logs-and-state-inspection)
+  - [Hyprland](#hyprland)
+  - [Sway](#sway)
+  - [GNOME / Mutter](#gnome-mutter)
+  - [KDE Plasma / KWin](#kde-plasma-kwin)
+- [45.5 Environment Variable Debugging](#455-environment-variable-debugging)
+- [45.6 XWayland Debugging](#456-xwayland-debugging)
+- [45.7 xdg-desktop-portal Debugging](#457-xdg-desktop-portal-debugging)
+- [45.8 Common Issues and Fixes](#458-common-issues-and-fixes)
+- [45.9 GPU and Rendering Debugging](#459-gpu-and-rendering-debugging)
+- [45.10 Quickshell-Specific Debugging](#4510-quickshell-specific-debugging)
+- [45.11 Systematic Debugging Workflow](#4511-systematic-debugging-workflow)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Debugging on Wayland requires a fundamentally different mindset than X11. On X11, tools like `xev`, `xwininfo`, and `xprop` gave you omniscient access to window state — any process could inspect any window. Wayland's security model deliberately breaks this: clients are isolated from each other, the compositor mediates all communication, and there is no ambient "display" you can query arbitrarily.

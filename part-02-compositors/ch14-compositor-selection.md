@@ -12,6 +12,20 @@ Niri scrollable workspaces, and Ch 53 for session startup and display manager in
 
 ---
 
+## Contents
+
+- [14.1 Decision Criteria](#141-decision-criteria)
+- [14.2 The NVIDIA Question](#142-the-nvidia-question)
+- [14.3 Full Comparison Matrix](#143-full-comparison-matrix)
+- [14.4 Recommended Starting Points](#144-recommended-starting-points)
+- [14.5 Migration Paths](#145-migration-paths)
+- [14.6 Ecosystem Tools That Are Compositor-Agnostic](#146-ecosystem-tools-that-are-compositor-agnostic)
+- [14.7 Performance Profiling Your Compositor Choice](#147-performance-profiling-your-compositor-choice)
+- [14.8 Troubleshooting](#148-troubleshooting)
+
+---
+
+
 ## 14.1 Decision Criteria
 
 Choosing a compositor is a multi-dimensional decision. The five axes that matter most are

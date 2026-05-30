@@ -1,5 +1,51 @@
 # Chapter 49 — Contributing to the Wayland Ecosystem
 
+## Contents
+
+- [Overview](#overview)
+- [49.1 The Ecosystem Map](#491-the-ecosystem-map)
+- [49.2 Where to Start](#492-where-to-start)
+  - [Documentation and Wikis](#documentation-and-wikis)
+  - [Bug Reports with WAYLAND_DEBUG](#bug-reports-with-waylanddebug)
+  - [Translations (i18n)](#translations-i18n)
+  - [Protocol Testing Across Compositors](#protocol-testing-across-compositors)
+- [49.3 Contributing to wayland-protocols](#493-contributing-to-wayland-protocols)
+  - [Writing a Protocol Extension](#writing-a-protocol-extension)
+  - [Generating Code from Protocol XML](#generating-code-from-protocol-xml)
+- [49.4 Contributing to wlroots](#494-contributing-to-wlroots)
+  - [Development Environment Setup](#development-environment-setup)
+  - [Code Style](#code-style)
+  - [Adding a New Protocol Implementation](#adding-a-new-protocol-implementation)
+- [49.5 Contributing to Quickshell](#495-contributing-to-quickshell)
+  - [Building from Source](#building-from-source)
+  - [Adding a New Service Module](#adding-a-new-service-module)
+  - [Documentation Contributions](#documentation-contributions)
+- [49.6 Contributing to Hyprland](#496-contributing-to-hyprland)
+  - [Development Environment](#development-environment)
+  - [Writing a Plugin](#writing-a-plugin)
+  - [Filing Bug Reports](#filing-bug-reports)
+- [49.7 Writing and Publishing Quickshell Configs](#497-writing-and-publishing-quickshell-configs)
+  - [Repository Structure](#repository-structure)
+  - [Capturing Screenshots and Recordings for Showcasing](#capturing-screenshots-and-recordings-for-showcasing)
+  - [NixOS Flake for Maximum Portability](#nixos-flake-for-maximum-portability)
+  - [GitHub Tags for Discoverability](#github-tags-for-discoverability)
+- [49.8 Filing Good Bug Reports](#498-filing-good-bug-reports)
+  - [The Minimal Reproduction Technique](#the-minimal-reproduction-technique)
+  - [Collecting WAYLAND_DEBUG Logs Cleanly](#collecting-waylanddebug-logs-cleanly)
+  - [Compositor Version and Environment Info](#compositor-version-and-environment-info)
+- [49.9 The Community](#499-the-community)
+  - [Contributing Code: Social Etiquette](#contributing-code-social-etiquette)
+- [Troubleshooting](#troubleshooting)
+  - [WAYLAND_DEBUG Produces No Output](#waylanddebug-produces-no-output)
+  - [Build Failures in wlroots](#build-failures-in-wlroots)
+  - [Hyprland Plugin Load Failures](#hyprland-plugin-load-failures)
+  - [Quickshell QML Errors at Runtime](#quickshell-qml-errors-at-runtime)
+  - [GitLab CI Failures for freedesktop.org Projects](#gitlab-ci-failures-for-freedesktoporg-projects)
+- [Summary](#summary)
+
+---
+
+
 ## Overview
 
 The Wayland ecosystem is maintained by a relatively small but highly skilled community of developers,

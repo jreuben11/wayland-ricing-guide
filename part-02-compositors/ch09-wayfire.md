@@ -1,5 +1,55 @@
 # Chapter 9 — Wayfire: Plugin Architecture and 3D Effects
 
+## Contents
+
+- [Overview](#overview)
+- [9.1 History and Design Goals](#91-history-and-design-goals)
+- [9.2 Installation and First Run](#92-installation-and-first-run)
+  - [Packages](#packages)
+  - [Building from Source](#building-from-source)
+  - [Initial Configuration](#initial-configuration)
+- [9.3 The Plugin System](#93-the-plugin-system)
+  - [Loading Plugins](#loading-plugins)
+  - [Plugin Categories](#plugin-categories)
+  - [Configuration Schema](#configuration-schema)
+- [9.4 Core Window Management Plugins](#94-core-window-management-plugins)
+  - [move and resize](#move-and-resize)
+  - [place](#place)
+  - [grid](#grid)
+  - [simple-tile](#simple-tile)
+  - [wm-actions](#wm-actions)
+- [9.5 Visual Effects Plugins](#95-visual-effects-plugins)
+  - [animate](#animate)
+  - [wobbly](#wobbly)
+  - [blur](#blur)
+  - [cube](#cube)
+  - [expo](#expo)
+  - [scale](#scale)
+  - [Additional Effects](#additional-effects)
+- [9.6 Workspace Switcher Plugins](#96-workspace-switcher-plugins)
+  - [vswitch](#vswitch)
+  - [oswitch](#oswitch)
+  - [Gesture Support](#gesture-support)
+- [9.7 Writing a Wayfire Plugin](#97-writing-a-wayfire-plugin)
+  - [Plugin Interface](#plugin-interface)
+  - [Build System](#build-system)
+  - [Accessing Compositor State](#accessing-compositor-state)
+  - [Key and Button Bindings](#key-and-button-bindings)
+- [9.8 window-rules: Per-App Behaviour](#98-window-rules-per-app-behaviour)
+- [9.9 Wayfire Compared to Hyprland](#99-wayfire-compared-to-hyprland)
+- [9.10 wf-shell: Panel and Wallpaper](#910-wf-shell-panel-and-wallpaper)
+- [9.11 IPC and Scripting](#911-ipc-and-scripting)
+- [Troubleshooting](#troubleshooting)
+  - [Compositor Does Not Start](#compositor-does-not-start)
+  - [Plugin Not Loading](#plugin-not-loading)
+  - [Wobbly / Cube Causes GPU Glitches](#wobbly-cube-causes-gpu-glitches)
+  - [XWayland Windows Not Appearing](#xwayland-windows-not-appearing)
+  - [Keybindings Not Working](#keybindings-not-working)
+  - [Scale / Expo Shows Black Screen](#scale-expo-shows-black-screen)
+
+---
+
+
 ## Overview
 
 Wayfire is a 3D-capable, plugin-driven Wayland compositor built on the wlroots library. Unlike

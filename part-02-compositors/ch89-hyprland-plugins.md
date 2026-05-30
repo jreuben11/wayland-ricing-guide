@@ -1,5 +1,32 @@
 # Chapter 89 — Hyprland Plugins and hyprpm
 
+## Contents
+
+- [Overview](#overview)
+- [89.1 hyprpm — Plugin Manager](#891-hyprpm-plugin-manager)
+  - [Loading plugins in hyprland.conf](#loading-plugins-in-hyprlandconf)
+- [89.2 Popular Plugins](#892-popular-plugins)
+  - [hy3 — Manual tiling layout (i3/AwesomeWM style)](#hy3-manual-tiling-layout-i3awesomewm-style)
+  - [hyprscroller — i3-like scrolling columns](#hyprscroller-i3-like-scrolling-columns)
+  - [hyprexpo — Workspace overview (Exposé)](#hyprexpo-workspace-overview-exposé)
+  - [hyprspace — Workspace switcher overlay](#hyprspace-workspace-switcher-overlay)
+  - [hyprtrails — Window movement trails](#hyprtrails-window-movement-trails)
+  - [hyprbars — Window title bars (if you want them)](#hyprbars-window-title-bars-if-you-want-them)
+- [89.3 Writing a Hyprland Plugin](#893-writing-a-hyprland-plugin)
+  - [Project structure](#project-structure)
+  - [CMakeLists.txt](#cmakeliststxt)
+  - [main.cpp — minimal plugin skeleton](#maincpp-minimal-plugin-skeleton)
+  - [Hooking into window events](#hooking-into-window-events)
+  - [Available hook events](#available-hook-events)
+  - [Adding a custom dispatcher](#adding-a-custom-dispatcher)
+  - [Adding custom config options](#adding-custom-config-options)
+  - [Building and testing](#building-and-testing)
+- [89.4 Plugin Development Workflow](#894-plugin-development-workflow)
+- [89.5 Plugin Distribution with hyprpm](#895-plugin-distribution-with-hyprpm)
+
+---
+
+
 ## Overview
 
 Hyprland's plugin system lets C++ code hook directly into the compositor:

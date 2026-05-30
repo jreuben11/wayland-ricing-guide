@@ -1,5 +1,25 @@
 # Chapter 63 — The GPU Rendering Stack: DRM/KMS, Mesa, GBM, EGL
 
+## Contents
+
+- [Overview](#overview)
+- [Sections](#sections)
+  - [63.1 The Full Stack](#631-the-full-stack)
+  - [63.2 DRM/KMS — The Kernel Layer](#632-drmkms-the-kernel-layer)
+  - [63.3 GBM — Generic Buffer Management](#633-gbm-generic-buffer-management)
+  - [63.4 EGL — The OpenGL-Wayland Bridge](#634-egl-the-opengl-wayland-bridge)
+  - [63.5 Mesa — The Open Source GPU Stack](#635-mesa-the-open-source-gpu-stack)
+  - [63.6 DMA-BUF — Zero-Copy Buffer Sharing](#636-dma-buf-zero-copy-buffer-sharing)
+  - [63.7 Explicit vs. Implicit Synchronization](#637-explicit-vs-implicit-synchronization)
+  - [63.8 The Compositor Render Loop](#638-the-compositor-render-loop)
+  - [63.9 Debugging GPU Issues](#639-debugging-gpu-issues)
+  - [63.10 Hardware Video Acceleration (VA-API / VDPAU / NVDEC)](#6310-hardware-video-acceleration-va-api-vdpau-nvdec)
+  - [63.11 HDR and Wide Color Gamut](#6311-hdr-and-wide-color-gamut)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+
 ## Overview
 
 Understanding how pixels actually reach the screen — from `wl_surface` commit

@@ -8,6 +8,52 @@ Color is the single most recognizable attribute of any desktop rice. Two setups 
 
 ---
 
+## Contents
+
+- [34.1 Color Systems Used in Ricing](#341-color-systems-used-in-ricing)
+  - [base16 / base24](#base16-base24)
+  - [Material You / Material Design 3](#material-you-material-design-3)
+  - [Catppuccin](#catppuccin)
+  - [Other Major Palettes](#other-major-palettes)
+- [34.2 Popular Palette Collections (2025)](#342-popular-palette-collections-2025)
+- [34.3 Color Relationships](#343-color-relationships)
+  - [Harmony Types](#harmony-types)
+  - [The 60-30-10 Rule Applied to Ricing](#the-60-30-10-rule-applied-to-ricing)
+- [34.4 Contrast and Accessibility](#344-contrast-and-accessibility)
+  - [Why Low-Contrast Rices Fail Daily Use](#why-low-contrast-rices-fail-daily-use)
+  - [Contrast Tools](#contrast-tools)
+- [34.5 Automatic Color Extraction](#345-automatic-color-extraction)
+  - [pywal](#pywal)
+  - [wallust](#wallust)
+  - [matugen (Material You)](#matugen-material-you)
+  - [wpgtk](#wpgtk)
+- [34.6 Where Colors Are Applied](#346-where-colors-are-applied)
+  - [Terminal Emulator](#terminal-emulator)
+  - [Shell Prompt (Starship)](#shell-prompt-starship)
+  - [Waybar](#waybar)
+  - [GTK Theme](#gtk-theme)
+  - [Qt Theme](#qt-theme)
+  - [Firefox / Chromium](#firefox-chromium)
+- [34.7 Building a Cohesive Rice](#347-building-a-cohesive-rice)
+  - [Phase 1: Choose or Extract the Palette](#phase-1-choose-or-extract-the-palette)
+  - [Phase 2: Generate Application Configs](#phase-2-generate-application-configs)
+  - [Phase 3: Test in Real Conditions](#phase-3-test-in-real-conditions)
+  - [Palette Consistency Checklist](#palette-consistency-checklist)
+- [34.8 Resources](#348-resources)
+  - [Online Tools](#online-tools)
+  - [Repositories and Wikis](#repositories-and-wikis)
+  - [Related Chapters](#related-chapters)
+- [Troubleshooting](#troubleshooting)
+  - [Terminal colors look wrong or washed out](#terminal-colors-look-wrong-or-washed-out)
+  - [pywal/wallust colors are muddy or too similar](#pywalwallust-colors-are-muddy-or-too-similar)
+  - [GTK apps ignore the theme after applying](#gtk-apps-ignore-the-theme-after-applying)
+  - [Colors not updating after running pywal](#colors-not-updating-after-running-pywal)
+  - [Waybar CSS colors not updating](#waybar-css-colors-not-updating)
+  - [Inconsistent colors between X11 and Wayland apps running via XWayland](#inconsistent-colors-between-x11-and-wayland-apps-running-via-xwayland)
+
+---
+
+
 ## 34.1 Color Systems Used in Ricing
 
 The ricing community has converged on a small number of color specification systems. Understanding which system a tool expects is essential for consistent theming — mixing systems across components produces jarring visual discontinuities.

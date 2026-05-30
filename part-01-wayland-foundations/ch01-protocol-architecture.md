@@ -6,6 +6,28 @@ This chapter lays the conceptual groundwork for everything that follows in this 
 
 ---
 
+## Contents
+
+- [1.1 The X11 Legacy Problem](#11-the-x11-legacy-problem)
+- [1.2 Wayland's Design Goals](#12-waylands-design-goals)
+- [1.3 The Wayland Architecture](#13-the-wayland-architecture)
+- [1.4 Key Actors in the Ecosystem](#14-key-actors-in-the-ecosystem)
+- [1.5 Wayland vs. X11: Practical Differences for Users](#15-wayland-vs-x11-practical-differences-for-users)
+- [1.6 The Wayland Object Model in Detail](#16-the-wayland-object-model-in-detail)
+- [1.7 Protocol Namespaces and Extension Stability](#17-protocol-namespaces-and-extension-stability)
+- [1.8 Ricing-Relevant Protocols at a Glance](#18-ricing-relevant-protocols-at-a-glance)
+- [Key References](#key-references)
+- [Troubleshooting](#troubleshooting)
+  - [Application starts under XWayland instead of native Wayland](#application-starts-under-xwayland-instead-of-native-wayland)
+  - [`WAYLAND_DISPLAY` not set after login](#waylanddisplay-not-set-after-login)
+  - [Compositor crashes with `EGL_BAD_ALLOC` or `DRM_IOCTL failed`](#compositor-crashes-with-eglbadalloc-or-drmioctl-failed)
+  - [Protocol version mismatch errors](#protocol-version-mismatch-errors)
+  - [`WAYLAND_DEBUG` output is overwhelming](#waylanddebug-output-is-overwhelming)
+  - [Application renders blurry on HiDPI display](#application-renders-blurry-on-hidpi-display)
+
+---
+
+
 ## 1.1 The X11 Legacy Problem
 
 The X Window System was designed in 1984 at MIT and first released in 1987. It was engineered around the assumption that display hardware would live on a remote machine and that the protocol needed to be fully network-transparent. This was genuinely visionary for its era: X allowed a program running on a VAX in the machine room to display windows on a workstation across the building, all through TCP/IP sockets. The network transparency was not an accident — it was the primary design goal.

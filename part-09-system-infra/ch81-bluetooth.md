@@ -1,5 +1,57 @@
 # Chapter 81 — Bluetooth Management: bluetui, blueman, bluetoothctl
 
+## Contents
+
+- [Overview](#overview)
+- [81.1 The BlueZ Stack](#811-the-bluez-stack)
+- [81.2 Installation](#812-installation)
+  - [Arch Linux / Manjaro / EndeavourOS](#arch-linux-manjaro-endeavouros)
+  - [Debian / Ubuntu / Pop!_OS](#debian-ubuntu-popos)
+  - [Fedora / RHEL-based](#fedora-rhel-based)
+  - [Verifying the installation](#verifying-the-installation)
+  - [Audio profile support (A2DP, HFP)](#audio-profile-support-a2dp-hfp)
+- [81.3 bluetoothctl — The Primary CLI](#813-bluetoothctl-the-primary-cli)
+  - [Interactive mode](#interactive-mode)
+  - [Non-interactive (scriptable) mode](#non-interactive-scriptable-mode)
+  - [Scripted full pairing workflow](#scripted-full-pairing-workflow)
+  - [Listing all paired devices programmatically](#listing-all-paired-devices-programmatically)
+- [81.4 bluetui — Terminal UI](#814-bluetui-terminal-ui)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [81.5 blueman — GTK GUI](#815-blueman-gtk-gui)
+  - [Installation](#installation)
+  - [Components](#components)
+  - [Autostart in Hyprland](#autostart-in-hyprland)
+  - [Disabling blueman's power management interference](#disabling-bluemans-power-management-interference)
+  - [Setting blueman as the default file transfer handler](#setting-blueman-as-the-default-file-transfer-handler)
+- [81.6 Auto-Connect on Login](#816-auto-connect-on-login)
+  - [BlueZ global auto-enable policy](#bluez-global-auto-enable-policy)
+  - [Per-device trust](#per-device-trust)
+  - [Proactive connect on session start](#proactive-connect-on-session-start)
+  - [Systemd user service for auto-connect](#systemd-user-service-for-auto-connect)
+- [81.7 Bluetooth Audio Profiles](#817-bluetooth-audio-profiles)
+  - [Listing cards and current profile](#listing-cards-and-current-profile)
+  - [Switching profiles with pactl](#switching-profiles-with-pactl)
+  - [Switching profiles with WirePlumber](#switching-profiles-with-wireplumber)
+  - [Automated profile switcher script](#automated-profile-switcher-script)
+  - [Enabling higher-quality codecs (LDAC, aptX)](#enabling-higher-quality-codecs-ldac-aptx)
+- [81.8 D-Bus Direct Interaction](#818-d-bus-direct-interaction)
+  - [Using busctl (systemd)](#using-busctl-systemd)
+  - [Python D-Bus script for Waybar integration](#python-d-bus-script-for-waybar-integration)
+- [81.9 rfkill and Kernel-Level Blocking](#819-rfkill-and-kernel-level-blocking)
+  - [udev rule to auto-unblock on resume](#udev-rule-to-auto-unblock-on-resume)
+- [Troubleshooting](#troubleshooting)
+  - [No Bluetooth adapter found](#no-bluetooth-adapter-found)
+  - [bluetoothd fails to start](#bluetoothd-fails-to-start)
+  - [Device pairs but won't connect](#device-pairs-but-wont-connect)
+  - [A2DP not available, only HFP offered](#a2dp-not-available-only-hfp-offered)
+  - [Audio cuts out / stutters](#audio-cuts-out-stutters)
+  - [Adapter disappears after suspend](#adapter-disappears-after-suspend)
+  - [Reset all Bluetooth state (nuclear option)](#reset-all-bluetooth-state-nuclear-option)
+
+---
+
+
 ## Overview
 
 Bluetooth on Linux is built on the BlueZ stack, which has been the dominant open-source Bluetooth implementation for well over a decade. In a minimal Wayland environment — a tiling window manager like Hyprland, Sway, or River, without a full desktop environment like GNOME or KDE — you lose the automatic Bluetooth tooling that DEs provide. This chapter covers everything you need to replace that functionality: the BlueZ stack itself, command-line tools, TUI and GUI front-ends, audio profile management, automated reconnection, and a comprehensive troubleshooting guide.
