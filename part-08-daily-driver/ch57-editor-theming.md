@@ -936,4 +936,221 @@ values by 1–2 steps. Force the terminal and editor to the same exact hex.
 
 ---
 
+## 57.10 Authoring a Custom Neovim Colorscheme
+
+Applying existing colorschemes is covered in §57.1–57.3. This section covers
+creating your own — useful when you have a custom palette (from pywal, matugen,
+or a design system) and need a fully integrated colorscheme rather than a
+CSS-style override.
+
+### Option A: Raw vim.api.nvim_set_hl()
+
+The lowest-level approach uses the Neovim Lua API directly:
+
+```lua
+-- ~/.config/nvim/lua/colors/mycustom.lua
+local M = {}
+
+local palette = {
+    bg       = "#1a1b26",
+    bg2      = "#24283b",
+    surface  = "#3b4261",
+    fg       = "#a9b1d6",
+    comment  = "#565f89",
+    blue     = "#7aa2f7",
+    cyan     = "#7dcfff",
+    green    = "#9ece6a",
+    yellow   = "#e0af68",
+    orange   = "#ff9e64",
+    red      = "#f7768e",
+    purple   = "#bb9af7",
+    teal     = "#1abc9c",
+}
+
+local function hi(group, opts)
+    vim.api.nvim_set_hl(0, group, opts)
+end
+
+function M.load()
+    vim.cmd("hi clear")
+    vim.o.background = "dark"
+    vim.g.colors_name = "mycustom"
+
+    -- Core UI groups
+    hi("Normal",       { fg = palette.fg,      bg = palette.bg })
+    hi("NormalFloat",  { fg = palette.fg,      bg = palette.bg2 })
+    hi("FloatBorder",  { fg = palette.surface, bg = palette.bg2 })
+    hi("Comment",      { fg = palette.comment, italic = true })
+    hi("Cursor",       { fg = palette.bg,      bg = palette.fg })
+    hi("CursorLine",   { bg = palette.bg2 })
+    hi("LineNr",       { fg = palette.surface })
+    hi("CursorLineNr", { fg = palette.yellow,  bold = true })
+    hi("SignColumn",   { bg = palette.bg })
+    hi("StatusLine",   { fg = palette.fg,      bg = palette.bg2 })
+    hi("VertSplit",    { fg = palette.surface, bg = palette.bg })
+    hi("WinSeparator", { fg = palette.surface })
+    hi("Pmenu",        { fg = palette.fg,      bg = palette.bg2 })
+    hi("PmenuSel",     { fg = palette.bg,      bg = palette.blue })
+    hi("Search",       { fg = palette.bg,      bg = palette.yellow })
+    hi("IncSearch",    { fg = palette.bg,      bg = palette.orange })
+    hi("Visual",       { bg = palette.surface })
+
+    -- Syntax groups
+    hi("Keyword",    { fg = palette.purple, bold = true })
+    hi("Function",   { fg = palette.blue })
+    hi("String",     { fg = palette.green })
+    hi("Number",     { fg = palette.orange })
+    hi("Boolean",    { fg = palette.orange })
+    hi("Type",       { fg = palette.cyan })
+    hi("Constant",   { fg = palette.orange })
+    hi("Identifier", { fg = palette.fg })
+    hi("Operator",   { fg = palette.cyan })
+    hi("Delimiter",  { fg = palette.fg })
+    hi("Special",    { fg = palette.yellow })
+    hi("Error",      { fg = palette.red })
+    hi("Todo",       { fg = palette.yellow, bold = true })
+
+    -- Treesitter semantic tokens (nvim 0.9+)
+    hi("@variable",          { fg = palette.fg })
+    hi("@variable.builtin",  { fg = palette.red })
+    hi("@function",          { fg = palette.blue })
+    hi("@function.method",   { fg = palette.blue })
+    hi("@keyword",           { fg = palette.purple, bold = true })
+    hi("@string",            { fg = palette.green })
+    hi("@number",            { fg = palette.orange })
+    hi("@type",              { fg = palette.cyan })
+    hi("@type.builtin",      { fg = palette.cyan, italic = true })
+    hi("@property",          { fg = palette.teal })
+    hi("@comment",           { fg = palette.comment, italic = true })
+    hi("@punctuation",       { fg = palette.fg })
+    hi("@tag",               { fg = palette.red })
+    hi("@tag.attribute",     { fg = palette.yellow })
+
+    -- Diagnostic groups
+    hi("DiagnosticError",   { fg = palette.red })
+    hi("DiagnosticWarn",    { fg = palette.yellow })
+    hi("DiagnosticInfo",    { fg = palette.blue })
+    hi("DiagnosticHint",    { fg = palette.teal })
+    hi("DiagnosticUnderlineError", { sp = palette.red,    undercurl = true })
+    hi("DiagnosticUnderlineWarn",  { sp = palette.yellow, undercurl = true })
+
+    -- Git signs (gitsigns.nvim)
+    hi("GitSignsAdd",    { fg = palette.green })
+    hi("GitSignsChange", { fg = palette.yellow })
+    hi("GitSignsDelete", { fg = palette.red })
+end
+
+return M
+```
+
+```lua
+-- Load it from your init.lua or colorscheme.lua:
+require("colors.mycustom").load()
+```
+
+### Option B: lush.nvim — HSL-based DSL
+
+`lush.nvim` provides a Lua DSL with HSL color math, making it easy to define
+a consistent palette with derived shades:
+
+```lua
+-- Install: lazy.nvim spec
+{ "rktjmp/lush.nvim" }
+```
+
+```lua
+-- ~/.config/nvim/lua/lush_theme/mytheme.lua
+local lush = require("lush")
+local hsl = lush.hsl
+
+-- Define palette using HSL
+local p = {
+    bg       = hsl("#1a1b26"),
+    fg       = hsl("#a9b1d6"),
+    blue     = hsl("#7aa2f7"),
+    green    = hsl("#9ece6a"),
+    red      = hsl("#f7768e"),
+    purple   = hsl("#bb9af7"),
+    yellow   = hsl("#e0af68"),
+    comment  = hsl("#565f89"),
+}
+
+-- lush DSL: each group is a function call with a table
+local theme = lush(function(injected_fns)
+    local sym = injected_fns.sym
+    return {
+        Normal      { bg = p.bg,      fg = p.fg },
+        Comment     { fg = p.comment, gui = "italic" },
+        Keyword     { fg = p.purple,  gui = "bold" },
+        Function    { fg = p.blue },
+        String      { fg = p.green },
+        Number      { fg = p.yellow },
+        Type        { fg = hsl(p.blue).lighten(10) },    -- auto-derived
+        Error       { fg = p.red },
+
+        -- Inheritance: link groups to other groups
+        Identifier  { Normal },
+        Constant    { Number },
+
+        -- Treesitter: using lush sym() for forward references
+        sym("@function") { Function },
+        sym("@keyword")  { Keyword },
+        sym("@string")   { String },
+    }
+end)
+
+return theme
+```
+
+```lua
+-- Apply the lush theme:
+-- In a colors/mytheme.lua file:
+vim.g.colors_name = "mytheme"
+require("lush")(require("lush_theme.mytheme"))
+```
+
+### Testing highlight groups
+
+```vim
+" In Neovim command mode:
+:Inspect          " Show highlight groups under cursor (nvim 0.9+)
+:hi Comment       " Show current Comment highlight
+:hi @function     " Show treesitter function highlight
+
+" Reload colors after editing:
+:luafile ~/.config/nvim/lua/colors/mycustom.lua
+:luafile ~/.config/nvim/lua/colors/mycustom.lua | lua require("colors.mycustom").load()
+```
+
+### Exporting to base16 format
+
+The base16 specification maps a 16-color palette to semantic roles:
+
+```yaml
+# ~/.config/base16/mytheme.yaml
+scheme: "My Custom"
+author: "you"
+base00: "1a1b26"   # background
+base01: "24283b"   # lighter background
+base02: "3b4261"   # selection background
+base03: "565f89"   # comments / disabled
+base04: "a9b1d6"   # dark foreground
+base05: "c0caf5"   # default foreground
+base06: "cfc9c2"   # light foreground
+base07: "d5d6db"   # lightest foreground
+base08: "f7768e"   # red (errors, deletes)
+base09: "ff9e64"   # orange (numbers)
+base0A: "e0af68"   # yellow (warnings)
+base0B: "9ece6a"   # green (strings, success)
+base0C: "7dcfff"   # cyan (types, regex)
+base0D: "7aa2f7"   # blue (functions)
+base0E: "bb9af7"   # purple (keywords)
+base0F: "db4b4b"   # brown (deprecated)
+```
+
+Use `base16-builder` or `tinted-theming` to generate terminal/editor configs
+from this YAML for Kitty, Alacritty, Foot, and WezTerm automatically.
+
+---
+
 &copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

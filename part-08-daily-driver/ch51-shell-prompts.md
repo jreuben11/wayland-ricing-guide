@@ -227,6 +227,202 @@ export FZF_DEFAULT_OPTS="
 - **bottom/btm**: `htop` replacement with graphs
 - **yazi**: TUI file manager with image previews (Ch 50 Kitty protocol integration)
 
+---
+
+## 51.7 Advanced Starship Configuration
+
+### Right-side prompt (right_format)
+
+Starship supports a `right_format` key that renders a prompt segment on the right
+side of the terminal — useful for showing git status, time, or environment info
+without crowding the left side:
+
+```toml
+# ~/.config/starship.toml
+
+# Left prompt — concise
+format = """
+$directory$git_branch$git_status\
+$character"""
+
+# Right prompt — context info
+right_format = """
+$cmd_duration\
+$python\
+$nodejs\
+$rust\
+$golang\
+$time"""
+```
+
+> Right prompt requires terminal support. Works in: Zsh, Fish, Nu.
+> Not supported in Bash. Enable in Zsh with:
+> ```zsh
+> # ~/.zshrc
+> eval "$(starship init zsh)"
+> # RPROMPT is set automatically by Starship
+> ```
+
+### Custom modules
+
+Define a module that runs an arbitrary command and shows the output:
+
+```toml
+# Show active k8s context in right prompt
+[custom.kubectl]
+command = "kubectl config current-context 2>/dev/null | sed 's/.*@//'"
+when = "test -f ~/.kube/config"
+format = "[ $output]($style) "
+style = "bold cyan"
+symbol = "☸ "
+
+# Show active Python venv name (simpler than the built-in module)
+[custom.venv]
+command = "basename $VIRTUAL_ENV"
+when = "test -n \"$VIRTUAL_ENV\""
+format = "[ $output]($style) "
+style = "yellow"
+symbol = "🐍 "
+
+# Show if inside a nix-shell
+[custom.nix_shell]
+command = "echo dev"
+when = "test -n \"$IN_NIX_SHELL\""
+format = "[ nix-shell]($style) "
+style = "bold blue"
+```
+
+### Transient prompt
+
+The transient prompt replaces the previous prompt with a minimal one after the
+command runs — keeps scrollback clean and readable:
+
+```toml
+# ~/.config/starship.toml
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol   = "[❯](bold red)"
+
+# Transient prompt — shows only ❯ for previous commands
+[transience]
+enabled = true
+```
+
+Enable in Zsh (required for transient prompt):
+```zsh
+# ~/.zshrc
+eval "$(starship init zsh)"
+# Starship handles transience automatically when enabled in config
+```
+
+### Continuation prompt
+
+For multi-line commands, Starship can show a continuation indicator:
+
+```toml
+[continuation_prompt]
+# Shown on the second and subsequent lines of a multi-line command
+format = "[  ](fg:color_yellow)"
+```
+
+---
+
+## 51.8 Advanced oh-my-posh Configuration
+
+### Conditional segments
+
+oh-my-posh segments support `style`, `foreground`, and `background` overrides
+that can be driven by template variables:
+
+```json
+{
+  "$schema": "https://ohmyposh.dev/schema.json",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#1a1b26",
+          "background": "#9ece6a",
+          "background_templates": [
+            "{{ if .Working.Changed }}#e0af68{{ end }}",
+            "{{ if .Staging.Changed }}#f7768e{{ end }}"
+          ],
+          "template": " {{ .HEAD }} {{ .Working.String }}{{ .Staging.String }} "
+        },
+        {
+          "type": "python",
+          "style": "plain",
+          "foreground": "#e0af68",
+          "template": " {{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }} ",
+          "properties": {
+            "home_enabled": false,
+            "fetch_version": true,
+            "display_default": false
+          }
+        },
+        {
+          "type": "aws",
+          "style": "plain",
+          "foreground": "#ff9e64",
+          "template": "  {{ .Profile }}{{ if .Region }} ({{ .Region }}){{ end }} "
+        },
+        {
+          "type": "kubectl",
+          "style": "plain",
+          "foreground": "#7aa2f7",
+          "template": "  {{ .Context }}{{ if .Namespace }}/{{ .Namespace }}{{ end }} "
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "#565f89",
+          "template": "  {{ .FormattedMs }} ",
+          "properties": {
+            "threshold": 2000
+          }
+        }
+      ]
+    },
+    {
+      "type": "rprompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "time",
+          "style": "plain",
+          "foreground": "#565f89",
+          "template": "{{ .CurrentDate | date \"15:04\" }}"
+        }
+      ]
+    }
+  ],
+  "version": 2
+}
+```
+
+### Transient prompt in oh-my-posh
+
+```json
+{
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "#7aa2f7",
+    "template": "❯ "
+  }
+}
+```
+
+Enable transient prompt in Zsh:
+```zsh
+# ~/.zshrc
+eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/config.json)"
+# oh-my-posh handles RPROMPT and transience automatically
+```
 
 ---
 

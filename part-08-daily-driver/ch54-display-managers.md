@@ -904,4 +904,261 @@ Environment Variables), Ch 58 (System Integration and systemd-homed).*
 
 ---
 
+## 54.10 Creating a Custom SDDM QML Theme from Scratch
+
+SDDM's theming system is built on Qt QML. A theme is a directory installed under
+`/usr/share/sddm/themes/` containing a `Main.qml` entry point, a `theme.conf`
+metadata file, and any assets (images, fonts, SVGs). This section walks through
+building a minimal but complete theme.
+
+### Directory Structure
+
+```
+/usr/share/sddm/themes/my-rice-login/
+├── Main.qml           — entry point (required)
+├── theme.conf         — theme metadata (required)
+├── preview.png        — screenshot shown in SDDM configurator
+├── background.jpg     — wallpaper
+└── components/
+    ├── LoginForm.qml  — extracted login form component
+    └── UserDelegate.qml
+```
+
+### theme.conf
+
+```ini
+[General]
+name=My Rice Login
+description=Tokyo Night themed SDDM login screen
+type=sddm-theme
+version=1.0
+author=yourname
+screenshot=preview.png
+background=background.jpg
+```
+
+### Minimal Main.qml
+
+```qml
+// Main.qml — SDDM QML entry point
+
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import SddmComponents 2.0      // SDDM-provided: UserModel, SessionModel, etc.
+
+Rectangle {
+    id: root
+    width:  Screen.width
+    height: Screen.height
+    color:  "#1a1b26"          // Tokyo Night background
+
+    // Background wallpaper
+    Image {
+        anchors.fill: parent
+        source:       "background.jpg"
+        fillMode:     Image.PreserveAspectCrop
+        smooth:       true
+    }
+
+    // Frosted overlay
+    Rectangle {
+        anchors.fill: parent
+        color:        Qt.rgba(0.1, 0.11, 0.15, 0.6)
+    }
+
+    // Center login card
+    Rectangle {
+        anchors.centerIn: parent
+        width:            360
+        height:           320
+        radius:           12
+        color:            "#24283b"
+        border.color:     "#3b4261"
+        border.width:     1
+
+        ColumnLayout {
+            anchors {
+                fill:    parent
+                margins: 32
+            }
+            spacing: 16
+
+            // Session hostname
+            Text {
+                Layout.alignment: Qt.AlignHCenter
+                text:             sddm.hostName
+                font {
+                    family:    "JetBrainsMono Nerd Font"
+                    pointSize: 14
+                    bold:      true
+                }
+                color: "#7aa2f7"
+            }
+
+            // User selector (drop-down from UserModel)
+            ComboBox {
+                id:             userBox
+                Layout.fillWidth: true
+                model:          UserModel
+                textRole:       "name"
+                displayText:    currentText
+                currentIndex:   UserModel.lastIndex
+
+                contentItem: Text {
+                    text:             parent.displayText
+                    font.family:      "JetBrainsMono Nerd Font"
+                    font.pointSize:   11
+                    color:            "#a9b1d6"
+                    verticalAlignment: Text.AlignVCenter
+                    leftPadding:      8
+                }
+
+                background: Rectangle {
+                    color:        "#3b4261"
+                    radius:       6
+                    border.color: userBox.activeFocus ? "#7aa2f7" : "#565f89"
+                    border.width: 1
+                }
+            }
+
+            // Password field
+            TextField {
+                id:               passwordField
+                Layout.fillWidth: true
+                placeholderText:  "Password"
+                echoMode:         TextInput.Password
+                font.family:      "JetBrainsMono Nerd Font"
+                font.pointSize:   11
+                color:            "#a9b1d6"
+                Keys.onReturnPressed: loginButton.clicked()
+
+                background: Rectangle {
+                    color:        "#3b4261"
+                    radius:       6
+                    border.color: passwordField.activeFocus ? "#7aa2f7" : "#565f89"
+                    border.width: 1
+                }
+            }
+
+            // Session selector
+            ComboBox {
+                id:               sessionBox
+                Layout.fillWidth: true
+                model:            SessionModel
+                textRole:         "name"
+                currentIndex:     SessionModel.lastIndex
+
+                contentItem: Text {
+                    text:             parent.displayText
+                    font.family:      "JetBrainsMono Nerd Font"
+                    font.pointSize:   10
+                    color:            "#565f89"
+                    verticalAlignment: Text.AlignVCenter
+                    leftPadding:      8
+                }
+
+                background: Rectangle {
+                    color:        "#1a1b26"
+                    radius:       6
+                    border.color: "#3b4261"
+                    border.width: 1
+                }
+            }
+
+            // Login button
+            Button {
+                id:               loginButton
+                Layout.fillWidth: true
+                text:             "Login"
+                font.family:      "JetBrainsMono Nerd Font"
+                font.pointSize:   11
+                font.bold:        true
+
+                contentItem: Text {
+                    text:                  parent.text
+                    font:                  parent.font
+                    color:                 "#1a1b26"
+                    horizontalAlignment:   Text.AlignHCenter
+                    verticalAlignment:     Text.AlignVCenter
+                }
+
+                background: Rectangle {
+                    color:  loginButton.pressed ? "#5a82d7" : "#7aa2f7"
+                    radius: 6
+                }
+
+                onClicked: {
+                    sddm.login(
+                        userBox.currentText,
+                        passwordField.text,
+                        sessionBox.currentIndex
+                    )
+                }
+            }
+        }
+    }
+
+    // Error message from failed login
+    Connections {
+        target: sddm
+        function onLoginFailed() {
+            passwordField.clear()
+            passwordField.placeholderText = "Incorrect password"
+        }
+    }
+
+    // Clock in corner
+    Text {
+        anchors {
+            bottom:       parent.bottom
+            right:        parent.right
+            margins:      24
+        }
+        text:  Qt.formatDateTime(new Date(), "hh:mm")
+        color: "#a9b1d6"
+        font {
+            family:    "JetBrainsMono Nerd Font"
+            pointSize: 32
+            bold:      true
+        }
+
+        Timer {
+            interval: 1000
+            running:  true
+            repeat:   true
+            onTriggered: parent.text = Qt.formatDateTime(new Date(), "hh:mm")
+        }
+    }
+}
+```
+
+### SDDM QML API reference
+
+| Object | Type | Key properties |
+|---|---|---|
+| `sddm` | SDDM controller | `hostName`, `login(user, pass, sessionIndex)`, `suspend()`, `hibernate()`, `reboot()`, `powerOff()` |
+| `UserModel` | ListModel | `name`, `realName`, `icon`, `lastIndex` |
+| `SessionModel` | ListModel | `name`, `file`, `lastIndex` |
+| `Screen` | Screen info | `width`, `height`, `name` |
+
+### Installing and selecting the theme
+
+```bash
+# Install theme directory
+sudo cp -r my-rice-login /usr/share/sddm/themes/
+
+# Activate in /etc/sddm.conf.d/theme.conf
+sudo mkdir -p /etc/sddm.conf.d
+sudo tee /etc/sddm.conf.d/theme.conf <<'EOF'
+[Theme]
+Current=my-rice-login
+EOF
+
+# Test the theme without rebooting (renders it in a window)
+sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/my-rice-login
+```
+
+---
+
 &copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

@@ -581,4 +581,164 @@ exec /usr/lib/dconf-service &
 
 ---
 
+## 35.10 libadwaita AdwStyleManager and Accent Colors
+
+libadwaita 1.0 introduced `AdwStyleManager`, the programmatic interface for
+controlling the color scheme of libadwaita applications. In libadwaita 1.4+, the
+accent color API was added, letting you specify a per-app or per-system accent hue.
+
+### AdwStyleManager color scheme (dark/light switching)
+
+```python
+#!/usr/bin/env python3
+"""Force a GTK4/libadwaita app to dark mode via AdwStyleManager"""
+import gi
+gi.require_version("Adw", "1")
+from gi.repository import Adw, Gtk
+
+class MyApp(Adw.Application):
+    def __init__(self):
+        super().__init__(application_id="com.example.myapp")
+        self.connect("activate", self.on_activate)
+
+    def on_activate(self, app):
+        # Get the global style manager
+        sm = Adw.StyleManager.get_default()
+
+        # Force dark mode regardless of system preference
+        sm.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+
+        # Or: follow system preference
+        # sm.set_color_scheme(Adw.ColorScheme.DEFAULT)
+
+        # Or: prefer dark (uses dark if system has no preference)
+        # sm.set_color_scheme(Adw.ColorScheme.PREFER_DARK)
+
+        # Listen for system dark/light changes
+        sm.connect("notify::dark", self.on_dark_changed)
+
+        win = Adw.ApplicationWindow(application=app)
+        win.present()
+
+    def on_dark_changed(self, sm, _pspec):
+        is_dark = sm.get_dark()
+        print(f"Color scheme changed: {'dark' if is_dark else 'light'}")
+
+app = MyApp()
+app.run()
+```
+
+### Color scheme values
+
+| `AdwColorScheme` value | Behavior |
+|---|---|
+| `DEFAULT` | Follow system portal preference |
+| `FORCE_LIGHT` | Always light, ignore system |
+| `PREFER_LIGHT` | Light unless system says dark |
+| `PREFER_DARK` | Dark unless system says light |
+| `FORCE_DARK` | Always dark, ignore system |
+
+### Accent Color API (libadwaita 1.4+)
+
+```python
+# Requires libadwaita >= 1.4 (GNOME 45+)
+sm = Adw.StyleManager.get_default()
+
+# Get the system-resolved accent color (as AdwAccentColor enum)
+accent = sm.get_accent_color()
+print(f"System accent: {accent.get_name()}")  # → "blue", "teal", "green", etc.
+
+# Get as a CSS RGBA value (for use in custom drawing)
+rgba = accent.to_rgba(Adw.StyleManager.get_default())
+print(f"Accent RGBA: r={rgba.red:.2f} g={rgba.green:.2f} b={rgba.blue:.2f}")
+```
+
+Available `AdwAccentColor` values (libadwaita 1.4+):
+`BLUE`, `TEAL`, `GREEN`, `YELLOW`, `ORANGE`, `RED`, `PINK`, `PURPLE`, `SLATE`
+
+### CSS @define-color for accent override
+
+In `~/.config/gtk-4.0/gtk.css` you can override the libadwaita CSS custom
+properties. The full set of libadwaita CSS variables is:
+
+```css
+/* ~/.config/gtk-4.0/gtk.css */
+/* Override accent color for all libadwaita apps */
+@define-color accent_color         #7aa2f7;
+@define-color accent_bg_color      #7aa2f7;
+@define-color accent_fg_color      #1a1b26;
+
+/* Window background */
+@define-color window_bg_color      #1a1b26;
+@define-color window_fg_color      #a9b1d6;
+
+/* View (list, text areas) */
+@define-color view_bg_color        #24283b;
+@define-color view_fg_color        #a9b1d6;
+
+/* Headerbar */
+@define-color headerbar_bg_color   #24283b;
+@define-color headerbar_fg_color   #a9b1d6;
+@define-color headerbar_border_color #3b4261;
+
+/* Sidebar */
+@define-color sidebar_bg_color     #1f2335;
+@define-color sidebar_fg_color     #a9b1d6;
+@define-color sidebar_backdrop_color #1a1b26;
+
+/* Card (popover, card widget) */
+@define-color card_bg_color        #24283b;
+@define-color card_fg_color        #a9b1d6;
+
+/* Popover */
+@define-color popover_bg_color     #24283b;
+@define-color popover_fg_color     #a9b1d6;
+
+/* Dialog */
+@define-color dialog_bg_color      #24283b;
+@define-color dialog_fg_color      #a9b1d6;
+
+/* Status colors */
+@define-color warning_color        #e0af68;
+@define-color error_color          #f7768e;
+@define-color success_color        #9ece6a;
+
+/* Destructive action (delete buttons) */
+@define-color destructive_color    #f7768e;
+@define-color destructive_bg_color #f7768e;
+@define-color destructive_fg_color #1a1b26;
+```
+
+### adw-gtk3 CSS variable mapping
+
+The `adw-gtk3` theme (Ch35.2) translates these libadwaita variables into GTK3
+CSS so that GTK3 apps match libadwaita's palette. If you customize
+`@define-color accent_color` in `gtk-4.0/gtk.css`, apply the same overrides to
+`gtk-3.0/gtk.css` for consistency:
+
+```css
+/* ~/.config/gtk-3.0/gtk.css — used with adw-gtk3 theme */
+@define-color accent_color         #7aa2f7;
+@define-color accent_bg_color      #7aa2f7;
+@define-color accent_fg_color      #1a1b26;
+@define-color window_bg_color      #1a1b26;
+@define-color window_fg_color      #a9b1d6;
+@define-color headerbar_bg_color   #24283b;
+@define-color view_bg_color        #24283b;
+@define-color card_bg_color        #24283b;
+```
+
+### System-wide accent via GNOME Settings (GNOME 47+)
+
+```bash
+# Set system accent color (requires GNOME 47+ or KDE Plasma 6.1+)
+gsettings set org.gnome.desktop.interface accent-color 'blue'
+# Valid values: blue teal green yellow orange red pink purple slate
+
+# This propagates to all libadwaita 1.4+ apps via the portal
+# Non-libadwaita apps are not affected
+```
+
+---
+
 &copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

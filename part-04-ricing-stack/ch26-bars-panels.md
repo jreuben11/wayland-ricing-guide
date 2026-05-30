@@ -876,4 +876,205 @@ does not unless using a GNOME Shell extension).
 
 ---
 
+## 26.10 Advanced Waybar Custom Modules
+
+The `custom/` module type in Waybar is more capable than its simple form suggests.
+When combined with `return-type = "json"`, it supports rich output: tooltips with
+Pango markup, CSS class switching, percentage bars, icons, and scroll handlers.
+
+### return-type = "json" full schema
+
+When `return-type` is `"json"`, the module script must output a JSON object to
+stdout. Waybar parses it and uses the fields to control display, tooltip, and styling:
+
+```jsonc
+// Full JSON return schema — all fields optional
+{
+    "text":       "  72%",          // main display text (Pango markup allowed)
+    "alt":        "GPU",            // alternative text (used by format-alt)
+    "tooltip":    "GPU: <b>RTX 4090</b>\nVRAM: 12GB / 24GB\nTemp: 72°C",
+    "class":      "warning",        // CSS class added to module element
+    "percentage": 72,               // drives format-percentage and CSS
+    "icon":       "gpu-symbolic"    // icon name from icon theme
+}
+```
+
+### Complete JSON module example: GPU monitor
+
+```jsonc
+// ~/.config/waybar/config.jsonc
+"custom/gpu": {
+    "exec":        "~/.config/waybar/scripts/gpu.sh",
+    "return-type": "json",
+    "interval":    3,
+    "format":      "{icon} {text}",
+    "format-icons": {
+        "default": "",
+        "warning": "",
+        "critical": ""
+    },
+    "tooltip":        true,
+    "on-scroll-up":   "~/.config/waybar/scripts/gpu-fan-up.sh",
+    "on-scroll-down": "~/.config/waybar/scripts/gpu-fan-down.sh",
+    "on-click":       "nvtop",
+    "max-length":     20,
+    "min-length":     8
+}
+```
+
+```bash
+#!/usr/bin/env bash
+# ~/.config/waybar/scripts/gpu.sh
+# Requires: nvidia-smi or radeontop
+
+# NVIDIA example
+if command -v nvidia-smi &>/dev/null; then
+    READ=$(nvidia-smi --query-gpu=utilization.gpu,memory.used,memory.total,temperature.gpu \
+                      --format=csv,noheader,nounits)
+    GPU_UTIL=$(echo "$READ" | awk -F', ' '{print $1}')
+    MEM_USED=$(echo "$READ" | awk -F', ' '{print $2}')
+    MEM_TOT=$(echo "$READ"  | awk -F', ' '{print $3}')
+    TEMP=$(echo "$READ"     | awk -F', ' '{print $4}')
+
+    # Choose CSS class by temperature
+    if   [ "$TEMP" -ge 85 ]; then CLASS="critical"
+    elif [ "$TEMP" -ge 70 ]; then CLASS="warning"
+    else                          CLASS="default"
+    fi
+
+    TOOLTIP="GPU Util: <b>${GPU_UTIL}%</b>\nVRAM: ${MEM_USED}/${MEM_TOT} MiB\nTemp: <b>${TEMP}°C</b>"
+
+    printf '{"text":"%s%%","alt":"GPU","tooltip":"%s","class":"%s","percentage":%s}\n' \
+        "$GPU_UTIL" "$TOOLTIP" "$CLASS" "$GPU_UTIL"
+else
+    printf '{"text":"N/A","tooltip":"No GPU found","class":"default","percentage":0}\n'
+fi
+```
+
+### format-alt toggle (click to switch display)
+
+`format-alt` replaces `format` when the module is in its alternate state. Toggle
+by clicking:
+
+```jsonc
+"custom/gpu": {
+    "exec":        "~/.config/waybar/scripts/gpu.sh",
+    "return-type": "json",
+    "interval":    3,
+    "format":      "{icon} {percentage}%",          // normal: show percentage
+    "format-alt":  "{icon} {text}",                  // alt: show raw text (e.g., "72%")
+    "format-icons": { "default": "", "warning": "", "critical": "" },
+    "on-click-right": "~/.config/waybar/scripts/toggle-format.sh"
+}
+```
+
+Waybar does not maintain format-alt state internally — implement via a toggle script
+that writes state to a file and have the module script emit different JSON accordingly.
+
+### Scroll handlers
+
+```jsonc
+"custom/volume": {
+    "exec":         "~/.config/waybar/scripts/volume.sh",
+    "return-type":  "json",
+    "interval":     "once",           // only re-runs on signal
+    "signal":       8,                // SIGRTMIN+8 → force refresh
+    "on-scroll-up":   "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+  && pkill -RTMIN+8 waybar",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-  && pkill -RTMIN+8 waybar",
+    "on-click":       "wpctl set-mute  @DEFAULT_AUDIO_SINK@ toggle && pkill -RTMIN+8 waybar",
+    "format":         "{icon} {text}",
+    "format-icons": {
+        "muted":   "󰝟",
+        "low":     "󰕿",
+        "medium":  "󰖀",
+        "high":    "󰕾"
+    }
+}
+```
+
+```bash
+#!/usr/bin/env bash
+# ~/.config/waybar/scripts/volume.sh
+VOL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf "%d", $2*100}')
+MUTED=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -c MUTED)
+
+if [ "$MUTED" -eq 1 ]; then
+    CLASS="muted"
+    TEXT="${VOL}% (muted)"
+elif [ "$VOL" -ge 80 ]; then CLASS="high"
+elif [ "$VOL" -ge 40 ]; then CLASS="medium"
+else                          CLASS="low"
+fi
+TEXT="${VOL}%"
+
+TOOLTIP="Volume: <b>${VOL}%</b>\n<i>Scroll to adjust</i>\n<i>Click to mute</i>"
+printf '{"text":"%s","alt":"%s","tooltip":"%s","class":"%s","percentage":%d}\n' \
+    "$TEXT" "$CLASS" "$TOOLTIP" "$CLASS" "$VOL"
+```
+
+### Signal-driven refresh pattern
+
+Using `interval = "once"` with a signal avoids polling and makes modules react
+instantly to state changes. Waybar listens on `SIGRTMIN+N` where N is the `signal`
+value in config:
+
+```jsonc
+// Refresh on SIGRTMIN+5 (waybar internal signal number)
+"custom/mpris": {
+    "exec":     "~/.config/waybar/scripts/mpris.sh",
+    "return-type": "json",
+    "interval": "once",
+    "signal":   5
+}
+```
+
+```bash
+# Trigger refresh from a playerctl hook script:
+playerctl --follow status | while read -r _; do
+    pkill -RTMIN+5 waybar
+done &
+```
+
+### Multi-line tooltip with Pango markup
+
+Waybar tooltips render Pango markup (GTK's markup subset):
+
+```json
+{
+    "tooltip": "CPU: <b>Intel i9-14900K</b>\nCores: <i>24 (8P+16E)</i>\nLoad: <span color='#f7768e'>94%</span>\nTemp: <span color='#e0af68'><b>87°C</b></span>"
+}
+```
+
+Supported Pango tags in tooltips: `<b>`, `<i>`, `<u>`, `<s>`, `<tt>`,
+`<span color='hex'>`, `<span weight='bold'>`, `<span font_size='large'>`.
+
+### CSS class switching by state
+
+```css
+/* ~/.config/waybar/style.css */
+#custom-gpu {
+    color: #9ece6a;
+    padding: 0 8px;
+}
+
+#custom-gpu.warning {
+    color: #e0af68;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+#custom-gpu.critical {
+    color: #f7768e;
+    background: rgba(247, 118, 142, 0.2);
+    border-radius: 6px;
+    animation: pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1.0; }
+    50%       { opacity: 0.6; }
+}
+```
+
+---
+
 &copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

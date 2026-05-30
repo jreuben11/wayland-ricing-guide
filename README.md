@@ -13,17 +13,17 @@ and writing your own Wayland extensions.
 |------|-------|----------|
 | 0    | Getting Started | 0 |
 | I    | Wayland Foundations | 1–5, 63–65 |
-| II   | Compositor Landscape | 6–14, 66–68, 89, 99 |
+| II   | Compositor Landscape | 6–14, 66–68, 89, 99, 134 |
 | III  | Quickshell — Deep Dive | 15–25 |
-| IV   | The Ricing Stack | 26–33, 69–70, 72, 104 |
-| V    | Theming & Aesthetics | 34–40, 87, 94, 101, 103 |
-| VI   | Advanced Topics | 41–45, 84–86, 88, 90, 92, 95–97, 102 |
-| VII  | Writing for Wayland | 46–49, 73–74 |
-| VIII | Application Layer | 50–51, 57–59, 75–76, 100 |
-| IX   | System Infrastructure | 52–56, 60–62, 71, 77–83, 91, 93, 98 |
-| —    | Appendices | A–E |
+| IV   | The Ricing Stack | 26–33, 69–70, 72, 104, 108, 111, 113–115, 132, 140 |
+| V    | Theming & Aesthetics | 34–40, 87, 94, 101, 103, 106, 112 |
+| VI   | Advanced Topics | 41–45, 84–86, 88, 90, 92, 95–97, 102, 118–119, 122–124, 128, 131, 133, 137 |
+| VII  | Writing for Wayland | 46–49, 73–74, 107, 125–126, 138, 141, 143 |
+| VIII | Application Layer | 50–51, 57–59, 62, 75–76, 100, 105, 127, 129–130, 139 |
+| IX   | System Infrastructure | 52–56, 60–62, 71, 77–83, 91, 93, 98, 109–110, 116–117, 120–121, 135–136, 142 |
+| —    | Appendices | A–H |
 
-**Total: 105 chapters + 8 appendices**
+**Total: 143 chapters + 8 appendices**
 
 ---
 
@@ -57,6 +57,7 @@ and writing your own Wayland extensions.
 - [Chapter 68](part-02-compositors/ch68-cosmic-desktop.md) — COSMIC Desktop: System76's Rust DE
 - [Chapter 89](part-02-compositors/ch89-hyprland-plugins.md) — Hyprland Plugins and hyprpm
 - [Chapter 99](part-02-compositors/ch99-hyprland-lua.md) — Hyprland Lua Configuration (0.55+)
+- [Chapter 134](part-02-compositors/ch134-miracle-wm.md) — Miracle-WM: Ubuntu's Tiling Wayland Compositor
 
 ### Part III — Quickshell: The Modern Shell Framework
 - [Chapter 15](part-03-quickshell/ch15-quickshell-architecture.md) — Quickshell Architecture and Philosophy
@@ -84,6 +85,13 @@ and writing your own Wayland extensions.
 - [Chapter 70](part-04-ricing-stack/ch70-color-pickers.md) — Color Picker Tools: hyprpicker, wl-color-picker, pastel
 - [Chapter 72](part-04-ricing-stack/ch72-media-players.md) — Media Players: mpv, VLC, and Wayland Playback
 - [Chapter 104](part-04-ricing-stack/ch104-waybar-css.md) — Waybar CSS Theming Deep Dive
+- [Chapter 108](part-04-ricing-stack/ch108-eww-deep-dive.md) — eww Deep Dive: Yuck Language, State Model, and Desktop Widgets
+- [Chapter 111](part-04-ricing-stack/ch111-system-tray-sni.md) — System Tray and the StatusNotifierItem Protocol
+- [Chapter 113](part-04-ricing-stack/ch113-wlogout-power-menus.md) — wlogout and Power Menus
+- [Chapter 114](part-04-ricing-stack/ch114-audio-visualizers.md) — Audio Visualizers: cava and glava on Wayland
+- [Chapter 115](part-04-ricing-stack/ch115-nwg-shell.md) — The nwg-shell Ecosystem: nwg-panel, nwg-dock, nwg-drawer
+- [Chapter 132](part-04-ricing-stack/ch132-bar-alternatives.md) — Bar Alternatives: yambar, sfwbar, HEMBar, i3status-rust
+- [Chapter 140](part-04-ricing-stack/ch140-tmux-zellij-theming.md) — tmux and Zellij Theming: Status Bars, Powerline, and pywal Integration
 
 ### Part V — Theming and Aesthetics
 - [Chapter 34](part-05-theming/ch34-color-theory.md) — Color Theory for Desktop Ricing
@@ -97,6 +105,8 @@ and writing your own Wayland extensions.
 - [Chapter 94](part-05-theming/ch94-color-management-icc.md) — Color Management and ICC Profiles
 - [Chapter 101](part-05-theming/ch101-nix-flake-rice.md) — Advanced Nix Flake Architecture for a Full Rice
 - [Chapter 103](part-05-theming/ch103-cursor-themes.md) — Cursor Theme Creation: xcursor and hyprcursor
+- [Chapter 106](part-05-theming/ch106-theme-switching.md) — Automated Theme Switching: Day/Night, Hotkeys, and Atomic Swaps
+- [Chapter 112](part-05-theming/ch112-aesthetic-ricing-guide.md) — Aesthetic Ricing: Tokyo Night, Cyberpunk Neon, and Tron/Synthwave
 
 ### Part VI — Advanced Topics
 - [Chapter 41](part-06-advanced/ch41-multi-monitor-hidpi.md) — Multi-Monitor, HiDPI, and Fractional Scaling
@@ -114,6 +124,15 @@ and writing your own Wayland extensions.
 - [Chapter 96](part-06-advanced/ch96-workspace-automation.md) — Workspace Automation: pyprland, Scratchpads, Persistent Layouts
 - [Chapter 97](part-06-advanced/ch97-wayland-mobile-embedded.md) — Wayland on Mobile and Embedded: Phosh, Sxmo, Weston Kiosk
 - [Chapter 102](part-06-advanced/ch102-wine-wayland.md) — Wine Wayland: Native Windows Apps Without XWayland
+- [Chapter 118](part-06-advanced/ch118-flatpak-wayland.md) — Flatpak on Wayland: Portals, Permissions, and Native Backends
+- [Chapter 119](part-06-advanced/ch119-virtual-headless-monitors.md) — Virtual and Headless Monitors
+- [Chapter 122](part-06-advanced/ch122-gaming-protocols.md) — Gaming Protocols: Tearing, Pointer Lock, and Frame Pacing
+- [Chapter 123](part-06-advanced/ch123-input-latency.md) — Input Latency Measurement on Wayland
+- [Chapter 124](part-06-advanced/ch124-wl-mirror.md) — wl-mirror: Screen Mirroring Between Outputs
+- [Chapter 128](part-06-advanced/ch128-screen-magnification.md) — Screen Magnification on Wayland
+- [Chapter 131](part-06-advanced/ch131-window-rules-cross-compositor.md) — Per-Window Rules: Hyprland, Sway, River, Niri, KWin Cross-Compositor Guide
+- [Chapter 133](part-06-advanced/ch133-animation-easing-curves.md) — Animation Easing Curves: Bezier, Spring Models, and Per-Aesthetic Tuning
+- [Chapter 137](part-06-advanced/ch137-touch-gestures.md) — Touch Gestures: Hyprland Native, Niri, libinput-gestures
 
 ### Part VII — Writing for Wayland
 - [Chapter 46](part-07-wayland-programming/ch46-writing-protocol-extensions.md) — Writing a Wayland Protocol Extension
@@ -122,6 +141,12 @@ and writing your own Wayland extensions.
 - [Chapter 49](part-07-wayland-programming/ch49-contributing.md) — Contributing to the Wayland Ecosystem
 - [Chapter 73](part-07-wayland-programming/ch73-rust-wayland-client.md) — Writing Wayland Clients in Rust: wayland-client
 - [Chapter 74](part-07-wayland-programming/ch74-quickshell-cpp-module.md) — Writing a Quickshell C++ Module
+- [Chapter 107](part-07-wayland-programming/ch107-compositor-in-qt.md) — Building a Wayland Compositor with Qt/qtwayland
+- [Chapter 125](part-07-wayland-programming/ch125-data-control-clipboard.md) — The data-control Protocol and Clipboard Scripting
+- [Chapter 126](part-07-wayland-programming/ch126-layer-shell-client.md) — Writing a Layer-Shell Client from Scratch (C, Python, Rust)
+- [Chapter 138](part-07-wayland-programming/ch138-xdg-activation.md) — xdg-activation-v1: Focus Stealing Prevention Protocol
+- [Chapter 141](part-07-wayland-programming/ch141-virtual-keyboard-protocol.md) — Virtual Keyboard Protocol: zwp_virtual_keyboard_v1, wtype, kanata, keyd
+- [Chapter 143](part-07-wayland-programming/ch143-xdg-decoration-protocol.md) — Window Decorations: xdg-decoration-v1, CSD vs SSD, libdecor
 
 ### Part VIII — Application Layer
 - [Chapter 50](part-08-daily-driver/ch50-terminal-emulators.md) — Terminal Emulators: Kitty, Alacritty, Foot, WezTerm, Ghostty
@@ -133,6 +158,11 @@ and writing your own Wayland extensions.
 - [Chapter 75](part-08-daily-driver/ch75-quickshell-notification-center.md) — Quickshell Notification Center: Full Sidebar Implementation
 - [Chapter 76](part-08-daily-driver/ch76-quickshell-osd.md) — Quickshell OSD: Volume, Brightness, and Media Displays
 - [Chapter 100](part-08-daily-driver/ch100-ags-astal.md) — AGS / Astal: TypeScript Shell Framework
+- [Chapter 105](part-08-daily-driver/ch105-discord-spotify-theming.md) — Discord and Spotify Theming: Vencord and Spicetify
+- [Chapter 127](part-08-daily-driver/ch127-obs-wayland.md) — OBS Studio on Wayland: PipeWire Capture, Virtual Camera, and Streaming
+- [Chapter 129](part-08-daily-driver/ch129-firefox-userchrome.md) — Firefox userChrome.css: Deep Browser Ricing
+- [Chapter 130](part-08-daily-driver/ch130-recording-presenting-rices.md) — Recording, Presenting, and Sharing Your Rice
+- [Chapter 139](part-08-daily-driver/ch139-rice-bootstrap.md) — Rice Bootstrap: One-Command Setup Scripts
 
 ### Part IX — System Infrastructure
 - [Chapter 52](part-08-daily-driver/ch52-xdg-desktop-portal.md) — xdg-desktop-portal: Screen Sharing, File Chooser, Settings
@@ -153,6 +183,15 @@ and writing your own Wayland extensions.
 - [Chapter 91](part-09-system-infra/ch91-xdg-mime-default-apps.md) — XDG MIME Types and Default Applications
 - [Chapter 93](part-09-system-infra/ch93-dbus-essentials.md) — D-Bus Essentials for Wayland Power Users (+ Varlink)
 - [Chapter 98](part-09-system-infra/ch98-varlink.md) — Varlink: Modern IPC for System Services
+- [Chapter 109](part-09-system-infra/ch109-idle-management.md) — Idle Management: hypridle, swayidle, DPMS, and the Idle-Inhibit Protocol
+- [Chapter 110](part-09-system-infra/ch110-gpg-pinentry-wayland.md) — GPG, SSH Agents, and pinentry on Wayland
+- [Chapter 116](part-09-system-infra/ch116-xdg-autostart-session-restore.md) — XDG Autostart and Session Restore
+- [Chapter 117](part-09-system-infra/ch117-kde-connect-barrier.md) — Multi-Device Integration: KDE Connect and Barrier/InputLeap
+- [Chapter 120](part-09-system-infra/ch120-wireplumber-lua.md) — WirePlumber Lua Scripting: Custom Audio Routing Rules
+- [Chapter 121](part-09-system-infra/ch121-bluetooth-audio-codecs.md) — Bluetooth Audio Codec Negotiation on PipeWire
+- [Chapter 135](part-09-system-infra/ch135-keyboard-layouts.md) — Multiple Keyboard Layouts, XKB Switching, and Compose Key
+- [Chapter 136](part-09-system-infra/ch136-uwsm-session-managers.md) — UWSM and Wayland Session Managers
+- [Chapter 142](part-09-system-infra/ch142-power-profiles-daemon.md) — Power Management: power-profiles-daemon, CPU Governors, and Thermal
 
 ### Appendices
 - [Appendix A](appendices/appendix-a-protocol-reference.md) — Protocol Quick Reference
