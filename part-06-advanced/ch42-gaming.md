@@ -453,6 +453,110 @@ MangoHud is the standard performance overlay for Linux gaming. It hooks into Vul
 via layer/library injection, reading GPU/CPU stats via `sysfs` and `hwmon`, and rendering an
 overlay directly in the game's frame buffer. It works identically on Wayland and X11.
 
+#### MangoHud Visual Theming
+
+Beyond the default green-on-black overlay, MangoHud supports full visual customization:
+
+```ini
+# ~/.config/MangoHud/MangoHud.conf — Tokyo Night themed overlay
+
+# --- Layout ---
+fps
+frametime
+frame_timing=1
+gpu_stats
+gpu_temp
+cpu_stats
+cpu_temp
+ram
+vram
+
+# --- Position ---
+position=top-right   # top-left | top-right | bottom-left | bottom-right | top-center
+
+# --- Typography ---
+font_size=20
+font_scale=1.0
+# Custom font (must be a monospace TTF)
+font_file=/usr/share/fonts/TTF/JetBrainsMono-Regular.ttf
+
+# --- Colors (RRGGBB hex, no #) ---
+background_color=1a1b26       # Tokyo Night bg
+text_color=a9b1d6             # Tokyo Night fg
+gpu_color=7aa2f7              # blue
+cpu_color=9ece6a              # green
+vram_color=bb9af7             # purple
+ram_color=7dcfff              # cyan
+fps_color_change_short=f7768e # red when FPS drops
+fps_color_change_medium=e0af68 # yellow at mid FPS
+fps_color_change_long=9ece6a   # green at target FPS
+
+# FPS color thresholds (change color below these values)
+fps_limit_method=early
+fps_color=9ece6a
+fps_value=30,60               # <30 = red, 30-60 = yellow, >60 = green
+
+# --- Background ---
+background_alpha=0.7          # 0.0 = transparent, 1.0 = opaque
+
+# --- Size ---
+width=220
+height=0                      # auto
+
+# --- Toggle ---
+toggle_hud=F12
+toggle_fps_limit=F1
+
+# --- Logging ---
+# Uncomment to auto-log for benchmarks:
+# log_duration=60
+# output_folder=/tmp/MangoHud
+```
+
+```ini
+# Cyberpunk Neon MangoHud theme
+background_color=0a0a0f
+text_color=e0e0f0
+gpu_color=00ffff
+cpu_color=ff00ff
+vram_color=00ffff
+ram_color=f7f70a
+fps_color=00ffff
+background_alpha=0.85
+```
+
+```ini
+# Nord MangoHud theme
+background_color=2e3440
+text_color=eceff4
+gpu_color=88c0d0
+cpu_color=a3be8c
+vram_color=b48ead
+ram_color=81a1c1
+background_alpha=0.75
+```
+
+Create a per-game override (symlink the base config and append overrides):
+
+```bash
+# Game-specific config in ~/.config/MangoHud/
+# MangoHud looks for: MangoHud.conf then <appname>.conf
+# For Steam: /proc/<pid>/comm contains the game binary name
+
+# Example: minimal overlay for competitive gaming
+cat > ~/.config/MangoHud/cs2.conf << 'EOF'
+fps
+frametime
+frame_timing=0
+position=top-right
+font_size=16
+background_alpha=0.4
+background_color=000000
+text_color=ffffff
+width=120
+EOF
+```
+
 **Installation:**
 ```bash
 # Arch:

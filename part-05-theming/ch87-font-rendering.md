@@ -484,4 +484,108 @@ fc-match "Noto Color Emoji"
 
 ---
 
+## 87.10 Nerd Font Glyph Verification
+
+After installing a Nerd Font, verify that glyph rendering works end-to-end:
+
+```bash
+# Check the font is registered with fontconfig
+fc-list | grep -i "JetBrains"
+# Should show: JetBrainsMono Nerd Font, JetBrainsMono Nerd Font Mono
+
+# Verify glyph coverage using fc-query
+fc-query /usr/share/fonts/TTF/JetBrainsMonoNerdFont-Regular.ttf | grep -i "char\|coverage"
+
+# Quick glyph test — paste this into your terminal
+echo "  ✓ ✗ ★ ⚡ 󰀫 󰄛 󰊿 󰌒 󰌓 󰌰 󰏖 󰣇 󰦗 󰧑"
+#     nf-fa nf-dev nf-oct nf-cod ... icons
+
+# Powerline symbols test
+echo "               "
+# Should show filled/empty triangles and arrows (Powerline glyphs)
+
+# Systematic glyph range test script
+python3 << 'EOF'
+ranges = [
+    (0xE0A0, 0xE0A3, "Powerline extra"),
+    (0xE0B0, 0xE0BF, "Powerline symbols"),
+    (0xF0000, 0xF1000, "Custom Private Use"),
+    (0xE000, 0xE00D, "Pomicons"),
+    (0xEA60, 0xEB30, "Codicons"),
+]
+for start, end, name in ranges:
+    glyphs = ''.join(chr(i) for i in range(start, min(end, start+16)))
+    print(f"{name}: {glyphs}")
+EOF
+
+# Check specific glyph by Unicode codepoint
+python3 -c "print(chr(0xf013))"   # nf-fa-cog (gear icon)
+python3 -c "print(chr(0xe0b0))"   # Powerline right arrow
+```
+
+### Verifying in Different Applications
+
+```bash
+# In waybar — if icons are squares/question marks, the font is not loading
+# Check waybar with:
+waybar &
+# If you see □ instead of icons, the font config in waybar/config is wrong
+
+# Common waybar font config mistake:
+# Wrong:  "font-family": "JetBrains Mono"           ← no Nerd Font glyphs
+# Right:  "font-family": "JetBrainsMono Nerd Font"  ← correct family name
+
+# Verify exact family name for waybar/CSS:
+fc-list | grep -i "jetbrains" | awk -F: '{print $2}' | sort -u
+```
+
+### Bitmap Fonts on Wayland
+
+Bitmap fonts (`.pcf`, `.bdf`) are fixed-pixel fonts with no vector scaling. They are used for retro ricing aesthetics and ultra-small sizes.
+
+```bash
+# Install classic bitmap fonts
+sudo pacman -S bdf-unifont terminus-font
+
+# Terminus — the most popular bitmap font for ricing
+fc-list | grep -i "terminus"
+# Terminus:style=Regular,Bold  (at specific sizes)
+```
+
+```xml
+<!-- fontconfig: allow bitmap fonts (disabled by default in most distros) -->
+<!-- ~/.config/fontconfig/fonts.conf -->
+<match target="font">
+  <edit name="embeddedbitmap" mode="assign"><bool>true</bool></edit>
+</match>
+
+<!-- Allow specific bitmap font family -->
+<selectfont>
+  <acceptfont>
+    <pattern>
+      <patelt name="family"><string>Terminus</string></patelt>
+    </pattern>
+  </acceptfont>
+</selectfont>
+```
+
+```bash
+# Use Terminus in kitty (specify exact pixel size)
+# kitty.conf
+# font_family Terminus
+# font_size   16.0    # must match a bitmap strike size: 8, 12, 14, 16, 20, 24, 28, 32
+
+# Verify bitmap strikes available in a font
+fc-query /usr/share/fonts/misc/ter-x16b.pcf.gz | grep -i "size\|pixel"
+
+# Foot with terminus
+# foot.ini
+# [main]
+# font=Terminus:size=16
+```
+
+Bitmap fonts do not scale — they look sharp at their designed size and terrible at others. For retro ricing, pair with a terminal configured to exactly match the strike size and a compositor with no DPI scaling (scale=1.0).
+
+---
+
 &copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).

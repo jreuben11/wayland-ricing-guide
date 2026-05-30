@@ -264,4 +264,160 @@ indicate wide-gamut.
 
 ---
 
+## 94.10 HDR Step-by-Step: KDE Plasma 6
+
+KDE Plasma 6.1+ has the most complete HDR implementation on Linux Wayland. Here is a verified end-to-end setup:
+
+### Prerequisites
+
+```bash
+# Kernel 6.4+ (check)
+uname -r
+
+# Check display HDR capability
+cat /sys/class/drm/card0-DP-1/hdr_sink_metadata 2>/dev/null | head -5
+# If the file exists and has content, your display supports HDR metadata
+
+# Check EDID for HDR capability
+sudo pacman -S edid-decode
+sudo cat /sys/class/drm/card0-DP-1/edid | edid-decode 2>/dev/null | grep -A5 "HDR"
+
+# Verify DisplayPort 1.4 or HDMI 2.1 cable (required for HDR10)
+# HDMI 2.0 = no HDR metadata; HDMI 2.1 or DP 1.4 = HDR metadata support
+```
+
+### Enable in KDE Plasma
+
+```bash
+# Via System Settings (GUI):
+# System Settings → Display & Monitor → select your display → HDR → ON
+# Set SDR Brightness: 100–200 nits (ambient light dependent)
+# Set SDR Color Intensity: 1.0 (default)
+
+# Via kscreen-doctor (CLI):
+kscreen-doctor output.DP-1.hdr.enable
+
+# Verify HDR is active
+kscreen-doctor --json | python3 -c "
+import json,sys
+data = json.load(sys.stdin)
+for out in data.get('outputs',[]):
+    print(out.get('name'), 'HDR:', out.get('hdr', {}).get('enabled', False))
+"
+```
+
+### Verify HDR Metadata Transmission
+
+```bash
+# Check that HDR metadata is being sent to the display
+sudo cat /sys/class/drm/card0-DP-1/hdr_output_metadata
+# Non-zero output = HDR active
+
+# KWin debug log
+journalctl --user -u plasma-kwin_wayland | grep -i "hdr\|color" | tail -20
+
+# In an HDR-capable Vulkan app, verify it's using VK_EXT_hdr_metadata:
+vulkaninfo 2>/dev/null | grep -i "hdr\|color_space"
+```
+
+### SDR Application Tonemapping
+
+When HDR is active, KWin applies SDR→HDR tonemapping to apps that don't declare HDR output. The tonemapping curve is configurable:
+
+```bash
+# kwin HDR tonemapping brightness (0.0–1.0, default 0.5)
+# Via System Settings → Display → HDR → SDR Color Intensity
+# Higher = more vivid SDR content on HDR display
+```
+
+### Testing with an HDR Video
+
+```bash
+# mpv with HDR passthrough (when KWin/gamescope handles tonemapping)
+mpv --vo=gpu-next --gpu-api=vulkan \
+    --target-colorspace-hint=yes \
+    ~/Videos/hdr-sample.mkv
+
+# mpv with built-in tonemapping (when compositor does NOT handle HDR)
+mpv --vo=gpu-next --hdr-compute-peak=yes \
+    --tone-mapping=mobius \
+    ~/Videos/hdr-sample.mkv
+```
+
+---
+
+## 94.11 Per-Monitor ICC Profiles (Dual Monitor Setup)
+
+When using two monitors with different color characteristics, assign separate ICC profiles:
+
+```bash
+# Identify monitor device IDs
+colormgr get-devices
+# Output example:
+# Device ID: xrandr-HDMI-1
+# Device ID: xrandr-DP-1
+
+# Import both profiles
+colormgr import-profile ~/icc/left-monitor.icc
+colormgr import-profile ~/icc/right-monitor.icc
+
+# List imported profiles and get their IDs
+colormgr get-profiles | grep -A2 "icc-"
+
+# Assign profiles to devices
+colormgr device-make-profile-default \
+    "xrandr-HDMI-1" \
+    "icc-<id-of-left-profile>"
+
+colormgr device-make-profile-default \
+    "xrandr-DP-1" \
+    "icc-<id-of-right-profile>"
+```
+
+### Per-Monitor via dispwin (direct DRM gamma)
+
+```bash
+# Apply different ICC to each monitor using dispwin
+# -d 1 = first display, -d 2 = second display
+dispwin -d 1 ~/icc/left-monitor.icc &
+dispwin -d 2 ~/icc/right-monitor.icc &
+
+# In session startup (Hyprland):
+exec-once = dispwin -d 1 ~/.config/icc/hdmi-monitor.icc
+exec-once = dispwin -d 2 ~/.config/icc/dp-monitor.icc
+```
+
+### Night Light + ICC Coexistence
+
+The conflict between night light tools (wlsunset, hyprsunset) and ICC profiles comes from both modifying the DRM CRTC gamma LUT:
+
+```bash
+# Strategy: apply ICC at startup, let night light override in evening
+# (last write wins — night light will override ICC at sunset)
+
+# Hyprland exec-once order:
+exec-once = dispwin -d 1 ~/.config/icc/monitor.icc   # runs once at startup
+exec-once = hyprsunset -t 4500                         # runs continuously, overrides at sunset
+
+# To restore ICC after night light disables in the morning:
+# Add a systemd timer that re-applies ICC at 8 AM
+# ~/.config/systemd/user/icc-restore.service
+[Unit]
+Description=Restore ICC profile after night light
+[Service]
+ExecStart=/usr/bin/dispwin -d 1 %h/.config/icc/monitor.icc
+Type=oneshot
+
+# ~/.config/systemd/user/icc-restore.timer
+[Unit]
+Description=Restore ICC at sunrise
+[Timer]
+OnCalendar=07:00:00
+Persistent=true
+[Install]
+WantedBy=timers.target
+```
+
+---
+
 &copy; [jreuben11](https://github.com/jreuben11). Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
